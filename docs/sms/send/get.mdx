@@ -1,0 +1,168 @@
+---
+slug: /sms/gonder/get/
+sidebar_label: GET
+sidebar_position: 0
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Badge from '@site/src/components/Badge';
+import RequestURL from '@site/src/components/RequestURL';
+
+# Get API
+SMS Gönderme işlemini, HTTP protokolünün GET methodu ile yapmak isterseniz aşağıdaki yönergeleri takip edebilirsiniz. Genelde hazır yazılımların veya firewall gibi donanımların/cihazların SMS entegrasyon panellerindeki ayarları buradaki dökümantasyon yardımıyla İleti Merkezi'ne entegre edebilirsiniz.
+
+## İstek yapılacak adres
+
+<RequestURL type="GET" url="https://api.iletimerkezi.com/v1/send-sms/get/" />
+
+## İstek Parametreleri
+```bash
+https://api.iletimerkezi.com/v1/send-sms/get/?username=KULLANICI_ADI&password=KULLANICI_SIFRESI&text=Lorem%20ipsum%20dolor%20sit%20amet&receipents=5301234569,5301234570&sender=APITEST
+```
+
+:::tip İpucu
+İstek parametrelerine kendi değerlerinizi yazdıktan sonra, oluşan url adresini tarayıcınızın adres alanına yazarak entegrasyonu deneyebilirsiniz, eğer bir hata alıyorsanız durum ve hata kodları kısmından hatanın nasıl çözülebileceğine bakabilirsiniz.
+:::
+
+### Tanımlar
+
+İstekte gönderilen parametrelerin açıklamaları aşağıdaki gibidir:
+
++ **username:**
+iletimerkezi.com'a giriş yaparken kullanılan kullanıcı adıdır. Genellikle kayıt aşamasında verilen cep telefonu numarasıdır. İstek yapılırken gönderilmesi zorunludur.
+
++ **password:**
+iletimerkezi.com'a giriş yaparken kullanılan şifredir. İstek yapılırken gönderilmesi zorunludur.
+
++ **text:**
+Gönderilecek olan SMS metnini içerir. İstek yapılırken gönderilmesi zorunludur. URL encode işleminden geçirilmelidir.
+
+:::tip İpucu
+Eğer hazır bir panele entegrasyon yapmıyor veya kendi yazılımınıza sms entegrasyonu için bir panel yapıyorsanız "text" alanına gelen mesaj metniniz içinde url adresini bozabilecek karakterler içerebileceği için bu değerleri encode etmelisiniz.
+
+Her yazılım dilinde bu encode işlemini yapan yerleşik fonksiyonlar mevcuttur.
+
+```bash
+&text=Encode edilmemiş mesaj metni örneği
+
+#Encode işleminden sonra mesaj metni aşağıdaki şekilde gözükmeli
+&text=Encode%20edilmemi%C5%9F%20mesaj%20metni%20%C3%B6rne%C4%9Fi
+```
+
+[Daha detaylı bilgi için](https://tr-tr.facebook.com/business/help/474659792899595)
+:::
+
++ **receipents:**
+Alıcının cep telefonu numarasını içerir. Numara formatı 5xxxxxxxxx şeklinde olmalıdır. Belirtilen mesaj metni için birden fazla alıcı tanımlanacaksa,numaralar virgül ile ayrılmalıdır. İstek yapılırken gönderilmesi zorunludur.
+
++ **sender:**
+iletimerkezi.com yönetim panelinden tanımlanmış ve iletimerkezi.com tarafından onaylanmış, maksimum 11 karakterden oluşan başlık bilgisidir. Gönderilen mesaj, alıcıya bu parametre ile belirtilen başlık ile yollanır. İstek yapılırken gönderilmesi zorunludur. URL encode işleminden geçirilmelidir.
+
+## Örnek İstek
+```bash
+https://api.iletimerkezi.com/v1/send-sms/get/?username=505333xxxx&password=XXXX&text=Lorem%20ipsum%20dolor%20sit%20amet&receipents=5301234569,5301234570&sender=APITEST
+```
+
+## Sunucu Yanıtı
+```xml
+<response>
+  <status>
+    <code></code>
+    <message></message>
+  </status>
+  <order>
+    <id></id>
+  </order>
+</response>
+```
+
+### Tanımlar
+Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmıştır. Bu etiketin, alt etiketlerinin tanımı aşağıdaki gibidir:
+
+#### status
+İşlem durumu ile ilgili bilgi içerir. Bu etiket ile döndürülen değerler aynı zamanda HTTP yanıtının başlık bilgisine bakılarak da elde edilebilir. Bu etiket, yapılan her istekte standart olarak döndürülür. Alt etiketleri aşağıdaki gibidir
+
++ **code:** İşlem durumunu belirten numerik değerdir.
++ **message:** İşlem durumu hakkında bilgi mesajı içerir.
+
+#### order
+İşlem başarılı olarak tamamlandıysa oluşturulan sipariş bilgisini içerir. İşlem başarısızsa bu etiket döndürülmez. <Badge>order</Badge> etiketi tekrarlanabilir bir etiket değildir. İstek başına yalnızca bir sipariş gönderilebilir. Alt etiketi aşağıdaki gibidir:
+
++ **id:**  Siparişi ifade eden eşsiz numerik değerdir. "id" değerini kendi sistemlerinizde saklayarak, siparişin raporunu sorgularken, ileri tarihli bir gönderim yaptıysanız siparişi iptal ederken kullanabilirsiniz.
+
+## Hata Kodları
+Eğer istek sonucu olumsuz ise sunucu tarafından size dönücek hata kodları ve mesajlar aşağıdaki gibidir.
+
+<table>
+  <thead>
+    <tr>
+      <th>code</th>
+      <th>message</th>
+      <th>Açıklama</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>401</td>
+      <td>Üyelik bilgileri hatalı</td>
+      <td><Badge>username</Badge>, <Badge>password</Badge> etiketi içerisinde göndermiş olduğunuz bilgileri doğrulayamadığımızda bu hatayı veriyoruz, eğer hesabınızda sabit IP tanımladıysanız ve farklı bir IP üzerinden istek yapıyorsanız yine bu hatayı alırsınız.</td>
+    </tr>
+    <tr>
+      <td>402</td>
+      <td>Bakiye yetersiz</td>
+      <td>Eğer hesabınızdaki bakiye bu siparişi göndermeye yetmiyorsa bu hatayı veriyoruz.</td>
+    </tr>
+    <tr>
+      <td>450</td>
+      <td>Gönderilen başlık kullanıma uygun değil</td>
+      <td><Badge>sender</Badge> etiketi ile göndermiş olduğunuz değer eğer hesabınızda onaylı değilse bu hatayı alırsınız, hesabınızda tanımlı olduğu şekilde göndermeniz gerekmektedir. Genellikle bu hatanın alınmasına sebep olan değişiklikler, küçük-büyük harf farkları veya ektra boşluk değerlerinin gönderilmesidir.</td>
+    </tr>
+    <tr>
+      <td>451</td>
+      <td>Tekrar eden sipariş</td>
+      <td>Eğer aynı mesaj metnini, aynı alıcılara 10dk içinde tekrar göndermek isterseniz sistem bu hatayı size döner, hem spam olmaması hemde yanlışlıkla aynı kişilere aynı mesajların iletilmemesi için. Böyle bir gönderim ihtiyacınız varsa mesaj metninin içine o anki saat ve dakikayı yazarak mesaj metnini farklılaştırabilirsiniz.</td>
+    </tr>
+    <tr>
+      <td>452</td>
+      <td>Mesaj alıcıları hatalı</td>
+      <td><Badge>receipents</Badge> etiketi ile göndermiş olduğunuz telefon numaraları eksik veya doğrulanamıyor ise bu hatayı veriyoruz. Aynı zamanda eğer mesaj atmak istediğiniz cep telefonu numarasının doğru olduğuna eminseniz, cep telefonu numarası eğer numara engelleme listenize eklediyseniz yine bu hatayı alabilirsiniz.</td>
+    </tr>
+    <tr>
+      <td>453</td>
+      <td>Sipariş boyutu aşıldı</td>
+      <td><Badge>text</Badge> etiketi ile göndermiş olduğunuz mesaj metni karakter kodlamanıza göre yedi(7) SMS uzunluğundan daha fazla ise bu hata geri döner.</td>
+    </tr>
+    <tr>
+      <td>454</td>
+      <td>Mesaj metni boş</td>
+      <td><Badge>text</Badge> parametresinde göndermiş olduğunuz mesaj metni herhangi bir değer içermiyorsa mesajınız gönderilmez ve bu hata mesajı döner.</td>
+    </tr>
+  </tbody>
+</table>
+
+
+## Örnek Başarılı Yanıt
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+  <status>
+    <code>200</code>
+    <message>İşlem Başarılı</message>
+  </status>
+  <order>
+    <id>323223</id>
+  </order>
+</response>
+```
+
+## Örnek Hatalı Yanıt
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+  <status>
+    <code>401</code>
+    <message>Üyelik bilgileri hatalı</message>
+  </status>
+</response>
+```

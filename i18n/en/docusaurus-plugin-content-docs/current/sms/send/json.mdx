@@ -1,0 +1,272 @@
+---
+slug: /sms/send/json/
+sidebar_label: JSON
+sidebar_position: 2
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Badge from '@site/src/components/Badge';
+import RequestURL from '@site/src/components/RequestURL';
+
+# JSON Post API
+If you want to send SMS in JSON format using the POST method of the HTTP protocol, you can follow the instructions below.
+
+## Address to request
+
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/send-sms/json" />
+
+
+## Request Content (Body)
+```json title="Content of the request if you are using username and password"
+{
+  "request": {
+    "authentication": {
+      "username": "",
+      "password": ""
+    },
+    "order": {
+      "sender": "",
+      "sendDateTime": [],
+      "iys": "1",
+      "iysList": "INDIVIDUAL",
+      "message": {
+        "text": "",
+        "receipts": {
+          "number": [
+            "505xxxxxxx",
+            "505xxxxxxx",
+            "505xxxxxxx"
+          ]
+        }
+      }
+    }
+  }
+}
+```
+
+```json title="If you are processing using API Key, the content of the request is:"
+{
+  "request": {
+    "authentication": {
+      "key": "",
+      "hash": ""
+    },
+    "order": {
+      "sender": "",
+      "sendDateTime": [],
+      "iys": "1",
+      "iysList": "INDIVIDUAL",
+      "message": {
+        "text": "",
+        "receipts": {
+          "number": [
+            "505xxxxxxx",
+            "505xxxxxxx",
+            "505xxxxxxx"
+          ]
+        }
+      }
+    }
+  }
+}
+```
+
+### Definitions
+
+The request to the server must be wrapped with the <Badge>request</Badge> tag. The definitions of the subtags of this tag are as follows:
+
+#### authentication
+It is the user information that must be sent in order to receive authorization for the requested operation. The alt tags are as follows:
+
+<Tabs>
+  <TabItem value="username" label="Username">
+    <ul>
+      <li>
+        <strong>username:</strong> is the user name used when logging into transmissionerkezi.com. The mobile phone number you used while registering. It is required to be sent when making a request.
+      </li>
+      <li>
+        <strong>password</strong> is the password used when logging into transmissionerkezi.com. It is required to be sent when making a request.
+      </li>
+    </ul>
+  </TabItem>
+  <TabItem value="api-key" label="API Key">
+    <ul>
+      <li>
+        <strong>key:</strong> API Key that you can create from the settings section should be written in this field after logging in to your transmissionerkezi.com panel. It is required to be sent when making a request.
+      </li>
+      <li>
+        <strong>hash:</strong> After logging into your transmissioncentre.com panel, the hash generated using the API Key and Secret Key that you can create from the settings section should be written in this field. It is required to be sent when making a request.
+      </li>
+    </ul>
+  </TabItem>
+</Tabs>
+
+#### order
+The SMSs to be sent are considered as an order and will be reported in this way after the request is made. The order can sometimes contain a single recipient and a single message text, or it can contain multiple recipients and more than one message text. The <Badge>order</Badge> tag is not a repeatable tag. Only one order can be submitted per request. The alt tags are as follows:
+
++ **sender:** This is the header information, consisting of maximum 11 characters, defined from the transmissionerkezi.com administration panel and approved by transmissionerkezi.com. The sent message is sent to the receiver with the header specified with this parameter. It is required to be sent when making a request.
+
++ **sendDateTime:** Indicates the sending date of the message. It is used for forward-dated message sending. Its format is DD/MM/YYYY HH:MM. It is not required to be sent when making a request. Its default value is the time the request is made.
+
++ **iys:** Indicates whether the message will be queried over the Message Management System (İYS). If you send this value as 1 (true), your messages will be queried via IYS, if you send it as 0 (false), it will not be queried. It is required to be sent when making a request.
+
+  :::tip Hint
+  This value should legally be 1 if you are sending a commercial message. **Otherwise, penalties may apply**.
+
+  [Click for detailed information about İYS.](https://www.iletimerkezi.com/blog/duyurular/iys-ileti-yonetim-sistemi-nedir)
+  :::
+
++ **iysList:** Indicates the list you want to be queried via the Message Management System (İYS).
+If you have sent the iys value as 1, that is, if you want your message to be queried via IYS, it is mandatory to send the iysList value as INDIVIDUAL or TRADEMARK.
+If you are sending the iys value as 0, this field will be ignored.
+
+#### messages
+It contains the message information to be sent. If different messages are to be sent in a single order, the <Badge>message</Badge> tag should be repeated as many times as the number of different messages to be sent. The alt tags are as follows
+
+  + **text:** Contains the text of the SMS to be sent. It is required to be sent when making a request.
+
+  + **receipents:** Contains the recipients of the SMS to be sent. Recipients are indicated by the following label:
+
+    + **number:** Contains mobile phone numbers of the recipient or recipients. Formats such as 905xxxxxxxxx, +90 5xx xxx xx xx, 5xxxxxxxxx can be used. It is required to be sent when making a request. If more than one recipient is to be defined for the specified message text, this label should be repeated as many as the number of recipients.
+
+## Server response
+
+```json
+{
+  "response": {
+    "status": {
+      "code": "",
+      "message": ""
+    },
+    "order": {
+      "id": ""
+    }
+  }
+}
+```
+
+### Definitions
+
+The response from the server is always wrapped in the <Badge>response</Badge> tag. The definition of subtags of this tag is as follows:
+
+#### status
+Contains information about the transaction status. The values ​​returned by this tag can also be obtained by looking at the header information of the HTTP response. This tag is returned by default on every request made. The alt tags are as follows
+
++ **code:** It is the numerical value that indicates the operation status.
++ **message:** Contains an informational message about the transaction status.
+
+#### order
+Contains the order information created if the transaction was completed successfully. If the operation fails, this tag is not returned. The <Badge>order</Badge> tag is not a repeatable tag. Only one order can be submitted per request. The alt tag is as follows:
+
++ **id:** Unique numeric value representing the order. With this <Badge>id</Badge> value returned to you, you can check the latest status of your order. If your order is an order to be sent at a future date, you can cancel your order with the <Badge>id</Badge> value.
+
+## Error Codes
+If the result of the request is negative, the error codes and messages that will be returned to you by the server are as follows.
+
+<table>
+  <thead>
+    <tr>
+      <th>code</th>
+      <th>message</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>401</td>
+      <td>Incorrect membership information</td>
+      <td>We give this error when we cannot verify the information you have submitted with the <Badge>username</Badge>, <Badge>password</Badge> or <Badge>key</Badge>, <Badge>hash</Badge> tags, if your account If you have defined a fixed IP and you are requesting from a different IP, you will still get this error.</td>
+    </tr>
+    <tr>
+      <td>402</td>
+      <td>Insufficient balance</td>
+      <td>If the balance in your account is not enough to send this order, we give this error.</td>
+    </tr>
+    <tr>
+      <td>450</td>
+      <td>Submitted header is not available for use</td>
+      <td>If the value you sent with the <Badge>sender</Badge> tag is not approved in your account, you will get this error, you need to send it as defined in your account. Usually, the changes that cause this error are lowercase and uppercase letters or sending extra space values.</td>
+    </tr>
+    <tr>
+      <td>451</td>
+      <td>Repeating order</td>
+      <td>If you want to resend the same message text to the same recipients within 10 minutes, the system will return this error to you, so that there is no spam and the same messages are not sent to the same people by mistake. If you need such a transmission, you can differentiate the text of the message by typing the current hour and minute in the message text.</td>
+    </tr>
+    <tr>
+      <td>452</td>
+      <td>Message recipients are incorrect</td>
+      <td>If the phone numbers you have sent under the <Badge>receipents</Badge> tag are missing or cannot be verified, we give this error. At the same time, if you are sure that the mobile phone number you want to message is correct, you can still get this error if you have added the mobile phone number to your number blocking list.</td>
+    </tr>
+    <tr>
+      <td>453</td>
+      <td>Order size exceeded</td>
+      <td>If the text of the message you sent with the <Badge>text</Badge> tag is more than seven (7) SMS lengths according to your character encoding, this error will return.</td>
+    </tr>
+    <tr>
+      <td>454</td>
+      <td>Message text is empty</td>
+      <td>If the text of the message you sent with the <Badge>text</Badge> tag does not contain any value, your message will not be sent and this error message will be returned.</td>
+    </tr>
+    <tr>
+      <td>457</td>
+      <td>Incorrect format of message sending date</td>
+      <td>If the date format you sent with the <Badge>sendDateTime</Badge> tag is incorrect, this error is returned. The date format is DD/MM/YYYY HH:MM (Example 20/01/2022 13:45).</td>
+    </tr>
+  </tbody>
+</table>
+
+## Sample Request
+```json
+{
+  "request": {
+    "authentication": {
+      "username": "demo",
+      "password": "demo"
+    },
+    "order": {
+      "sender": "APITEST",
+      "sendDateTime": ["23/04/2022 09:00"],
+      "iys": "1",
+      "iysList": "INDIVIDUAL",
+      "message": {
+        "text": "Lorem ipsum dolor sit amet",
+        "receipts": {
+          "number": [
+            "505xxxxxxx",
+            "505xxxxxxx",
+            "505xxxxxxx"
+          ]
+        }
+      }
+    }
+  }
+}
+```
+
+## Example Successful Response
+```json
+{
+  "response": {
+    "status": {
+      "code": "200",
+      "message": "Operation successful"
+    },
+    "order": {
+      "id": "12323232"
+    }
+  }
+}
+```
+
+## Example Incorrect Answer
+```json
+{
+  "response": {
+    "status": {
+      "code": "401",
+      "message": "Membership information is incorrect"
+    }
+  }
+}
+```

@@ -1,0 +1,53 @@
+---
+slug: /ornekler/delphi-sms-gönderme
+sidebar_position: 5
+---
+
+# Delphi ile SMS Gönder
+Delphi ile yapılmış yazılımlarınızdan toplu, tekli veya OTP sms göndermek için aşağıdaki örnekten faydalanabilirsiniz.
+
+
+```visual-basic
+function xmlpost(url, postdata: string): String;
+var
+IdHTTP1: TIdHTTP;
+str1:TStringList;
+begin
+  try
+    try
+      IdHTTP1:=TIdHTTP.Create(nil);
+      str1:=TStringList.Create;
+      str1.Text:=postdata;
+      result:=IdHTTP1.Post(url, str1);
+    except
+    end;
+  finally
+    FreeAndNil(str1);
+    FreeAndNil(IdHTTP1);
+  end;
+end;
+
+Procedure Tfrmsmsgonder.Gonder;
+var
+   xsml:String;
+   user, pass, mesaj, numaralar, baslik: string;
+begin
+  xsml:= '<request>'+
+    '<authentication>'+
+		  '<username>'+data.TblSmsTanimKULLANICI.Text+'</username>'+
+			'<password>'+data.TblSmsTanimSIFRE.Text+'</password>'+
+    '</authentication>'+
+    '<order>'+
+		  '<sender>'+data.TblSmsTanimORIGINLER.Text+'</sender>'+
+			'<sendDateTime></sendDateTime>'+
+			'<message><text><![CDATA['+MsgGon.Text+']]></text>'+
+			'<receipents>'+
+				'<number>'+rznumaralar.Text+'</number>'+
+			'</receipents>'+
+			'</message>'+
+        '</order>'+
+      '</request>';
+
+  degisken:=xmlpost('http://api.iletimerkezi.com/v1/send-sms',xsml);
+end;
+```

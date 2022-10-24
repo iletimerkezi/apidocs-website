@@ -1,0 +1,34 @@
+---
+slug: /ornekler/python-sms-gönderme
+sidebar_position: 4
+---
+
+# Python ile SMS Gönder
+Python ile yapılmış yazılımlarınızdan toplu, tekli veya OTP sms göndermek için aşağıdaki örnekten faydalanabilirsiniz.
+
+
+```python
+import requests
+string = """
+<request>
+  <authentication>
+    <username></username>
+    <password></password>
+  </authentication>
+  <order>
+    <sender>APITEST</sender>
+    <sendDateTime></sendDateTime>
+    <message>
+      <text><![CDATA[Mesaj metniniz]]></text>
+      <receipents>
+        <number>505702xxxx</number>
+        <number>535410xxxx</number>
+      </receipents>
+    </message>
+  </order>
+</request>""";
+
+r = requests.post("https://api.iletimerkezi.com/v1/send-sms", data={'data': string})
+
+print(r.status_code, r.reason)
+```

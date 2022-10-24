@@ -1,0 +1,295 @@
+---
+slug: /sms/report/list/json
+sidebar_label: JSON
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Badge from '@site/src/components/Badge';
+import RequestURL from '@site/src/components/RequestURL';
+
+# JSON Post API
+If you want to receive the status of the SMS package you have sent in JSON format using the POST method of the HTTP protocol, you can follow the instructions below.
+
+## Address to request
+
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/get-report/json" />
+
+
+## Request Content (Body)
+```json title="Content of the request if you are using username and password"
+{
+  "request": {
+    "authentication": {
+      "username": "",
+      "password": ""
+    },
+    "order": {
+      "id": "",
+      "page": "",
+      "rowCount": ""
+    }
+  }
+}
+```
+
+```json title="If you are processing using API Key, the content of the request is:"
+{
+  "request": {
+    "authentication": {
+      "key": "",
+      "hash": ""
+    },
+    "order": {
+      "id": "",
+      "page": "",
+      "rowCount": ""
+    }
+  }
+}
+```
+
+### Definitions
+
+The request to the server must be wrapped with the <Badge>request</Badge> tag. The definitions of the subtags of this tag are as follows:
+
+#### authentication
+It is the user information that must be sent in order to receive authorization for the requested operation. The alt tags are as follows:
+
+<Tabs>
+  <TabItem value="username" label="Username">
+    <ul>
+      <li>
+        <strong>username:</strong> is the user name used when logging into transmissionerkezi.com. The mobile phone number you used while registering. It is required to be sent when making a request.
+      </li>
+      <li>
+        <strong>password</strong> is the password used when logging into transmissionerkezi.com. It is required to be sent when making a request.
+      </li>
+    </ul>
+  </TabItem>
+  <TabItem value="api-key" label="API Key">
+    <ul>
+      <li>
+        <strong>key:</strong> API Key that you can create from the settings section should be written in this field after logging in to your transmissionerkezi.com panel. It is required to be sent when making a request.
+      </li>
+      <li>
+        <strong>hash:</strong> After logging into your transmissioncentre.com panel, the hash generated using the API Key and Secret Key that you can create from the settings section should be written in this field. It is required to be sent when making a request.
+      </li>
+    </ul>
+  </TabItem>
+</Tabs>
+
+#### order
+The report contains the information of the order to be queried. The alt tags are as follows.
+
++ **id:** Unique numeric value representing the order. When you request to send SMS via API, it is the <Badge>id</Badge> value returned by the server. It is required to be sent when making a request.
+
++ **page:** Indicates the report page. It is not required to be sent when making a request. Its default value is 1.
+
++ **rowCount:** Indicates the number of posts on a report page. It is not required to be sent when making a request. Its default value is 1000. Its maximum value is 1000. If more than 1000 messages are sent in an order, a new request should be made by increasing the value in the <Badge>page</Badge> tag.
+
+## Server response
+
+```json
+{
+  "response": {
+    "status": {
+      "code": "",
+      "message": ""
+    },
+    "order": {
+      "id": "",
+      "status": "",
+      "message": [
+        {
+          "number": "",
+          "status": ""
+        },
+        {
+          "number": "",
+          "status": ""
+        },
+        {
+          "number": "",
+          "status": ""
+        }
+      ]
+    }
+  }
+}
+```
+
+### Definitions
+
+The response from the server is always wrapped in the <Badge>response</Badge> tag. The definition of subtags of this tag is as follows:
+
+#### status
+Contains information about the transaction status. The values ​​returned by this tag can also be obtained by looking at the header information of the HTTP response. This tag is returned by default on every request made. The alt tags are as follows
+
++ **code:** It is the numerical value that indicates the operation status.
++ **message:** Contains an informational message about the transaction status.
+
+#### order
+Contains the order information created if the transaction was completed successfully. If the operation fails, this tag is not returned. The alt tags are as follows:
+
++ **id:** Unique numeric value representing the order.
++ **status:** It is the numerical value that indicates the general shipping status of the order. The following table lists the values ​​that this label can take and the meanings they mean.
+
+  <table>
+    <thead>
+      <tr>
+        <th>Status Code</th>
+        <th>Status Message</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>113</td>
+        <td>Order in progress</td>
+      </tr>
+      <tr>
+        <td>114</td>
+        <td>Order has been shipped</td>
+      </tr>
+      <tr>
+        <td>115</td>
+        <td>Failed to submit order</td>
+      </tr>
+    </tbody>
+  </table>
+
+  #### messages
+  Contains reported message information. It is repeated as many times as the number of messages on the queried page. Sub tagsi is as follows:
+
+  + **number:** Contains the recipient's mobile phone number.
+  + **status:** It is the numerical value that indicates the sending status of the message. The following table lists the values ​​that this label can take and the meanings they mean.
+
+    <table>
+      <thead>
+        <tr>
+          <th>Status Code</th>
+          <th>Status Message</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>110</td>
+          <td>Sending message</td>
+        </tr>
+        <tr>
+          <td>111</td>
+          <td>Message sent</td>
+        </tr>
+        <tr>
+          <td>112</td>
+          <td>Failed to send message</td>
+        </tr>
+      </tbody>
+    </table>
+
+## Error Codes
+If the result of the request is negative, the error codes and messages that will be returned to you by the server are as follows.
+
+<table>
+  <thead>
+    <th>code</th>
+    <th>message</th>
+    <th>Description</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>400</td>
+      <td>The request could not be resolved</td>
+      <td>This error is returned if the JSON you POST cannot be validated (invalidate).
+      These errors are usually caused by non-escaped values.</td>
+    </tr>
+    <tr>
+      <td>401</td>
+      <td>Incorrect membership information</td>
+      <td>We give this error when we cannot verify the information you have sent in the <Badge>authentication</Badge> tag of the JSON you POST. If you have defined a fixed IP in your account and you are requesting from a different IP, you will get this error again.</td>
+    </tr>
+    <tr>
+      <td>404</td>
+      <td>API does not have requested method</td>
+      <td>If you're getting this error, double-check the address you requested, you may be making a request to a wrong address.</td>
+    </tr>
+    <tr>
+      <td>455</td>
+      <td>Order not found</td>
+      <td>If there is no order created with the <Badge>id</Badge> that you have forwarded in the request, or if the order has changed from being pending delivery to being delivered, you will get this error.</td>
+    </tr>
+    <tr>
+      <td>456</td>
+      <td>Order shipping date has not come yet</td>
+      <td>If the order created with the <Badge>id</Badge> you have submitted in the request is a post-dated delivery and the delivery date has not yet arrived, you will receive this error.</td>
+    </tr>
+  </tbody>
+</table>
+
+## Sample Request
+```json
+{
+  "request": {
+    "authentication": {
+      "key": "507caf2e1fcdb5eea9786332ca2d8785",
+      "hash": "0db4e316db72c519ba08121985f6ddf479809053d555c"
+    },
+    "order": {
+      "id": 428,
+      "page": 1,
+      "rowCount": 5
+    }
+  }
+}
+```
+
+## Example Successful Response
+```json
+{
+  "response": {
+    "status": {
+      "code": 200,
+      "message": "Operation successful"
+    },
+    "order": {
+      "id": 428,
+      "status": 113,
+      "message": [
+        {
+          "number": 5301234567,
+          "status": 110
+        },
+        {
+          "number": 5301234568,
+          "status": 111
+        },
+        {
+          "number": 5301234569,
+          "status": 112
+        },
+        {
+          "number": 5301234560,
+          "status": 111
+        },
+        {
+          "number": 5301234561,
+          "status": 111
+        }
+      ]
+    }
+  }
+}
+```
+
+## Example Incorrect Answer
+```json
+{
+  "response": {
+    "status": {
+      "code": 455,
+      "message": "Order not found"
+    }
+  }
+}
+```

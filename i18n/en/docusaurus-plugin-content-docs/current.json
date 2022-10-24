@@ -1,0 +1,98 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.tutorialSidebar.category.SMS API": {
+    "message": "SMS API",
+    "description": "The label for category SMS API in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.SMS Gönder": {
+    "message": "Send",
+    "description": "The label for category SMS Gönder in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.SMS İptal": {
+    "message": "Cancel",
+    "description": "The label for category SMS İptal in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.SMS Rapor": {
+    "message": "Reports",
+    "description": "The label for category SMS Rapor in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.SMS Başlık Listesi": {
+    "message": "Sender List",
+    "description": "The label for category SMS Başlık Listesi in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Numara Engelle": {
+    "message": "Block Number",
+    "description": "The label for category Numara Engelle in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Numara Engelleme Listesi": {
+    "message": "Blocked Number List",
+    "description": "The label for category Numara Engelleme Listesi in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Hesap API": {
+    "message": "Account API",
+    "description": "The label for category Hesap API in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Bakiye Bilgisi": {
+    "message": "Balance Info",
+    "description": "The label for category Bakiye Bilgisi in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Rehber API": {
+    "message": "Contacts API",
+    "description": "The label for category Rehber API in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Grup Ekle": {
+    "message": "Add Group",
+    "description": "The label for category Grup Ekle in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Grup Sil": {
+    "message": "Delete Group",
+    "description": "The label for category Grup Sil in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Grup Düzenle": {
+    "message": "Edit Group",
+    "description": "The label for category Grup Düzenle in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Grup Listesi": {
+    "message": "Group List",
+    "description": "The label for category Grup Listesi in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Grup Detay": {
+    "message": "Group Details",
+    "description": "The label for category Grup Detay in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Gruba Kişi Ekle": {
+    "message": "Subscribe Group",
+    "description": "The label for category Gruba Kişi Ekle in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Gruptan Kişi Çıkar": {
+    "message": "Unsubscribe Group",
+    "description": "The label for category Gruptan Kişi Çıkar in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Kişi Ekle": {
+    "message": "Add Person",
+    "description": "The label for category Kişi Ekle in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Kişi Sil": {
+    "message": "Delete Person",
+    "description": "The label for category Kişi Sil in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Kişi Bilgisi": {
+    "message": "Person Information",
+    "description": "The label for category Kişi Bilgisi in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Ara": {
+    "message": "Search",
+    "description": "The label for category Ara in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Entegrasyonlar": {
+    "message": "Integrations",
+    "description": "The label for category Entegrasyonlar in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Örnek Kodlar": {
+    "message": "Samples",
+    "description": "The label for category Örnek Kodlar in sidebar tutorialSidebar"
+  }
+}

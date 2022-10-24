@@ -1,0 +1,147 @@
+---
+slug: /rehber/kisi-bilgisi/xml/
+sidebar_label: XML
+sidebar_position: 0
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Badge from '@site/src/components/Badge';
+import RequestURL from '@site/src/components/RequestURL';
+import AccessWarning from '@site/src/components/AccessWarning';
+
+# XML Post API
+<AccessWarning />
+Rehberinizdeki kişinin bilgisini, HTTP protokolünün POST methodunu kullanarak, XML formatında almak için, aşağıdaki yönergeleri takip edebilirsiniz.
+
+## İstek yapılacak adres
+
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/get-contact" />
+
+## İstek İçeriği (Body)
+```xml title="Eğer kullanıcı adı ve şifre kullanılarak işlem yapıyorsanız isteğin içeriği"
+<request>
+  <authentication>
+    <username></username>
+    <password></password>
+  </authentication>
+  <contact>
+    <id></id>
+  </contact>
+</request>
+```
+
+```xml title="Eğer API Anahtarı kullanılarak işlem yapıyorsanız isteğin içeriği"
+<request>
+  <authentication>
+    <key></key>
+    <hash></hash>
+  </authentication>
+  <contact>
+    <id></id>
+  </contact>
+</request>
+```
+
+### Tanımlar
+
+Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıdır. Bu etiketin alt etiketlerinin tanımları aşağıdaki gibidir:
+
+#### authentication
+İstek yapılan işleme dair yetki alabilmek için gönderilmesi gereken kullanıcı bilgileridir. Alt etiketleri aşağıdaki gibidir:
+
+<Tabs>
+  <TabItem value="username" label="Kullanıcı Adı">
+    <ul>
+      <li>
+        <strong>username:</strong> iletimerkezi.com'a giriş yaparken kullanılan kullanıcı adıdır. Üye olurken kullanmış olduğunuz, cep telefonu numarasıdır. İstek yapılırken gönderilmesi zorunludur.
+      </li>
+      <li>
+        <strong>password</strong> iletimerkezi.com'a giriş yaparken kullanılan şifredir. İstek yapılırken gönderilmesi zorunludur.
+      </li>
+    </ul>
+  </TabItem>
+  <TabItem value="api-key" label="API Anahtarı">
+    <ul>
+      <li>
+        <strong>key:</strong> iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
+      </li>
+      <li>
+        <strong>hash:</strong> iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar ve Gizli Anahtar kullanılarak oluşturulmuş hash bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
+      </li>
+    </ul>
+  </TabItem>
+</Tabs>
+
+#### contact
+Bilgilerini istediğiniz kişinin bilgisini içerir. Alt etiketi aşağıdaki gibidir.
+
++ **id:** Kişiyi temsil eden benzersiz nümerik değer.
+
+## Sunucu yanıtı
+
+```xml
+<response>
+  <status>
+    <code></code>
+    <message></message>
+  </status>
+  <contact>
+    <id></id>
+    <name><![CDATA[...]]></name>
+    <surname><![CDATA[...]]></surname>
+    <email><![CDATA[...]]></email>
+    <gsm></gsm>
+    <custom_fields>
+      <custom_field>
+        <id></id>
+        <value></value>
+        <custom_field_settings></custom_field_settings>
+      </custom_field>
+      ...
+    </custom_fields>
+    <groups>
+      <group>
+        <id></id>
+      </group>
+      ...
+    </groups>
+  </contact>
+</response>
+```
+
+### Tanımlar
+
+Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmıştır. Bu etiketin alt etiketlerinin tanımı aşağıdaki gibidir:
+
+#### status
+İşlem durumu ile ilgili bilgi içerir. Bu etiket ile döndürülen değerler aynı zamanda HTTP yanıtının başlık bilgisine bakılarak da elde edilebilir. Bu etiket, yapılan her istekte standart olarak döndürülür. Alt etiketleri aşağıdaki gibidir
+
++ **code:** İşlem durumunu belirten numerik değerdir.
++ **message:** İşlem durumu hakkında bilgi mesajı içerir.
+
+#### contact
+Kişi bilgisini içerir. Tekrar etmez. Alt etiketleri aşağıdaki gibidir.
+
++ **id:** Kişiyi temsil eden benzersiz nümerik değeri ifade eder.
++ **name:** Kişi ismini ifade eder.
++ **surname:** Kişinin soyismini ifade eder.
++ **email:** Kişinin eposta adresini ifade eder.
++ **gsm:** Kişinin cep telefonu bilgisini ifade eder.
+
++ #### custom_fields
+Kişi için tanımlanmış rehber alanlarını ifade eder. Alt etiketleri aşağıdaki gibidir:
+
+  + #### custom_field
+  Kişi için tanımlanmış rehber alanını ifade eder. Tanımlanan alan kadar tekrar eder. Alt etiketleri aşağıdaki gibidir.
+    + **id:** Rehber alanını temsil eden benzersiz nümerik değer.
+    + **value:** Rehber alanında kişi için tutulan değeri ifade eder.
+    + **custom_field_settings:**
+
++ #### groups
+Kişinin dahil olduğu grupları içerir.
+
+  + #### group
+  Kişinin dahil olduğu grubun bilgisini içerir. Dahil olduğu grup bilgisi kadar tekrar eder.
+
+    + **id:** Grubu temsil eden benzersiz nümerik değeri içerir.

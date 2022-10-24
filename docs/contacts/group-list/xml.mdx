@@ -1,0 +1,123 @@
+---
+slug: /rehber/grup/liste/xml/
+sidebar_label: XML
+sidebar_position: 0
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Badge from '@site/src/components/Badge';
+import RequestURL from '@site/src/components/RequestURL';
+import AccessWarning from '@site/src/components/AccessWarning';
+
+# XML Post API
+<AccessWarning />
+Rehberinizde tanımlı olan grupların listesini, HTTP protokolünün POST methodunu kullanarak, XML formatında almak için, aşağıdaki yönergeleri takip edebilirsiniz.
+
+## İstek yapılacak adres
+
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/get-groups" />
+
+## İstek İçeriği (Body)
+```xml title="Eğer kullanıcı adı ve şifre kullanılarak işlem yapıyorsanız isteğin içeriği"
+<request>
+  <authentication>
+    <username></username>
+    <password></password>
+  </authentication>
+</request>
+```
+
+```xml title="Eğer API Anahtarı kullanılarak işlem yapıyorsanız isteğin içeriği"
+<request>
+  <authentication>
+    <key></key>
+    <hash></hash>
+  </authentication>
+</request>
+```
+
+### Tanımlar
+
+Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıdır. Bu etiketin alt etiketlerinin tanımları aşağıdaki gibidir:
+
+#### authentication
+İstek yapılan işleme dair yetki alabilmek için gönderilmesi gereken kullanıcı bilgileridir. Alt etiketleri aşağıdaki gibidir:
+
+<Tabs>
+  <TabItem value="username" label="Kullanıcı Adı">
+    <ul>
+      <li>
+        <strong>username:</strong> iletimerkezi.com'a giriş yaparken kullanılan kullanıcı adıdır. Üye olurken kullanmış olduğunuz, cep telefonu numarasıdır. İstek yapılırken gönderilmesi zorunludur.
+      </li>
+      <li>
+        <strong>password</strong> iletimerkezi.com'a giriş yaparken kullanılan şifredir. İstek yapılırken gönderilmesi zorunludur.
+      </li>
+    </ul>
+  </TabItem>
+  <TabItem value="api-key" label="API Anahtarı">
+    <ul>
+      <li>
+        <strong>key:</strong> iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
+      </li>
+      <li>
+        <strong>hash:</strong> iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar ve Gizli Anahtar kullanılarak oluşturulmuş hash bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
+      </li>
+    </ul>
+  </TabItem>
+</Tabs>
+
+## Sunucu yanıtı
+
+```xml
+<response>
+  <status>
+    <code></code>
+    <message></message>
+  </status>
+  <groups>
+    <group>
+      <id></id>
+      <name></name>
+      <count></count>
+      <children>
+        <child>
+          <id></id>
+          <name></name>
+          <count></count>
+        </child>
+      </children>
+    </group>
+  <groups>
+</response>
+```
+
+### Tanımlar
+
+Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmıştır. Bu etiketin alt etiketlerinin tanımı aşağıdaki gibidir:
+
+#### status
+İşlem durumu ile ilgili bilgi içerir. Bu etiket ile döndürülen değerler aynı zamanda HTTP yanıtının başlık bilgisine bakılarak da elde edilebilir. Bu etiket, yapılan her istekte standart olarak döndürülür. Alt etiketleri aşağıdaki gibidir
+
++ **code:** İşlem durumunu belirten numerik değerdir.
++ **message:** İşlem durumu hakkında bilgi mesajı içerir.
+
+#### groups
+İşlem başarılı olarak tamamlandıysa rehberinizde oluşturulan ana grupların bilgisini içerir. İşlem başarısızsa bu etiket döndürülmez. Alt etiketleri aşağıdaki gibidir.
+
++ #### group
+Grubun bilgisini içerir. Tanımlı ana grup sayısı kadar tekrar eder. Alt etiketleri aşağıdaki gibidir.
+
+  + **id:** Grubu temsil eden benzersiz değer.
+  + **name:** Grubun ismini içerir.
+  + **count:** Grup içindeki kişi sayısını gösterir.
+
+  + #### children
+  Grubun alt gruplarının bilgisini içerir alt etiketleri aşağıdaki gibidir.
+
+    + #### child
+    Grubun alt grubunun bilgilerini içerir, alt grup sayısı kadar tekrar eder. Alt etiketleri aşağıdaki gibidir.
+
+      + **id:** Grubu temsil eden benzersiz değer.
+      + **name:** Grubun ismini içerir.
+      + **count:** Grup içindeki kişi sayısını gösterir

@@ -1,0 +1,180 @@
+---
+slug: /contacts/person/add/json/
+sidebar_label: JSON
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Badge from '@site/src/components/Badge';
+import RequestURL from '@site/src/components/RequestURL';
+import AccessWarning from '@site/src/components/AccessWarning';
+
+# JSON Post API
+<AccessWarning />
+You can follow the instructions below to add a contact to your directory in JSON format using the POST method of the HTTP protocol.
+
+## Address to request
+
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/add-contacts/json" />
+
+## Request Content (Body)
+```json title="Content of the request if you are using username and password"
+{
+  "request": {
+    "authentication": {
+      "username": "",
+      "password": ""
+    },
+    "contacts": {
+      "contact": {
+        "name": "",
+        "surname": "",
+        "email": "",
+        "gsm": "",
+        "custom_fields": {
+          "custom_field": {
+            "id": "",
+            "value": ""
+          }
+        },
+        "groups": {
+          "group": {
+            "id": ""
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+```json title="Content of the request if you are processing using API Key"
+{
+  "request": {
+    "authentication": {
+      "key": "",
+      "hash": ""
+    },
+    "contacts": {
+      "contact": {
+        "name": "",
+        "surname": "",
+        "email": "",
+        "gsm": "",
+        "custom_fields": {
+          "custom_field": {
+            "id": "",
+            "value": ""
+          }
+        },
+        "groups": {
+          "group": {
+            "id": ""
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+### Definitions
+
+The request to the server must be wrapped with the <Badge>request</Badge> tag. The definitions of the subtags of this tag are as follows:
+
+#### authentication
+It is the user information that must be sent in order to receive authorization for the requested operation. The alt tags are as follows:
+
+<Tabs>
+  <TabItem value="username" label="Username">
+    <ul>
+      <li>
+        <strong>username:</strong> is the user name used when logging into transmissionerkezi.com. The mobile phone number you used while registering. It is required to be sent when making a request.
+      </li>
+      <li>
+        <strong>password</strong> is the password used when logging into transmissionerkezi.com. It is required to be sent when making a request.
+      </li>
+    </ul>
+  </TabItem>
+  <TabItem value="api-key" label="API Key">
+    <ul>
+      <li>
+        <strong>key:</strong> API Key that you can create from the settings section should be written in this field after logging in to your transmissionerkezi.com panel. It is required to be sent when making a request.
+      </li>
+      <li>
+        <strong>hash:</strong> After logging into your transmissioncentre.com panel, the hash generated using the API Key and Secret Key that you can create from the settings section should be written in this field. It is required to be sent when making a request.
+      </li>
+    </ul>
+  </TabItem>
+</Tabs>
+
+#### contacts
+Contains information about the people in the group. The alt tags are as follows.
+
+  + #### contact
+  Contains contact information. It repeats as many times as the number of people. The alt tags are as follows.
+
+    + **id:** Indicates the unique numeric value that represents the person.
+    + **name:** Indicates the name of the person.
+    + **surname:** Indicates the surname of the person.
+    + **email:** Represents the email address of the person.
+    + **gsm:** refers to the person's mobile phone information.
+
+    + #### custom_fields
+    It refers to the directory fields defined for the person. The alt tags are as follows.
+
+      + #### custom_field
+      Indicates the directory area defined for the person. It repeats as many times as the defined area. The alt tags are as follows.
+
+        + **id:** Unique numeric value representing the Contacts field.
+        + **value:** Indicates the value held for the contact in the Contacts field.
+        + **custom_field_settings:** Indicates the value held for the contact in the Contacts field.
+
+    + #### groups
+    Contains groups that the person belongs to. The alt tags are as follows.
+      + **group:** Contains the information of the group the person belongs to. It repeats as many times as the group it is included in.
+      + **id:** Unique numeric value representing the group.
+
+## Server response
+
+```json
+{
+  "response": {
+    "status": {
+      "code": "",
+      "message": ""
+    },
+    "contacts": {
+      "contact": [
+        {
+          "id": "",
+          "gsm": "",
+          "status": {
+          "code": "",
+          "message": ""
+        }
+      ]
+    }
+  }
+}
+```
+
+### Definitions
+
+The response from the server is always wrapped in the <Badge>response</Badge> tag. The definition of subtags of this tag is as follows:
+
+#### status
+Contains information about the transaction status. The values ​​returned by this tag can also be obtained by looking at the header information of the HTTP response. This tag is returned by default on every request made. The alt tags are as follows
+
++ **code:** Numeric indicating the operation status is value.
++ **message:** Contains an informational message about the transaction status.
+
+#### contacts
+It includes the information of adding people added to the directory. The alt tags are as follows.
+
+  + #### contact
+  It contains the added information of the added person. The alt tags are as follows:
+
+    + **code:** It is the numerical value that indicates the operation status.
+    + **message:** Contains an informational message about the transaction status.

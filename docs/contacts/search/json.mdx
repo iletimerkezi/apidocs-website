@@ -1,0 +1,163 @@
+---
+slug: /rehber/ara/json/
+sidebar_label: JSON
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Badge from '@site/src/components/Badge';
+import RequestURL from '@site/src/components/RequestURL';
+import AccessWarning from '@site/src/components/AccessWarning';
+
+# JSON Post API
+<AccessWarning />
+Rehberinizdeki kişileri, HTTP protokolünün POST methodunu kullanarak, JSON formatında aramak için, aşağıdaki yönergeleri takip edebilirsiniz.
+
+## İstek yapılacak adres
+
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/search-contacts/json" />
+
+## İstek İçeriği (Body)
+```json title="Eğer kullanıcı adı ve şifre kullanılarak işlem yapıyorsanız isteğin içeriği"
+{
+  "request": {
+    "authentication": {
+      "username": "",
+      "password": ""
+    },
+    "search": {
+      "key": "",
+      "page": [],
+      "rowCount": []
+    }
+  }
+}
+```
+
+```json title="Eğer API Anahtarı kullanılarak işlem yapıyorsanız isteğin içeriği"
+{
+  "request": {
+    "authentication": {
+      "key": "",
+      "hash": ""
+    },
+    "search": {
+      "key": "",
+      "page": [],
+      "rowCount": []
+    }
+  }
+}
+```
+
+### Tanımlar
+
+Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıdır. Bu etiketin alt etiketlerinin tanımları aşağıdaki gibidir:
+
+#### authentication
+İstek yapılan işleme dair yetki alabilmek için gönderilmesi gereken kullanıcı bilgileridir. Alt etiketleri aşağıdaki gibidir:
+
+<Tabs>
+  <TabItem value="username" label="Kullanıcı Adı">
+    <ul>
+      <li>
+        <strong>username:</strong> iletimerkezi.com'a giriş yaparken kullanılan kullanıcı adıdır. Üye olurken kullanmış olduğunuz, cep telefonu numarasıdır. İstek yapılırken gönderilmesi zorunludur.
+      </li>
+      <li>
+        <strong>password</strong> iletimerkezi.com'a giriş yaparken kullanılan şifredir. İstek yapılırken gönderilmesi zorunludur.
+      </li>
+    </ul>
+  </TabItem>
+  <TabItem value="api-key" label="API Anahtarı">
+    <ul>
+      <li>
+        <strong>key:</strong> iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
+      </li>
+      <li>
+        <strong>hash:</strong> iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar ve Gizli Anahtar kullanılarak oluşturulmuş hash bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
+      </li>
+    </ul>
+  </TabItem>
+</Tabs>
+
+#### search
+Arama kriterlerini içerir. Tekrar etmez. Alt etiketleri aşağıdaki gibidir.
+
++ **key:** Arama yapılacak değeri gösterir, rehberinizdeki telefon numarası, isim, soyad ve email adresleri alanları içinde arama yapar.
++ **page:** Arama sonuç sayfasını ifade eder. İstek yapılırken gönderilmesi zorunlu değildir. Varsayılan değeri 1’dir.
++ **rowCount:** Bir arama sonuç sayfasındaki kişi adedini belirtir. İstek yapılırken gönderilmesi zorunlu değildir. Varsayılan değeri 1000’dir. Maksimum değeri 1000’dir. Eğer 1000’den fazla kişi varsa ayrı bir istek ile diğer arama sonuç sayfaları sorgulanmalıdır.
+
+## Sunucu yanıtı
+
+```json
+{
+  "response": {
+    "status": {
+      "code": "",
+      "message": ""
+    },
+    "contacts": {
+      "contact": [
+        {
+          "id": "",
+          "name": "",
+          "surname": "",
+          "email": "",
+          "gsm": "",
+          "custom_fields": {
+            "custom_field": [
+              {
+                "id": "",
+                "value": ""
+              }
+            ]
+          },
+          "groups": {
+            "group": [
+              {"id":""}
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+### Tanımlar
+
+Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmıştır. Bu etiketin alt etiketlerinin tanımı aşağıdaki gibidir:
+
+#### status
+İşlem durumu ile ilgili bilgi içerir. Bu etiket ile döndürülen değerler aynı zamanda HTTP yanıtının başlık bilgisine bakılarak da elde edilebilir. Bu etiket, yapılan her istekte standart olarak döndürülür. Alt etiketleri aşağıdaki gibidir
+
++ **code:** İşlem durumunu belirten numerik değerdir.
++ **message:** İşlem durumu hakkında bilgi mesajı içerir.
+
+#### contacts
+Grubun içindeki kişilerin bilgisini içerir. Alt etiketleri aşağıdaki gibidir.
+
+  + #### contact
+  Kişi bilgisini içerir. Kişi sayısı kadar tekrar eder. Alt etiketleri aşağıdaki gibidir.
+
+    + **id:** Kişiyi temsil eden benzersiz nümerik değeri ifade eder.
+    + **name:** Kişi ismini ifade eder.
+    + **surname:** Kişinin soyismini ifade eder.
+    + **email:** Kişinin eposta adresini ifade eder.
+    + **gsm:** Kişinin cep telefonu bilgisini ifade eder.
+
+    + #### custom_fields
+    Kişi için tanımlanmış rehber alanlarını ifade eder. Alt etiketleri aşağıdaki gibidir.
+
+      + #### custom_field
+      Kişi için tanımlanmış rehber alanını ifade eder. Tanımlanan alan kadar tekrar eder. Alt etiketleri aşağıdaki gibidir.
+
+        + **id:** Rehber alanını temsil eden benzersiz nümerik değer.
+        + **value:** Rehber alanında kişi için tutulan değeri ifade eder.
+        + **custom_field_settings:** Rehber alanında kişi için tutulan değeri ifade eder.
+
+    + #### groups
+    Kişinin dahil olduğu grupları içerir. Alt etiketleri aşağıdaki gibidir.
+      + **group:** Kişinin dahil olduğu grubun bilgisini içerir. Dahil olduğu grup kadar tekrar eder.
+      + **id:** Grubu temsil eden benzersiz nümerik değer.

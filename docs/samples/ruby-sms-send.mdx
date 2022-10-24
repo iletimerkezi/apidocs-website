@@ -1,0 +1,159 @@
+---
+slug: /ornekler/ruby-sms-gönderme
+sidebar_position: 3
+---
+
+# Ruby ile SMS Gönder
+iletimerkezi.com API'lerini kullanarak toplu sms gönderme ve raporlama
+işlemlerini yapabilmek için hazırlanan Ruby istemcisidir.
+
+:::info
+Bu kütüphane İrfan Subaş [https://github.com/isubas/ileti_merkezi](https://github.com/isubas/ileti_merkezi) tarafından yapılmıştır. İleti Merkezi'ne vermiş olduğu bu katkı için
+teşekkür ediyoruz. Repoya yıldız vermeyi unutmayınız.
+:::
+
+:::info
+Kütüphanenin bütün metodlarının açıklamalarına ulaşmak ve daha detaylı dokümantasyon için [https://github.com/isubas/ileti_merkezi](https://github.com/isubas/ileti_merkezi) adresine bakabilirsiniz.
+:::
+
+## Kurulum
+
+Bu satırı Gemfile dosyasına ekleyin.
+
+```ruby
+gem 'ileti_merkezi'
+```
+
+Ardından aşağıdaki komutu çalıştırın:
+
+    $ bundle
+
+Veya kendiniz aşağıdaki komut ile sisteme kurabilirsiniz:
+
+    $ gem install ileti_merkezi
+
+## Kullanım
+
+### Yapılandırma
+
+Rails uygulamanızda `config/initializers/ileti_merkezi_configure.rb` dosyası oluşturarak
+aşağıdaki kodları içerisine yapıştırınız.
+
+Eğer kimlik doğrulama işlemini kullanıcı adı ve parola üzerinden yapmak istiyorsanız username ve password bilgilerini,
+token tabanlı yapmak istiyorsanız public_key ve secret_key bilgilerini doldurmanız gerekmektedir.
+
+Bu dört alanda doldurulmuş ise sistem token tabanlı doğrulama yapacaktır.
+
+public ve secret key bilgilerini https://www.iletimerkezi.com/user/preferences adresinden oluşturabilirsiniz.
+
+```ruby
+IletiMerkezi.configure do |config|
+  # Default: http://api.iletimerkezi.com/v1'
+  config.endpoint          = 'http://api.iletimerkezi.com/v1'
+  config.sender            = 'FOO'
+  # opsiyonel
+  config.request_overrides = {
+    use_ssl: true, # default false
+    verify_mode: OpenSSL::SSL::VERIFY_PEER,
+    read_timeout: 30, # default 30
+    open_timeout: 30 # default 30
+  }
+  # Kimlik Doğrulama: username ve password
+  config.username = 'username'
+  config.password = 'password'
+  # Kimlik Doğrulama: token tabanlı
+  config.public_key = 'public_key'
+  config.secret_key = 'secret_key'
+end
+```
+
+Veya
+
+- Ortam değişkeleri ile yapılandırabilirsiniz. bknz: .env
+
+```ruby
+IM_ENDPOINT = 'http://api.iletimerkezi.com/v1' # Default: http://api.iletimerkezi.com/v1
+# Kimlik Doğrulama: username ve password
+IM_USERNAME = 'username'
+IM_PASSWORD = 'password'
+# Kimlik Doğrulama: token tabanlı
+IM_PUBLIC_KEY = 'public_key'
+IM_SECRET_KEY = 'secret_key'
+
+IM_SENDER = 'SENDER'
+```
+
+### SMS Gönderme - (Tek Mesaj - Çoklu Alıcı)
+
+```ruby
+
+  args = {
+    send_datetime: '15/01/2017 12:00', # Opsiyonel
+    sender: 'TEST', # Opsiyonel
+    phones: ['0555 555 00 01', '0555 555 00 02'],
+    text: 'Test Mesajı'
+  }
+
+  # return IletiMerkezi::Response
+  response = IletiMerkezi.send(args)
+  # veya
+  sms      = IletiMerkezi::Sms.new(args)
+  response = sms.send
+
+  response.code # return 200
+  response.body # http raw body
+  response.message # return status message
+  response.error? # return true or false
+  response.to_h
+  # return hash
+  {
+    :status => {
+      :code => "200",
+      :message => "İşlem başarılı"
+    },
+    :order => {
+      :id => "order_id"
+    }
+  }
+```
+
+### SMS Gönderme (Çoklu Mesaj - Çoklu Alıcı)
+
+```ruby
+  args = {
+    send_datetime: '15/01/2017 12:00', # Opsiyonel
+    sender: 'TEST', # Opsiyonel
+    messages: [
+      {
+        text: 'Test Mesajı Bir',
+        phones: ['0555 555 00 01', '0555 555 00 02'],
+      },
+      {
+        text: 'Test Mesajı İki',
+        phones: ['0555 555 00 03', '0555 555 00 04'],
+      }
+    ]
+  }
+
+  # return IletiMerkezi::Response
+  response = IletiMerkezi.send(args)
+  # veya
+  sms      = IletiMerkezi::Sms.new(args)
+  response = sms.send
+
+  response.code # return 200
+  response.body # http raw body
+  response.message # return status message
+  response.error? # return true or false
+  response.to_h
+  # return hash
+  {
+    :status => {
+      :code => "200",
+      :message => "İşlem başarılı"
+    },
+    :order => {
+      :id => "order_id"
+    }
+  }
+```

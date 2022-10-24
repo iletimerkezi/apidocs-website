@@ -1,0 +1,263 @@
+---
+slug: /sms/gonder/xml/
+sidebar_label: XML
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Badge from '@site/src/components/Badge';
+import RequestURL from '@site/src/components/RequestURL';
+
+# XML Post API
+SMS Gönderme işlemini, HTTP protokolünün POST methodunu kullanarak, XML formatında yapmak isterseniz aşağıdaki yönergeleri takip edebilirsiniz.
+
+## İstek yapılacak adres
+
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/send-sms" />
+
+
+## İstek İçeriği (Body)
+```xml title="Eğer kullanıcı adı ve şifre kullanılarak işlem yapıyorsanız isteğin içeriği"
+<request>
+  <authentication>
+    <username></username>
+    <password></password>
+  </authentication>
+  <order>
+    <sender></sender>
+    <sendDateTime></sendDateTime>
+    <iys>1</iys>
+    <iysList>BIREYSEL</iysList>
+    <message>
+      <text><![CDATA[...]]></text>
+      <receipents>
+        <number></number>
+        <number></number>
+      </receipents>
+    </message>
+  </order>
+</request>
+```
+
+```xml title="Eğer API Anahtarı kullanılarak işlem yapıyorsanız isteğin içeriği:"
+<request>
+  <authentication>
+    <key></key>
+    <hash></hash>
+  </authentication>
+  <order>
+    <sender></sender>
+    <sendDateTime></sendDateTime>
+    <iys>1</iys>
+    <iysList>BIREYSEL</iysList>
+    <message>
+      <text><![CDATA[...]]></text>
+      <receipents>
+        <number></number>
+        <number></number>
+      </receipents>
+    </message>
+  </order>
+</request>
+```
+
+### Tanımlar
+
+Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıdır. Bu etiketin alt etiketlerinin tanımları aşağıdaki gibidir:
+
+#### authentication
+İstek yapılan işleme dair yetki alabilmek için gönderilmesi gereken kullanıcı bilgileridir. Alt etiketleri aşağıdaki gibidir:
+
+<Tabs>
+  <TabItem value="username" label="Kullanıcı Adı">
+    <ul>
+      <li>
+        <strong>username:</strong> iletimerkezi.com'a giriş yaparken kullanılan kullanıcı adıdır. Üye olurken kullanmış olduğunuz, cep telefonu numarasıdır. İstek yapılırken gönderilmesi zorunludur.
+      </li>
+      <li>
+        <strong>password</strong> iletimerkezi.com'a giriş yaparken kullanılan şifredir. İstek yapılırken gönderilmesi zorunludur.
+      </li>
+    </ul>
+  </TabItem>
+  <TabItem value="api-key" label="API Anahtarı">
+    <ul>
+      <li>
+        <strong>key:</strong> iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
+      </li>
+      <li>
+        <strong>hash:</strong> iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar ve Gizli Anahtar kullanılarak oluşturulmuş hash bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
+      </li>
+    </ul>
+  </TabItem>
+</Tabs>
+
+#### order
+Gönderilecek olan SMS'ler bir sipariş olarak kabul edilir ve istek yapıldıktan sonra bu şekilde raporlanmaya başlanır. Sipariş bazen tek alıcı ve tek mesaj metni içerebileceği gibi birden fazla alıcıya ve birden fazla mesaj metnide içerebilir. <Badge>order</Badge> etiketi tekrarlanabilir bir etiket değildir. İstek başına yalnızca bir sipariş gönderilebilir. Alt etiketleri aşağıdaki gibidir:
+
++ **sender:** iletimerkezi.com yönetim panelinden tanımlanmış ve iletimerkezi.com tarafından onaylanmış, maksimum 11 karakterden oluşan başlık bilgisidir. Gönderilen mesaj, alıcıya bu parametre ile belirtilen başlık ile yollanır. İstek yapılırken gönderilmesi zorunludur.
+
++ **sendDateTime:** Mesajın gönderim tarihini ifade eder. İleri tarihli mesaj gönderimleri için kullanılır. Formatı GG/AA/YYYY SS:DD şeklindedir. İstek yapılırken gönderilmesi zorunlu değildir. Varsayılan değeri, istek yapılan zamandır.
+
++ **iys:** Mesajın, İleti Yönetim Sistemi (İYS) üzerinden sorgulanıp sorgulanmayacağını ifade eder. Eğer bu değeri 1(true) olarak gönderirseniz mesajlarınız İYS üzerinden sorgulanır, 0(false) olarak gönderirseniz sorgulanmaz. İstek yapılırken gönderilmesi zorunludur.
+
+  :::tip İpucu
+  Ticari mesaj gönderiyorsanız bu değer yasal olarak 1 olmalıdır. **Aksi durumda cezai işlem uygulanabilir**.
+
+  [İYS hakkında detaylı bilgi için tıklayınız.](https://www.iletimerkezi.com/blog/duyurular/iys-ileti-yonetim-sistemi-nedir)
+  :::
+
++ **iysList:** İleti Yönetim Sistemi (İYS) üzerinden sorgulanmasını istediğiniz listeyi ifade eder.
+iys değerini 1 olarak gönderdiyseniz yani mesajınızın İYS üzerinden sorgulanmasını istiyorsanız, iysList değerinin BIREYSEL veya TACIR olarak gönderilmesi zorunludur.
+iys değerini 0 olarak gönderiyorsanız bu alan dikkate alınmayacaktır.
+
+  #### message
+Gönderilecek olan mesaj bilgisini içerir. Tek sipariş içinde farklı mesaj gönderilmek isteniyorsa <Badge>message</Badge> etiketi gönderilmek istenen farklı mesaj sayısı kadar tekrarlanmalıdır. Alt etiketleri aşağıdaki gibidir
+
+  + **text:** Gönderilecek olan SMS metnini içerir. İstek yapılırken gönderilmesi zorunludur.
+
+  :::tip İpucu
+  Mesaj metniniz içinde XML'in yapısını bozucak karakterler içerebileceği için mesaj metninizi `<![CDATA[...]]>` içerisine yazmanızı öneriyoruz. Mesaj metniniz içerisinde yazılımınızı kullanan kullanıcılarınız tarafından belirlenen ifadeler olabileceği için `<![CDATA[...]]>` kullanımı mesajlarınızın sağlıklı iletilmesi için önemlidir.
+  :::
+
+  + **receipents:** Gönderilecek olan SMSlerin alıcılarını içerir. Alıcılar aşağıdaki etiket ile belirtilir:
+
+    + **number:** Alıcının cep telefonu numarasını içerir. 905xxxxxxxxx, +90 5xx xxx xx xx, 5xxxxxxxxx gibi formatlar kullanılabilir. İstek yapılırken gönderilmesi zorunludur. Belirtilen mesaj metni için birden fazla alıcı tanımlanacaksa bu etiket alıcı sayısı kadar tekrarlanmalıdır.
+
+## Sunucu yanıtı
+
+```xml
+<response>
+  <status>
+    <code></code>
+    <message></message>
+  </status>
+  <order>
+    <id></id>
+  </order>
+</response>
+```
+
+### Tanımlar
+
+Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmıştır. Bu etiketin alt etiketlerinin tanımı aşağıdaki gibidir:
+
+#### status
+İşlem durumu ile ilgili bilgi içerir. Bu etiket ile döndürülen değerler aynı zamanda HTTP yanıtının başlık(header) bilgisine bakılarak da elde edilebilir. Bu etiket, yapılan her istekte standart olarak döndürülür. Alt etiketleri aşağıdaki gibidir
+
++ **code:** İşlem durumunu belirten numerik değerdir.
++ **message:** İşlem durumu hakkında bilgi mesajı içerir.
+
+#### order
+İşlem başarılı olarak tamamlandıysa oluşturulan sipariş bilgisini içerir. İşlem başarısızsa bu etiket döndürülmez. <Badge>order</Badge> etiketi tekrarlanabilir bir etiket değildir. İstek başına yalnızca bir sipariş gönderilebilir. Alt etiketi aşağıdaki gibidir:
+
++ **id:** Siparişi ifade eden eşsiz numerik değerdir. Size dönen bu <Badge>id</Badge> değeri ile, siparişinizin son durumunu kontrol edebilirsiniz. Eğer siparişiniz ileri bir tarihte gönderilecek bir sipariş ise <Badge>id</Badge> değeri ile siparişinizi iptal edebilirsiniz.
+
+## Hata Kodları
+Eğer istek sonucu olumsuz ise sunucu tarafından size dönücek hata kodları ve mesajlar aşağıdaki gibidir.
+
+<table>
+  <thead>
+    <tr>
+      <th>code</th>
+      <th>message</th>
+      <th>Açıklama</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>401</td>
+      <td>Üyelik bilgileri hatalı</td>
+      <td><Badge>username</Badge>, <Badge>password</Badge> veya <Badge>key</Badge>, <Badge>hash</Badge> etiketleri ile göndermiş olduğunuz bilgileri doğrulayamadığımızda bu hatayı veriyoruz, eğer hesabınızda sabit IP tanımladıysanız ve farklı bir IP üzerinden istek yapıyorsanız yine bu hatayı alırsınız.</td>
+    </tr>
+    <tr>
+      <td>402</td>
+      <td>Bakiye yetersiz</td>
+      <td>Eğer hesabınızdaki bakiye bu siparişi göndermeye yetmiyorsa bu hatayı veriyoruz.</td>
+    </tr>
+    <tr>
+      <td>450</td>
+      <td>Gönderilen başlık kullanıma uygun değil</td>
+      <td><Badge>sender</Badge> etiketi ile göndermiş olduğunuz değer eğer hesabınızda onaylı değilse bu hatayı alırsınız, hesabınızda tanımlı olduğu şekilde göndermeniz gerekmektedir. Genellikle bu hatanın alınmasına sebep olan değişiklikler, küçük-büyük harf farkları veya ektra boşluk değerlerinin gönderilmesidir.</td>
+    </tr>
+    <tr>
+      <td>451</td>
+      <td>Tekrar eden sipariş</td>
+      <td>Eğer aynı mesaj metnini, aynı alıcılara 10dk içinde tekrar göndermek isterseniz sistem bu hatayı size döner, hem spam olmaması hemde yanlışlıkla aynı kişilere aynı mesajların iletilmemesi için. Böyle bir gönderim ihtiyacınız varsa mesaj metninin içine o anki saat ve dakikayı yazarak mesaj metnini farklılaştırabilirsiniz.</td>
+    </tr>
+    <tr>
+      <td>452</td>
+      <td>Mesaj alıcıları hatalı</td>
+      <td><Badge>receipents</Badge> etiketi altında göndermiş olduğunuz telefon numaraları eksik veya doğrulanamıyor ise bu hatayı veriyoruz. Aynı zamanda eğer mesaj atmak istediğiniz cep telefonu numarasının doğru olduğuna eminseniz, cep telefonu numarası eğer numara engelleme listenize eklediyseniz yine bu hatayı alabilirsiniz.</td>
+    </tr>
+    <tr>
+      <td>453</td>
+      <td>Sipariş boyutu aşıldı</td>
+      <td><Badge>text</Badge> etiketi ile göndermiş olduğunuz mesaj metni karakter kodlamanıza göre yedi(7) SMS uzunluğundan daha fazla ise bu hata geri döner.</td>
+    </tr>
+    <tr>
+      <td>454</td>
+      <td>Mesaj metni boş</td>
+      <td><Badge>text</Badge> etiketi ile göndermiş olduğunuz mesaj metni herhangi bir değer içermiyorsa mesajınız gönderilmez ve bu hata mesajı döner.</td>
+    </tr>
+    <tr>
+      <td>457</td>
+      <td>Mesaj gönderim tarihinin formatı hatalı</td>
+      <td><Badge>sendDateTime</Badge> etiketi ile göndermiş olduğunuz tarih formatı hatalı ise bu hata döner. Tarih formatı, GG/AA/YYYY SS:DD (Örnek 20/01/2022 13:45) şeklindedir.</td>
+    </tr>
+  </tbody>
+</table>
+
+## Örnek İstek
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<request>
+  <authentication>
+    <username>demo</username>
+    <password>demo</password>
+  </authentication>
+  <order>
+    <sender>APITEST</sender>
+    <sendDateTime>23/04/2022 09:00</sendDateTime>
+    <message>
+      <text><![CDATA[Test mesaji.]]></text>
+      <receipents>
+        <number>5301234567</number>
+        <number>5301234568</number>
+      </receipents>
+    </message>
+    <message>
+      <text><![CDATA[Demo mesaji.]]></text>
+      <receipents>
+        <number>5301234569</number>
+        <number>5301234560</number>
+      </receipents>
+    </message>
+  </order>
+</request>
+```
+
+## Örnek Başarılı Yanıt
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+  <status>
+    <code></code>
+    <message></message>
+  </status>
+  <order>
+    <id></id>
+  </order>
+</response>
+```
+
+## Örnek Hatalı Yanıt
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+  <status>
+    <code>400</code>
+    <message>İstek çözümlenemedi</message>
+  </status>
+</response>
+```

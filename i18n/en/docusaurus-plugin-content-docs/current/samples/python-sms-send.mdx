@@ -1,0 +1,34 @@
+---
+slug: /samples/python-sms-send
+sidebar_position: 4
+---
+
+# Send SMS with Python
+You can use the example below to send bulk, single or OTP sms from your software made with Python.
+
+
+```python
+import requests
+string = """
+<request>
+	<authentication>
+		<username></username>
+		<password></password>
+	</authentication>
+	<order>
+		<sender>APITEST</sender>
+		<sendDateTime></sendDateTime>
+		<message>
+			<text><![CDATA[Your message text]]></text>
+			<receipts>
+				<number>505702xxxx</number>
+				<number>535410xxxx</number>
+			</receipents>
+		</message>
+	</order>
+</request>""";
+
+r = requests.post("https://api.iletimerkezi.com/v1/send-sms", data={'data': string})
+
+print(r.status_code, r.reason)
+```

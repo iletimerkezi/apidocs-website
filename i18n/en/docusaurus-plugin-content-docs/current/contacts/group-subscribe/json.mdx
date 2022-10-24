@@ -1,0 +1,116 @@
+---
+slug: /contacts/group/person/add/json/
+sidebar_label: JSON
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Badge from '@site/src/components/Badge';
+import RequestURL from '@site/src/components/RequestURL';
+import AccessWarning from '@site/src/components/AccessWarning';
+
+# JSON Post API
+<AccessWarning />
+You can follow the instructions below so that the person or people in your directory can be included in the group you have specified in XML format, using the POST method of the HTTP protocol.
+
+## Address to request
+
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/subscribe-group/json" />
+
+## Request Content (Body)
+```json title="Content of the request if you are using username and password"
+{
+  "request": {
+    "authentication": {
+      "username": "",
+      "password": ""
+    },
+    "contact": [
+      {"id": ""}
+    ],
+    "group": [
+      {"id": ""}
+    ]
+  },
+}
+```
+
+```json title="Content of the request if you are processing using API Key"
+{
+  "request": {
+    "authentication": {
+      "key": "",
+      "hash": ""
+    },
+    "contact": [
+      {"id": ""}
+    ],
+    "group": [
+      {"id": ""}
+    ]
+  },
+}
+```
+
+### Definitions
+
+The request to the server must be wrapped with the <Badge>request</Badge> tag. The definitions of the subtags of this tag are as follows:
+
+#### authentication
+It is the user information that must be sent in order to receive authorization for the requested operation. The alt tags are as follows:
+
+<Tabs>
+  <TabItem value="username" label="Username">
+    <ul>
+      <li>
+        <strong>username:</strong> is the user name used when logging into transmissionerkezi.com. The mobile phone number you used while registering. It is required to be sent when making a request.
+      </li>
+      <li>
+        <strong>password:</strong> is the password used when logging into transmissionerkezi.com. It is required to be sent when making a request.
+      </li>
+    </ul>
+  </TabItem>
+  <TabItem value="api-key" label="API Key">
+    <ul>
+      <li>
+        <strong>key:</strong> API Key that you can create from the settings section should be written in this field after logging in to your transmissionerkezi.com panel. It is required to be sent when making a request.
+      </li>
+      <li>
+        <strong>hash:</strong> After logging into your transmissioncentre.com panel, the hash generated using the API Key and Secret Key that you can create from the settings section should be written in this field. It is required to be sent when making a request.
+      </li>
+    </ul>
+  </TabItem>
+</Tabs>
+
+#### contact
+It contains the information of the persons to be assigned to the group. The alt tags are as follows.
+  + **id:** Unique numeric id value representing the person.
+
+#### group
+Indicates the group to which contacts will be added. The alt tag is as follows.
+  + **id:** Unique numeric id value representing the group.
+
+
+## Server response
+
+```json
+{
+  "response": {
+    "status": {
+      "code": "",
+      "message": ""
+    }
+  }
+}
+```
+
+### Definitions
+
+The response from the server is always wrapped in the <Badge>response</Badge> tag. The definition of subtags of this tag is as follows:
+
+#### status
+Contains information about the transaction status. The values ​​returned by this tag can also be obtained by looking at the header information of the HTTP response. This tag is returned by default on every request made. The alt tags are as follows
+
+  + **code:** It is the numerical value that indicates the operation status.
+  + **message:** Contains an informational message about the transaction status.

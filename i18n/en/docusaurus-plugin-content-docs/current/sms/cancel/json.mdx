@@ -1,0 +1,183 @@
+---
+slug: /sms/cancel/json
+sidebar_label: JSON
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Badge from '@site/src/components/Badge';
+import RequestURL from '@site/src/components/RequestURL';
+
+# JSON Post API
+It is the method used to cancel the SMS package you have created with a future date. You can use it by sending data in JSON format by using the POST method of the HTTP protocol.
+
+:::tip Hint
+Orders that have been sent cannot be cancelled.
+:::
+
+## Address to request
+
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/cancel-order/json" />
+
+
+## Request Content (Body)
+```json title="Content of the request if you are using username and password"
+{
+  "request": {
+    "authentication": {
+      "username": "",
+      "password": ""
+    },
+    "order": {
+      "id": ""
+    }
+  }
+}
+```
+
+```json title="If you are processing using API Key, the content of the request is:"
+{
+  "request": {
+    "authentication": {
+      "key": "",
+      "hash": ""
+    },
+    "order": {
+      "id": ""
+    }
+  }
+}
+```
+
+### Definitions
+
+The request to the server must be wrapped with the <Badge>request</Badge> tag. The definitions of the subtags of this tag are as follows:
+
+#### authentication
+It is the user information that must be sent in order to receive authorization for the requested operation. The alt tags are as follows:
+
+<Tabs>
+  <TabItem value="username" label="Username">
+    <ul>
+      <li>
+        <strong>username:</strong> is the user name used when logging into transmissionerkezi.com. The mobile phone number you used while registering. It is required to be sent when making a request.
+      </li>
+      <li>
+        <strong>password</strong> is the password used when logging into transmissionerkezi.com. It is required to be sent when making a request.
+      </li>
+    </ul>
+  </TabItem>
+  <TabItem value="api-key" label="API Key">
+    <ul>
+      <li>
+        <strong>key:</strong> API Key that you can create from the settings section should be written in this field after logging in to your transmissionerkezi.com panel. It is required to be sent when making a request.
+      </li>
+      <li>
+        <strong>hash:</strong> After logging into your transmissioncentre.com panel, the hash generated using the API Key and Secret Key that you can create from the settings section should be written in this field. It is required to be sent when making a request.
+      </li>
+    </ul>
+  </TabItem>
+</Tabs>
+
+#### order
+Contains the SMS order information to be canceled. The alt tag is as follows
+
++ **id:** Unique numeric value representing the order. When you request to send SMS via API, it is the <Badge>id</Badge> value returned by the server. It is required to be sent when making a request.
+
+## Server response
+
+```json
+{
+  "response": {
+    "status": {
+      "code": "200",
+      "message": "Operation successful"
+    }
+  }
+}
+```
+
+### Definitions
+
+The response from the server is always wrapped in the <Badge>response</Badge> tag. The definition of subtags of this tag is as follows:
+
+#### status
+Contains information about the transaction status. The values ​​returned by this tag can also be obtained by looking at the header information of the HTTP response. This tag is returned by default on every request made. The alt tags are as follows
+
++ **code:** It is the numerical value that indicates the operation status.
++ **message:** Contains an informational message about the transaction status.
+
+## Error Codes
+If the result of the request is negative, the error codes and messages that will be returned to you by the server are as follows.
+
+<table>
+  <thead>
+    <tr>
+      <th>code</th>
+      <th>message</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>400</td>
+      <td>The request could not be resolved</td>
+      <td> is caused by an error in the structure of the XML you POST. These errors are usually caused by a misspelled XML tag, an improperly closed XML tag, or the use of a character that can break the structure of XML without using CDATA.</td>
+    </tr>
+    <tr>
+      <td>401</td>
+      <td>Incorrect membership information</td>
+      <td>We give this error when we can't verify the information you have submitted in the <Badge>authentication</Badge> tag of the XML you POST. If you have defined a fixed IP in your account and you are requesting from a different IP, you will get this error again.</td>
+    </tr>
+    <tr>
+      <td>404</td>
+      <td>API does not have requested method</td>
+      <td>If you're getting this error, double-check the address you requested, you may be making a request to a wrong address.</td>
+    </tr>
+    <tr>
+      <td>455</td>
+      <td>Order not found</td>
+      <td>You will get this error if there is no order created with the id you have forwarded in the request, or if the order has changed from being pending to being delivered.</td>
+    </tr>
+  </tbody>
+</table>
+
+## Sample Request
+```json
+{
+  "request": {
+    "authentication": {
+      "key": "507caf2e1fcdb5eea9786332ca2d8785",
+      "hash": "0db4e316db72c519ba08121985f6ddf479809053d555c"
+    },
+    "order": {
+      "id": "428"
+    }
+  }
+}
+```
+
+## Example Successful Response
+```json
+{
+  "response": {
+    "status": {
+      "code": "200",
+      "message": "Operation successful"
+    }
+  }
+}
+```
+
+## Example Incorrect Answer
+```xml
+{
+  "response": {
+    "status": {
+      "code": "400",
+      "message": "The request could not be resolved"
+    }
+  }
+}
+```

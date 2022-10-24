@@ -1,0 +1,113 @@
+---
+slug: /contacts/group/add/xml/
+sidebar_label: XML
+sidebar_position: 0
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Badge from '@site/src/components/Badge';
+import RequestURL from '@site/src/components/RequestURL';
+import AccessWarning from '@site/src/components/AccessWarning';
+
+# XML Post API
+<AccessWarning />
+You can follow the instructions below to create a new group in your directory in XML format using the POST method of the HTTP protocol.
+
+## Address to request
+
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/add-group" />
+
+## Request Content (Body)
+```xml title="Content of the request if you are using username and password"
+<request>
+  <authentication>
+    <username></username>
+    <password></password>
+  </authentication>
+  <group>
+    <name><![CDATA[...]]></name>
+    <parent></parent>
+  </group>
+</request>
+```
+
+```xml title="Content of the request if you are processing using API Key"
+<request>
+  <authentication>
+    <key></key>
+    <hash></hash>
+  </authentication>
+  <group>
+    <name><![CDATA[...]]></name>
+    <parent></parent>
+  </group>
+</request>
+```
+
+### Definitions
+
+The request to the server must be wrapped with the <Badge>request</Badge> tag. The definitions of the subtags of this tag are as follows:
+
+#### authentication
+It is the user information that must be sent in order to receive authorization for the requested operation. The alt tags are as follows:
+
+<Tabs>
+  <TabItem value="username" label="Username">
+    <ul>
+      <li>
+        <strong>username:</strong> is the user name used when logging into transmissionerkezi.com. The mobile phone number you used while registering. It is required to be sent when making a request.
+      </li>
+      <li>
+        <strong>password</strong> is the password used when logging into transmissionerkezi.com. It is required to be sent when making a request.
+      </li>
+    </ul>
+  </TabItem>
+  <TabItem value="api-key" label="API Key">
+    <ul>
+      <li>
+        <strong>key:</strong> API Key that you can create from the settings section should be written in this field after logging in to your transmissionerkezi.com panel. It is required to be sent when making a request.
+      </li>
+      <li>
+        <strong>hash:</strong> After logging into your transmissioncentre.com panel, the hash generated using the API Key and Secret Key that you can create from the settings section should be written in this field. It is required to be sent when making a request.
+      </li>
+    </ul>
+  </TabItem>
+</Tabs>
+
+#### group
+Contains information about the group to be created. The alt tags are as follows.
+
++ **name:** Contains the name of the group to be created.
++ **parent:** If the group to be created is a subgroup of a group, you must send the id value of that group, if the group you created is the main group, you must send it blank.
+
+## Server response
+
+```xml
+<response>
+  <status>
+    <code></code>
+    <message></message>
+  </status>
+  <group>
+    <id></id>
+    <name></name>
+  </group>
+</response>
+```
+
+### Definitions
+
+The response from the server is always wrapped in the <Badge>response</Badge> tag. The definition of subtags of this tag is as follows:
+
+#### status
+Contains information about the transaction status. The values ​​returned by this tag can also be obtained by looking at the header information of the HTTP response. This tag is returned by default on every request made. The alt tags are as follows
+
++ **code:** It is the numerical value that indicates the operation status.
++ **message:** Contains an informational message about the transaction status.
+
+#### group
+Represents your group information. The definition of subtags of this tag is as follows:
+
++ **id:** Contains the unique value of the created group.
++ **name:** Contains the name of the created group.

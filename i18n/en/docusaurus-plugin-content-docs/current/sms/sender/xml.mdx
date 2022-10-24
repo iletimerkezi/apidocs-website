@@ -1,0 +1,161 @@
+---
+slug: /sms/title/list/xml
+sidebar_label: XML
+sidebar_position: 0
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Badge from '@site/src/components/Badge';
+import RequestURL from '@site/src/components/RequestURL';
+
+# XML Post API
+If you want to receive the approved header list defined in your account in XML format using the POST method of the HTTP protocol, you can follow the instructions below.
+
+## Address to request
+
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/get-sender" />
+
+## Request Content (Body)
+```xml title="Content of the request if you are using username and password"
+<request>
+  <authentication>
+    <username></username>
+    <password></password>
+  </authentication>
+</request>
+```
+
+```xml title="Content of the request if you are processing using API Key"
+<request>
+  <authentication>
+    <key></key>
+    <hash></hash>
+  </authentication>
+</request>
+```
+
+### Definitions
+
+The request to the server must be wrapped with the <Badge>request</Badge> tag. The definitions of the subtags of this tag are as follows:
+
+#### authentication
+It is the user information that must be sent in order to receive authorization for the requested operation. The alt tags are as follows:
+
+<Tabs>
+  <TabItem value="username" label="Username">
+    <ul>
+      <li>
+        <strong>username:</strong> is the user name used when logging into iletimerkezi.com. The mobile phone number you used while registering. It is required to be sent when making a request.
+      </li>
+      <li>
+        <strong>password</strong> is the password used when logging into iletimerkezi.com. It is required to be sent when making a request.
+      </li>
+    </ul>
+  </TabItem>
+  <TabItem value="api-key" label="API Key">
+    <ul>
+      <li>
+        <strong>key:</strong> API Key that you can create from the settings section should be written in this field after logging in to your iletimerkezi.com panel. It is required to be sent when making a request.
+      </li>
+      <li>
+        <strong>hash:</strong> After logging into your transmissioncentre.com panel, the hash generated using the API Key and Secret Key that you can create from the settings section should be written in this field. It is required to be sent when making a request.
+      </li>
+    </ul>
+  </TabItem>
+</Tabs>
+
+## Server response
+
+```xml
+<response>
+  <status>
+    <code></code>
+    <message></message>
+  </status>
+  <senders>
+    <sender></sender>
+    <sender></sender>
+    <sender></sender>
+  <senders>
+</response>
+```
+
+### Definitions
+
+The response from the server is always wrapped in the <Badge>response</Badge> tag. The definition of subtags of this tag is as follows:
+
+#### status
+Contains information about the transaction status. The values ​​returned by this tag can also be obtained by looking at the header information of the HTTP response. This tag is returned by default on every request made. The alt tags are as follows
+
++ **code:** It is the numerical value that indicates the operation status.
++ **message:** Contains an informational message about the transaction status.
+
+#### senders
+Contains the order information created if the transaction was completed successfully. If the operation fails, this tag is not returned. The alt tags are as follows:
+
++ **sender:** Contains approved header information.
+
+## Error Codes
+If the result of the request is negative, the error codes and messages that will be returned to you by the server are as follows.
+
+<table>
+  <thead>
+    <th>code</th>
+    <th>message</th>
+    <th>Description</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>400</td>
+      <td>The request could not be resolved</td>
+      <td> is caused by an error in the structure of the XML you POST. These errors are usually caused by a misspelled XML tag, an improperly closed XML tag, or the use of a character that can break the structure of XML without using CDATA.</td>
+    </tr>
+    <tr>
+      <td>401</td>
+      <td>Incorrect membership information</td>
+      <td>We give this error when we can't verify the information you have submitted in the <Badge>authentication</Badge> tag of the XML you POST. If you have defined a fixed IP in your account and you are requesting from a different IP, you will get this error again.</td>
+    </tr>
+    <tr>
+      <td>404</td>
+      <td>API does not have requested method</td>
+      <td>If you're getting this error, double-check the address you requested, you may be making a request to a wrong address.</td>
+    </tr>
+  </tbody>
+</table>
+
+## Sample Request
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<request>
+  <authentication>
+    <username>demo</username>
+    <password>demo</password>
+  </authentication>
+</request>
+```
+
+## Example Successful Response
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+  <status>
+    <code>200</code>
+    <message>Operation successful</message>
+  </status>
+  <sender>
+    <sender>eBrand</sender>
+  </senders>
+</response>
+```
+
+## Example Incorrect Answer
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+  <status>
+    <code>401</code>
+    <message>Membership information is incorrect</message>
+  </status>
+</response>
+```

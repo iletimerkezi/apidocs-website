@@ -1,0 +1,156 @@
+---
+slug: /samples/ruby-sms-send
+sidebar_position: 3
+---
+
+# Send SMS with Ruby
+Sending and reporting bulk sms by using transmissionerkezi.com APIs
+It is a Ruby client that is prepared to perform operations.
+
+:::info
+This library was made by İrfan Subaş [https://github.com/isubas/ileti_merkezi](https://github.com/isubas/ileti_merkezi). For this contribution to the Message Center
+Thank you. Don't forget to give stars to the repo.
+:::
+
+:::info
+You can refer to [https://github.com/isubas/ileti_merkezi](https://github.com/isubas/ileti_merkezi) for explanations of all methods of the library and for more detailed documentation.
+:::
+
+## Setup
+Add this line to the Gemfile.
+
+```ruby
+gem 'message center'
+```
+
+Then run the following command:
+$ bundle
+
+Or you can install it yourself with the following command:
+$ gem install message center
+
+## Use
+
+### Configuration
+
+By creating a `config/initializers/message_centre_configure.rb` file in your Rails app
+Paste the code below into it.
+
+If you want to authenticate with username and password, username and password information,
+If you want to make it token-based, you need to fill in the public_key and secret_key information.
+
+If these four fields are filled in, the system will perform token-based verification.
+
+You can create public and secret key information from https://www.iletimerkezi.com/user/preferences.
+
+```ruby
+MessageCenter.configure do |config|
+  # Default: http://api.iletimerkezi.com/v1'
+  config.endpoint = 'http://api.iletimerkezi.com/v1'
+  config.sender = 'FOO'
+  # optional
+  config.request_overrides = {
+    use_ssl: true, # default false
+    verify_mode: OpenSSL::SSL::VERIFY_PEER,
+    read_timeout: 30, # default 30
+    open_timeout: 30 # default 30
+  }
+  # Authentication: username and password
+  config.username = 'username'
+  config.password = 'password'
+  # Authentication: token based
+  config.public_key = 'public_key'
+  config.secret_key = 'secret_key'
+end
+```
+
+Or
+
+- You can configure it with environment variables. see .env
+
+```ruby
+IM_ENDPOINT = 'http://api.iletimerkezi.com/v1' # Default: http://api.iletimerkezi.com/v1
+# Authentication: username and password
+IM_USERNAME = 'username'
+IM_PASSWORD = 'password'
+# Authentication: token based
+IM_PUBLIC_KEY = 'public_key'
+IM_SECRET_KEY = 'secret_key'
+
+IM_SENDER = 'SENDER'
+```
+
+### Sending SMS - (Single Message - Multiple Recipients)
+
+```ruby
+
+  args = {
+    send_datetime: '15/01/2017 12:00', # Optional
+    sender: 'TEST', # Optional
+    phones: ['0555 555 00 01', '0555 555 00 02'],
+    text: 'Test Message'
+  }
+
+  # return MessageCenter::Response
+  response = MessageCenter.send(args)
+  # or
+  sms = Message Center::Sms.new(args)
+  response = sms.send
+
+  response.code # return 200
+  response.body # http raw body
+  response.message # return status message
+  response.error? # return true or false
+  response.to_h
+  # return hash
+  {
+    :status => {
+      :code => "200",
+      :message => "Operation successful"
+    },
+    :order => {
+      :id => "order_id"
+    }
+  }
+```
+
+### Sending SMS (Multi Message - Multi Recipient)
+
+```ruby
+  args = {
+    send_datetime: '15/01/2017 12:00', # Optional
+    sender: 'TEST', # Optional
+    message: [
+      {
+        text: 'Test Message One',
+        phones: ['0555 555 00 01', '0555 555 00 02'],
+      },
+      {
+        text: 'Test Message Two',
+        phones: ['0555 555 00 03', '0555 555 00 04'],
+      }
+    ]
+  }
+
+  # return MessageCenter::Response
+  response = MessageCenter.send(args)
+  # or
+  sms = Message Center::Sms.new(args)
+  response = sms.send
+
+  response.code # return 200
+  response.body # http raw body
+  response.message # return status message
+  response.error? # return true or false
+  response.to_h
+  # return hash
+  {
+    :status => {
+      :code => "200",
+      :message => "Operation successful"
+    },
+    :order => {
+      :id => "order_id"
+    }
+  }
+```

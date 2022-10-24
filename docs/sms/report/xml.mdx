@@ -1,0 +1,277 @@
+---
+slug: /sms/rapor/liste/xml
+sidebar_label: XML
+sidebar_position: 0
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Badge from '@site/src/components/Badge';
+import RequestURL from '@site/src/components/RequestURL';
+
+# XML Post API
+Göndermiş olduğunuz SMS paketinin durumunu, HTTP protokolünün POST methodunu kullanarak, XML formatında almak isterseniz aşağıdaki yönergeleri takip edebilirsiniz.
+
+## İstek yapılacak adres
+
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/get-report" />
+
+
+## İstek İçeriği (Body)
+```xml title="Eğer kullanıcı adı ve şifre kullanılarak işlem yapıyorsanız isteğin içeriği"
+<request>
+  <authentication>
+    <username></username>
+    <password></password>
+  </authentication>
+  <order>
+    <id></id>
+    <page></page>
+    <rowCount></rowCount>
+  </order>
+</request>
+```
+
+```xml title="Eğer API Anahtarı kullanılarak işlem yapıyorsanız isteğin içeriği:"
+<request>
+  <authentication>
+    <key></key>
+    <hash></hash>
+  </authentication>
+  <order>
+    <id></id>
+    <page></page>
+    <rowCount></rowCount>
+  </order>
+</request>
+```
+
+### Tanımlar
+
+Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıdır. Bu etiketin alt etiketlerinin tanımları aşağıdaki gibidir:
+
+#### authentication
+İstek yapılan işleme dair yetki alabilmek için gönderilmesi gereken kullanıcı bilgileridir. Alt etiketleri aşağıdaki gibidir:
+
+<Tabs>
+  <TabItem value="username" label="Kullanıcı Adı">
+    <ul>
+      <li>
+        <strong>username:</strong> iletimerkezi.com'a giriş yaparken kullanılan kullanıcı adıdır. Üye olurken kullanmış olduğunuz, cep telefonu numarasıdır. İstek yapılırken gönderilmesi zorunludur.
+      </li>
+      <li>
+        <strong>password</strong> iletimerkezi.com'a giriş yaparken kullanılan şifredir. İstek yapılırken gönderilmesi zorunludur.
+      </li>
+    </ul>
+  </TabItem>
+  <TabItem value="api-key" label="API Anahtarı">
+    <ul>
+      <li>
+        <strong>key:</strong> iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
+      </li>
+      <li>
+        <strong>hash:</strong> iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar ve Gizli Anahtar kullanılarak oluşturulmuş hash bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
+      </li>
+    </ul>
+  </TabItem>
+</Tabs>
+
+#### order
+Raporu sorgulanacak olan siparişin bilgisini içerir. Alt etiketleri aşağıdaki gibidir.
+
++ **id:** Siparişi ifade eden eşsiz numerik değerdir. API üzerinden SMS gönderme isteği yaptığınızda size, sunucu tarafından dönen <Badge>id</Badge> değeridir. İstek yapılırken gönderilmesi zorunludur.
+
++ **page:** Rapor sayfasını ifade eder. İstek yapılırken gönderilmesi zorunlu değildir. Varsayılan değeri 1'dir.
+
++ **rowCount:** Bir rapor sayfasındaki mesaj adedini belirtir. İstek yapılırken gönderilmesi zorunlu değildir. Varsayılan değeri 1000'dir. Maksimum değeri 1000'dir. Bir siparişte 1000'den fazla mesaj gönderilmişse <Badge>page</Badge> etiketindeki değer arttırılarak yeni bir istek yapılmalıdır.
+
+## Sunucu yanıtı
+
+```xml
+<response>
+  <status>
+    <code></code>
+    <message></message>
+  </status>
+  <order>
+    <id></id>
+    <status></status>
+    <message>
+      <number></number>
+      <status></status>
+    </message>
+    <message>
+      <number></number>
+      <status></status>
+    </message>
+  </order>
+</response>
+```
+
+### Tanımlar
+
+Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmıştır. Bu etiketin alt etiketlerinin tanımı aşağıdaki gibidir:
+
+#### status
+İşlem durumu ile ilgili bilgi içerir. Bu etiket ile döndürülen değerler aynı zamanda HTTP yanıtının başlık bilgisine bakılarak da elde edilebilir. Bu etiket, yapılan her istekte standart olarak döndürülür. Alt etiketleri aşağıdaki gibidir
+
++ **code:** İşlem durumunu belirten numerik değerdir.
++ **message:** İşlem durumu hakkında bilgi mesajı içerir.
+
+#### order
+İşlem başarılı olarak tamamlandıysa oluşturulan sipariş bilgisini içerir. İşlem başarısızsa bu etiket döndürülmez. Alt etiketleri aşağıdaki gibidir:
+
++ **id:** Siparişi ifade eden eşsiz numerik değerdir.
++ **status:** Siparişin genel gönderim durumunu belirten numerik değerdir. Aşağıdaki tabloda bu etiketin alabileceği değerler ve ifade ettikleri anlamlar listelenmiştir.
+
+  <table>
+    <thead>
+      <tr>
+        <th>Durum Kodu</th>
+        <th>Durum Mesajı</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>113</td>
+        <td>Siparişin gönderimi devam ediyor</td>
+      </tr>
+      <tr>
+        <td>114</td>
+        <td>Siparişin gönderimi tamamlandı</td>
+      </tr>
+      <tr>
+        <td>115</td>
+        <td>Sipariş gönderilemedi</td>
+      </tr>
+    </tbody>
+  </table>
+
+  #### message
+  Raporlanan mesaj bilgilerini içerir. Sorgulanan sayfadaki mesaj sayısı kadar tekrarlanır. Alt etiketleri aşağıdaki gibidir:
+
+  + **number:** Alıcının cep telefonu numarasını içerir.
+  + **status:** Mesajın gönderim durumunu belirten numerik değerdir. Aşağıdaki tabloda bu etiketin alabileceği değerler ve ifade ettikleri anlamlar listelenmiştir.
+
+    <table>
+      <thead>
+        <tr>
+          <th>Durum Kodu</th>
+          <th>Durum Mesajı</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>110</td>
+          <td>Mesaj gönderiliyor</td>
+        </tr>
+        <tr>
+          <td>111</td>
+          <td>Mesaj gönderildi</td>
+        </tr>
+        <tr>
+          <td>112</td>
+          <td>Mesaj gönderilemedi</td>
+        </tr>
+      </tbody>
+    </table>
+
+## Hata Kodları
+Eğer istek sonucu olumsuz ise sunucu tarafından size dönücek hata kodları ve mesajlar aşağıdaki gibidir.
+
+<table>
+  <thead>
+    <th>code</th>
+    <th>message</th>
+    <th>Açıklama</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>400</td>
+      <td>İstek çözümlenemedi</td>
+      <td>POST ettiğiniz XML'in yapısındaki hatadan kaynaklanır. Bu hatalar genellikle, yanlış yazılan XML etiketi, düzgün kapatılmayan XML etiketi veya CDATA kullanılmadan XML'in yapısını bozabilecek bir karakterin kullanımından kaynaklanır.</td>
+    </tr>
+    <tr>
+      <td>401</td>
+      <td>Üyelik bilgileri hatalı</td>
+      <td>POST ettiğiniz XML'in <Badge>authentication</Badge> etiketi içerisinde göndermiş olduğunuz bilgileri doğrulayamadığımızda bu hatayı veriyoruz, eğer hesabınızda sabit IP tanımladıysanız ve farklı bir IP üzerinden istek yapıyorsanız yine bu hatayı alırsınız.</td>
+    </tr>
+    <tr>
+      <td>404</td>
+      <td>API istek yapılan yönteme sahip değil</td>
+      <td>Eğer bu hatayı alıyorsanız istek yaptığınız adresi tekrar kontrol edin yanlış bir adrese istek yapıyor olabilirsiniz.</td>
+    </tr>
+    <tr>
+      <td>455</td>
+      <td>Sipariş bulunamadı</td>
+      <td>İstek içerisinde iletmiş olduğunuz <Badge>id</Badge> ile oluşturulmuş bir sipariş yoksa veya sipariş gönderimi bekliyor durumundan iletiliyor durumuna geçti ise bu hatayı alırsınız.</td>
+    </tr>
+    <tr>
+      <td>456</td>
+      <td>Sipariş gönderim tarihi henüz gelmedi</td>
+      <td>İstek içerisinde iletmiş olduğunuz <Badge>id</Badge> ile oluşturulmuş sipariş ileri tarihli bir gönderimse ve gönderim tarihi henüz gelmemiş ise bu hatayı alırsınız.</td>
+    </tr>
+  </tbody>
+</table>
+
+## Örnek İstek
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<request>
+  <authentication>
+    <username>demo</username>
+    <password>demo</password>
+  </authentication>
+  <order>
+    <id>428</id>
+    <page>1</page>
+    <rowCount>5</rowCount>
+  </order>
+</request>
+```
+
+## Örnek Başarılı Yanıt
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<response>
+  <status>
+    <code>200</code>
+    <message>İşlem başarılı</message>
+  </status>
+  <order>
+    <id>428</id>
+    <status>113</status>
+    <message>
+      <number>5301234567</number>
+      <status>110</status>
+    </message>
+    <message>
+      <number>5301234568</number>
+      <status>111</status>
+    </message>
+    <message>
+      <number>5301234569</number>
+      <status>110</status>
+    </message>
+    <message>
+      <number>5301234560</number>
+      <status>111</status>
+    </message>
+    <message>
+      <number>5301234561</number>
+      <status>111</status>
+    </message>
+  </order>
+</response>
+```
+
+## Örnek Hatalı Yanıt
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+  <status>
+    <code>455</code>
+    <message>Sipariş bulunamadı</message>
+  </status>
+</response>
+```

@@ -1,0 +1,53 @@
+---
+slug: /samples/delphi-sms-send
+sidebar_position: 5
+---
+
+# Send SMS with Delphi
+You can use the example below to send bulk, single or OTP sms from your software made with Delphi.
+
+
+```visual-basic
+function xmlpost(url, postdata: string): String;
+there is
+IdHTTP1: TIdHTTP;
+str1:TStringList;
+begin
+  try
+    try
+      IdHTTP1:=TIdHTTP.Create(nil);
+      str1:=TStringList.Create;
+      str1.Text:=postdata;
+      result:=IdHTTP1.Post(url, str1);
+    except
+    end;
+  finally
+    FreeAndNil(str1);
+    FreeAndNil(IdHTTP1);
+  end;
+end;
+
+Procedure Tfrmsmsgonder.Send;
+there is
+   xsml:String;
+   user, pass, message, numbers, title: string;
+begin
+  xsml:= '<request>'+
+    '<authentication>'+
+'<username>'+data.TblSmsTanimUSER.Text+'</username>'+
+'<password>'+data.TblSmsTanimSIFRE.Text+'</password>'+
+    '</authentication>'+
+    '<order>'+
+'<sender>'+data.TblSmsTanimORIGINLER.Text+'</sender>'+
+'<sendDateTime></sendDateTime>'+
+'<message><text><![CDATA['+MsgGon.Text+']]></text>'+
+'<receipts>'+
+'<number>'+rznumbers.Text+'</number>'+
+'</receipents>'+
+'</message>'+
+        '</order>'+
+      '</request>';
+
+  variable:=xmlpost('http://api.iletimerkezi.com/v1/send-sms',xsml);
+end;
+```

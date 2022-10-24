@@ -1,0 +1,40 @@
+---
+slug: /samples/asp-sms-send
+sidebar_position: 6
+---
+
+# Send SMS with ASP
+You can use the code block below to send bulk, single or OTP sms from your software made with ASP.
+
+```visual-basic
+Function POSTHTTPXML(address, strMessage)
+    Set StrHTTP = Server.CreateObject("MSXML2.XMLHTTP")
+        StrHTTP.Open "POST" , address, false
+        StrHTTP.setRequestHeader "Content-type:","text/xml"
+        StrHTTP.sEnd strMessage
+        GETHTTPXML = StrHTTP.Responsetext
+    Set StrHTTP = Nothing
+End Function
+
+answer=""
+
+xml="<request>" & _
+"<authentication>" & _
+" <username></username>" & _
+" <password></password>" & _
+"</authentication>" & _
+"<order>" & _
+" <sender></sender>" & _
+" <sendDateTime></sendDateTime>" & _
+" <message>" & _
+" <text><![CDATA[…]]></text>" & _
+" <receipents>" & _
+" <number></number>" & _
+" </receipents>" & _
+" </message>" & _
+"</order>" & _
+"</request>"
+
+answer = POSTHTTPXML("http://api.iletimerkezi.com/v1/send-sms", xml)
+response.write answer
+```
