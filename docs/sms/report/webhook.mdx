@@ -1,0 +1,53 @@
+---
+slug: /sms/rapor/liste/webhook
+sidebar_label: Webhook
+sidebar_position: 1
+---
+
+import Badge from '@site/src/components/Badge';
+
+# Webhook
+Göndermiş olduğunuz SMS paketinin durumu, HTTP protokolünün POST methodu kullanarak, JSON formatında sizin sunucunuza iletilmesi için aşağıdaki yönergeleri takip edebilirsiniz.
+
+## İstek yapılacak adres
+İleti Merkezi panelinizde, Ayarlar -> API -> Webhook sekmesi altında ayarladığınız URL adresine SMS paketinin durumu gönderilir.
+
+## İstek İçeriği (Body)
+```json title="Webhook içerisinde size POST edilecek isteğin içeriği"
+{
+  "report": {
+    "id": "",
+    "packet_id": "",
+    "status": "",
+    "to": "",
+    "body": ""
+  }
+}
+```
+
+### Tanımlar
+
+#### report
+Size yapılan istekler, report etiketi ile sarmalanmıştır, alt etiketleri aşağıdaki gibidir.
+
++ **id:** Göndermiş olduğunuz siparişin içerisindeki tek bir mesajın <Badge>id</Badge> değerini ifade eder.
++ **packet_id:** Göndermiş olduğunuz siparişin <Badge>id</Badge> değerini ifade eder.
++ **status:** Göndermiş olduğunuz siparişin içerisindeki tek bir mesajın durumunu ifade eder. Alabileceği değerler aşağıdaki gibidir.
+  + **accepted:** SMS mesajınızın kabul edildiğini ve gönderime hazırlandığını ifade eder.
+  + **delivered:** SMS mesajınizın başarılı bir şekilde iletildiğini ifade eder.
+  + **undelivered:** SMS mesajınızın gönderilemediğini ifade eder.
++ **to:** Cep telefonu bilgisini ifade eder.
++ **body:** SMS mesaj metnini ifade eder.
+
+## Örnek İstek
+```json
+{
+  "report": {
+    "id": 1599558518,
+    "packet_id": 104525848,
+    "status": "accepted",
+    "to": "+90505702xxxx",
+    "body": "Webhook test mesaji"
+  }
+}
+```

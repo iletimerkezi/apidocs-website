@@ -1,0 +1,53 @@
+---
+slug: /sms/report/list/webhook
+sidebar_label: Webhook
+sidebar_position: 1
+---
+
+import Badge from '@site/src/components/Badge';
+
+# webhook
+You can follow the instructions below to send the status of the SMS package you have sent to your server in JSON format using the HTTP protocol POST method.
+
+## Address to request
+In your Message Center panel, the status of the SMS package is sent to the URL you set under Settings -> API -> Webhook tab.
+
+## Request Content (Body)
+```json title="Content of the request to be POSTed to you in the webhook"
+{
+  "report": {
+    "id": "",
+    "packet_id": "",
+    "status": "",
+    "to": "",
+    "body": ""
+  }
+}
+```
+
+### Definitions
+
+#### reports
+The requests made to you are wrapped with the report tag, the alt tags are as follows.
+
++ **id:** Indicates the <Badge>id</Badge> value of a single message in the order you sent.
++ **packet_id:** Indicates the <Badge>id</Badge> value of the order you have sent.
++ **status:** Indicates the status of a single message in the order you sent. The possible values ​​are as follows.
+  + **accepted:** Means that your SMS message has been accepted and is ready to be sent.
+  + **delivered:** Means that your SMS message was successfully delivered.
+  + **undelivered:** Means that your SMS message could not be sent.
++ **to:** Represents mobile phone information.
++ **body:** Refers to the text of the SMS message.
+
+## Sample Request
+``json
+{
+  "report": {
+    "id": 1599558518,
+    "packet_id": 104525848,
+    "status": "accepted",
+    "to": "+90505702xxxx",
+    "body": "Webhook test message"
+  }
+}
+```
