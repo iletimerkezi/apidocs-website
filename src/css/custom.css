@@ -30,7 +30,7 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
-.sidebarLogo_node_modules-\@docusaurus-theme-classic-lib-theme-DocSidebar-Desktop-styles-module {
+a[class*="sidebarLogo"] {
 	background-color: #242526;
 	margin: 0px !important;
 	padding: 0 var(--ifm-navbar-padding-horizontal);
@@ -66,4 +66,30 @@
 	text-transform: uppercase;
 	color: #00a400;
 	font-size: x-small;
+}
+
+/**
+ * Contact API CSS
+ */
+.access-warning-container {
+  margin-bottom: 1em;
+}
+
+.access-warning-heading {
+  font: var(--ifm-heading-font-weight) var(--ifm-h5-font-size)/var(--ifm-heading-line-height) var(--ifm-heading-font-family);
+  margin-bottom: .3rem;
+  text-transform: uppercase;
+}
+
+.access-warning-icon {
+  display: inline-block;
+  margin-right: .4em;
+  vertical-align: middle;
+}
+
+.access-warning-icon svg {
+  fill: var(--ifm-alert-foreground-color);
+  display: inline-block;
+  height: 1.6em;
+  width: 1.6em;
 }
