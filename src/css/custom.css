@@ -6,20 +6,20 @@
 
 /* You can override the default Infima variables here. */
 :root {
-	--ifm-color-primary: #bc183d;
-	--ifm-color-primary-dark: #a91637;
-	--ifm-color-primary-darker: #a01434;
-	--ifm-color-primary-darkest: #84112b;
-	--ifm-color-primary-light: #cf1a43;
-	--ifm-color-primary-lighter: #d81c46;
-	--ifm-color-primary-lightest: #e42f58;
-	/* --ifm-navbar-link-color: #ffffff; */
+  --ifm-color-primary: #bc183d;
+  --ifm-color-primary-dark: #a91637;
+  --ifm-color-primary-darker: #a01434;
+  --ifm-color-primary-darkest: #84112b;
+  --ifm-color-primary-light: #cf1a43;
+  --ifm-color-primary-lighter: #d81c46;
+  --ifm-color-primary-lightest: #e42f58;
+  /* --ifm-navbar-link-color: #ffffff; */
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
-[data-theme='dark'] {
+[data-theme="dark"] {
   --ifm-color-primary: #bc183d;
   --ifm-color-primary-dark: #a91637;
   --ifm-color-primary-darker: #a01434;
@@ -31,41 +31,41 @@
 }
 
 a[class*="sidebarLogo"] {
-	background-color: #242526;
-	margin: 0px !important;
-	padding: 0 var(--ifm-navbar-padding-horizontal);
+  background-color: #242526;
+  margin: 0px !important;
+  padding: 0 var(--ifm-navbar-padding-horizontal);
 }
 
 .request-container {
-	padding: 15px;
-	width: 100%;
+  padding: 15px;
+  width: 100%;
   display: block;
 }
 
 .request-url {
-	margin-left: 15px;
-	margin-right: 15px;
+  margin-left: 15px;
+  margin-right: 15px;
 }
 
 .request-badge {
-	padding: 8px;
+  padding: 8px;
 }
 
 .menu__link {
-	display: flex;
-	justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .menu-get {
-	text-transform: uppercase;
-	color: #54c7ec;
-	font-size: x-small;
+  text-transform: uppercase;
+  color: #54c7ec;
+  font-size: x-small;
 }
 
 .menu-post {
-	text-transform: uppercase;
-	color: #00a400;
-	font-size: x-small;
+  text-transform: uppercase;
+  color: #00a400;
+  font-size: x-small;
 }
 
 /**
@@ -76,14 +76,15 @@ a[class*="sidebarLogo"] {
 }
 
 .access-warning-heading {
-  font: var(--ifm-heading-font-weight) var(--ifm-h5-font-size)/var(--ifm-heading-line-height) var(--ifm-heading-font-family);
-  margin-bottom: .3rem;
+  font: var(--ifm-heading-font-weight) var(--ifm-h5-font-size) /
+    var(--ifm-heading-line-height) var(--ifm-heading-font-family);
+  margin-bottom: 0.3rem;
   text-transform: uppercase;
 }
 
 .access-warning-icon {
   display: inline-block;
-  margin-right: .4em;
+  margin-right: 0.4em;
   vertical-align: middle;
 }
 
@@ -92,4 +93,8 @@ a[class*="sidebarLogo"] {
   display: inline-block;
   height: 1.6em;
   width: 1.6em;
+}
+
+.footer--dark {
+  background-color: #242526 !important;
 }
