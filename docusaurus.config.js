@@ -75,7 +75,7 @@ const config = {
         title: '',
         logo: {
           alt: 'İleti Merkezi API Dökümanı',
-          src: 'img/logo.png',
+          src: 'img/iletiMerkezi-logo-flatten.svg',
           href: '/',
         },
         items: [
@@ -94,7 +94,7 @@ const config = {
         style: 'dark',
 				logo: {
           alt: 'İleti Merkezi API Dökümanı',
-          src: 'img/logo.png',
+          src: 'img/iletiMerkezi-logo-flatten.svg',
           href: '/',
         },
         links: [
