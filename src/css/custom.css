@@ -98,3 +98,8 @@ a[class*="sidebarLogo"] {
 .footer--dark {
   background-color: #242526 !important;
 }
+
+.navbar__logo img {
+  height: 25px;
+  margin-top: 5px;
+}
