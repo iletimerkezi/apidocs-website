@@ -18,27 +18,6 @@ SMS Gönderme işlemini, HTTP protokolünün POST methodunu kullanarak, XML form
 
 
 ## İstek İçeriği (Body)
-```xml title="Eğer kullanıcı adı ve şifre kullanılarak işlem yapıyorsanız isteğin içeriği"
-<request>
-  <authentication>
-    <username></username>
-    <password></password>
-  </authentication>
-  <order>
-    <sender></sender>
-    <sendDateTime></sendDateTime>
-    <iys>1</iys>
-    <iysList>BIREYSEL</iysList>
-    <message>
-      <text><![CDATA[...]]></text>
-      <receipents>
-        <number></number>
-        <number></number>
-      </receipents>
-    </message>
-  </order>
-</request>
-```
 
 ```xml title="Eğer API Anahtarı kullanılarak işlem yapıyorsanız isteğin içeriği:"
 <request>
