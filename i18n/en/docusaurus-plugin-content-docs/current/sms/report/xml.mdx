@@ -18,19 +18,6 @@ If you want to receive the status of the SMS package you have sent in XML format
 
 
 ## Request Content (Body)
-```xml title="Content of the request if you are using username and password"
-<request>
-  <authentication>
-    <username></username>
-    <password></password>
-  </authentication>
-  <order>
-    <id></id>
-    <page></page>
-    <rowCount></rowCount>
-  </order>
-</request>
-```
 
 ```xml title="If you are processing using API Key, the content of the request is:"
 <request>
@@ -219,8 +206,8 @@ If the result of the request is negative, the error codes and messages that will
 <?xml version="1.0" encoding="UTF-8" ?>
 <request>
   <authentication>
-    <username>demo</username>
-    <password>demo</password>
+    <key>demo</key>
+    <hash>demo</hash>
   </authentication>
   <order>
     <id>428</id>

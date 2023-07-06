@@ -18,32 +18,6 @@ If you want to send SMS in JSON format using the POST method of the HTTP protoco
 
 
 ## Request Content (Body)
-```json title="Content of the request if you are using username and password"
-{
-  "request": {
-    "authentication": {
-      "username": "",
-      "password": ""
-    },
-    "order": {
-      "sender": "",
-      "sendDateTime": [],
-      "iys": "1",
-      "iysList": "INDIVIDUAL",
-      "message": {
-        "text": "",
-        "receipents": {
-          "number": [
-            "505xxxxxxx",
-            "505xxxxxxx",
-            "505xxxxxxx"
-          ]
-        }
-      }
-    }
-  }
-}
-```
 
 ```json title="If you are processing using API Key, the content of the request is:"
 {

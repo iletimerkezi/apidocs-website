@@ -17,20 +17,6 @@ Engellediğiniz cep telefonu numaralarının listesini, HTTP protokolünün POST
 <RequestURL type="POST" url="https://api.iletimerkezi.com/v1/get-blacklist/json" />
 
 ## İstek İçeriği (Body)
-```json title="Eğer kullanıcı adı ve şifre kullanılarak işlem yapıyorsanız isteğin içeriği"
-{
-  "request": {
-    "authentication": {
-      "username": "",
-      "password": ""
-    },
-    "blacklist": {
-      "page": "",
-      "rowCount": ""
-    }
-  }
-}
-```
 
 ```json title="Eğer API Anahtarı kullanılarak işlem yapıyorsanız isteğin içeriği"
 {

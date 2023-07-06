@@ -19,19 +19,6 @@ Rehberinizdeki bir kişiyi, HTTP protokolünün POST methodunu kullanarak, JSON 
 <RequestURL type="POST" url="https://api.iletimerkezi.com/v1/delete-contacts/json" />
 
 ## İstek İçeriği (Body)
-```json title="Eğer kullanıcı adı ve şifre kullanılarak işlem yapıyorsanız isteğin içeriği"
-{
-  "request": {
-    "authentication": {
-      "username": "",
-      "password": ""
-    },
-    "contacts": {
-      "contact": [{"id": ""}]
-    }
-  }
-}
-```
 
 ```json title="Eğer API Anahtarı kullanılarak işlem yapıyorsanız isteğin içeriği"
 {

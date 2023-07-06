@@ -19,19 +19,6 @@ Rehberinizdeki bir grubun bilgilerini, HTTP protokolünün POST methodunu kullan
 <RequestURL type="POST" url="https://api.iletimerkezi.com/v1/edit-group" />
 
 ## İstek İçeriği (Body)
-```xml title="Eğer kullanıcı adı ve şifre kullanılarak işlem yapıyorsanız isteğin içeriği"
-<request>
-  <authentication>
-    <username></username>
-    <password></password>
-  </authentication>
-  <group>
-    <id></id>
-    <name><![CDATA[...]]></name>
-    <parent></parent>
-  </group>
-</request>
-```
 
 ```xml title="Eğer API Anahtarı kullanılarak işlem yapıyorsanız isteğin içeriği"
 <request>

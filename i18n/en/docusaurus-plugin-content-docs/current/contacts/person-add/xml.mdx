@@ -19,33 +19,6 @@ You can follow the instructions below to add a contact to your directory in XML 
 <RequestURL type="POST" url="https://api.iletimerkezi.com/v1/add-contacts" />
 
 ## Request Content (Body)
-```xml title="Content of the request if you are using username and password"
-<request>
-  <authentication>
-    <username></username>
-    <password></password>
-  </authentication>
-  <contacts>
-    <contact>
-      <name><![CDATA[...]]></name>
-      <surname><![CDATA[...]]></surname>
-      <email><![CDATA[...]]></email>
-      <gsm></gsm>
-      <custom_fields>
-        <custom_field>
-          <id></id>
-          <value></value>
-        </custom_field>
-      </custom_fields>
-      <groups>
-        <group>
-          <id></id>
-        </group>
-      </groups>
-    </contact>
-  </contacts>
-</request>
-```
 
 ```xml title="Content of the request if you are processing using API Key"
 <request>

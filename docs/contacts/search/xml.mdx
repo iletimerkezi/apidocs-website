@@ -19,19 +19,6 @@ Rehberinizdeki kişileri, HTTP protokolünün POST methodunu kullanarak, XML for
 <RequestURL type="POST" url="https://api.iletimerkezi.com/v1/search-contacts" />
 
 ## İstek İçeriği (Body)
-```xml title="Eğer kullanıcı adı ve şifre kullanılarak işlem yapıyorsanız isteğin içeriği"
-<request>
-  <authentication>
-    <username></username>
-    <password></password>
-  </authentication>
-  <search>
-    <key></key>
-    <page></page>
-    <rowCount></rowCount>
-  </search>
-</request>
-```
 
 ```xml title="Eğer API Anahtarı kullanılarak işlem yapıyorsanız isteğin içeriği"
 <request>

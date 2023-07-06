@@ -19,33 +19,6 @@ Rehberinize, HTTP protokolünün POST methodunu kullanarak, XML formatında kiş
 <RequestURL type="POST" url="https://api.iletimerkezi.com/v1/add-contacts" />
 
 ## İstek İçeriği (Body)
-```xml title="Eğer kullanıcı adı ve şifre kullanılarak işlem yapıyorsanız isteğin içeriği"
-<request>
-  <authentication>
-    <username></username>
-    <password></password>
-  </authentication>
-  <contacts>
-    <contact>
-      <name><![CDATA[...]]></name>
-      <surname><![CDATA[...]]></surname>
-      <email><![CDATA[...]]></email>
-      <gsm></gsm>
-      <custom_fields>
-        <custom_field>
-          <id></id>
-          <value></value>
-        </custom_field>
-      </custom_fields>
-      <groups>
-        <group>
-          <id></id>
-        </group>
-      </groups>
-    </contact>
-  </contacts>
-</request>
-```
 
 ```xml title="Eğer API Anahtarı kullanılarak işlem yapıyorsanız isteğin içeriği"
 <request>

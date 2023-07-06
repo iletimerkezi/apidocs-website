@@ -19,18 +19,6 @@ Rehberinize yeni bir grubu, HTTP protokolünün POST methodunu kullanarak, XML f
 <RequestURL type="POST" url="https://api.iletimerkezi.com/v1/add-group" />
 
 ## İstek İçeriği (Body)
-```xml title="Eğer kullanıcı adı ve şifre kullanılarak işlem yapıyorsanız isteğin içeriği"
-<request>
-  <authentication>
-    <username></username>
-    <password></password>
-  </authentication>
-  <group>
-    <name><![CDATA[...]]></name>
-    <parent></parent>
-  </group>
-</request>
-```
 
 ```xml title="Eğer API Anahtarı kullanılarak işlem yapıyorsanız isteğin içeriği"
 <request>

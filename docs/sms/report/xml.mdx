@@ -18,19 +18,6 @@ Göndermiş olduğunuz SMS paketinin durumunu, HTTP protokolünün POST methodun
 
 
 ## İstek İçeriği (Body)
-```xml title="Eğer kullanıcı adı ve şifre kullanılarak işlem yapıyorsanız isteğin içeriği"
-<request>
-  <authentication>
-    <username></username>
-    <password></password>
-  </authentication>
-  <order>
-    <id></id>
-    <page></page>
-    <rowCount></rowCount>
-  </order>
-</request>
-```
 
 ```xml title="Eğer API Anahtarı kullanılarak işlem yapıyorsanız isteğin içeriği:"
 <request>
@@ -200,8 +187,8 @@ Eğer istek sonucu olumsuz ise sunucu tarafından size dönücek hata kodları v
 <?xml version="1.0" encoding="UTF-8" ?>
 <request>
   <authentication>
-    <username>demo</username>
-    <password>demo</password>
+    <key>demo</key>
+    <hash>demo</hash>
   </authentication>
   <order>
     <id>428</id>

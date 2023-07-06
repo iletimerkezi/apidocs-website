@@ -19,21 +19,6 @@ Rehberinizdeki kişileri, HTTP protokolünün POST methodunu kullanarak, JSON fo
 <RequestURL type="POST" url="https://api.iletimerkezi.com/v1/search-contacts/json" />
 
 ## İstek İçeriği (Body)
-```json title="Eğer kullanıcı adı ve şifre kullanılarak işlem yapıyorsanız isteğin içeriği"
-{
-  "request": {
-    "authentication": {
-      "username": "",
-      "password": ""
-    },
-    "search": {
-      "key": "",
-      "page": [],
-      "rowCount": []
-    }
-  }
-}
-```
 
 ```json title="Eğer API Anahtarı kullanılarak işlem yapıyorsanız isteğin içeriği"
 {

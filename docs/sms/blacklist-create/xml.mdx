@@ -17,17 +17,6 @@ SMS gönderilmesini istemediğiniz bir cep telefonu numarasını, HTTP protokol�
 <RequestURL type="POST" url="http://api.iletimerkezi.com/v1/add-blacklist" />
 
 ## İstek İçeriği (Body)
-```xml title="Eğer kullanıcı adı ve şifre kullanılarak işlem yapıyorsanız isteğin içeriği"
-<request>
-  <authentication>
-    <username></username>
-    <password></password>
-  </authentication>
-  <blacklist>
-    <number></number>
-  </blacklist>
-</request>
-```
 
 ```xml title="Eğer API Anahtarı kullanılarak işlem yapıyorsanız isteğin içeriği"
 <request>

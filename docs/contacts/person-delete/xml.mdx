@@ -19,19 +19,6 @@ Rehberinizdeki bir kişiyi, HTTP protokolünün POST methodunu kullanarak, XML f
 <RequestURL type="POST" url="https://api.iletimerkezi.com/v1/delete-contacts" />
 
 ## İstek İçeriği (Body)
-```xml title="Eğer kullanıcı adı ve şifre kullanılarak işlem yapıyorsanız isteğin içeriği"
-<request>
-  <authentication>
-    <username></username>
-    <password></password>
-  </authentication>
-  <contacts>
-    <contact>
-      <id></id>
-    <contact>
-  </contacts>
-</request>
-```
 
 ```xml title="Eğer API Anahtarı kullanılarak işlem yapıyorsanız isteğin içeriği"
 <request>

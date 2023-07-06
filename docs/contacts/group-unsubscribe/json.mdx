@@ -19,22 +19,6 @@ Rehberinizde var olan kişi veya kişileri, HTTP protokolünün POST methodunu k
 <RequestURL type="POST" url="https://api.iletimerkezi.com/v1/unsubscribe-group/json" />
 
 ## İstek İçeriği (Body)
-```json title="Eğer kullanıcı adı ve şifre kullanılarak işlem yapıyorsanız isteğin içeriği"
-{
-  "request": {
-    "authentication": {
-      "username": "",
-      "password": ""
-    },
-    "contact": [
-      {"id": ""}
-    ],
-    "group": [
-      {"id": ""}
-    ]
-  },
-}
-```
 
 ```json title="Eğer API Anahtarı kullanılarak işlem yapıyorsanız isteğin içeriği"
 {
