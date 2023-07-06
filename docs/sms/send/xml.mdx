@@ -48,28 +48,9 @@ Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıd
 #### authentication
 İstek yapılan işleme dair yetki alabilmek için gönderilmesi gereken kullanıcı bilgileridir. Alt etiketleri aşağıdaki gibidir:
 
-<Tabs>
-  <TabItem value="username" label="Kullanıcı Adı">
-    <ul>
-      <li>
-        <strong>username:</strong> iletimerkezi.com'a giriş yaparken kullanılan kullanıcı adıdır. Üye olurken kullanmış olduğunuz, cep telefonu numarasıdır. İstek yapılırken gönderilmesi zorunludur.
-      </li>
-      <li>
-        <strong>password</strong> iletimerkezi.com'a giriş yaparken kullanılan şifredir. İstek yapılırken gönderilmesi zorunludur.
-      </li>
-    </ul>
-  </TabItem>
-  <TabItem value="api-key" label="API Anahtarı">
-    <ul>
-      <li>
-        <strong>key:</strong> iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
-      </li>
-      <li>
-        <strong>hash:</strong> iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar ve Gizli Anahtar kullanılarak oluşturulmuş hash bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
-      </li>
-    </ul>
-  </TabItem>
-</Tabs>
++ **key:** iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
+
++ **hash:** iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar ve Gizli Anahtar kullanılarak oluşturulmuş hash bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
 
 #### order
 Gönderilecek olan SMS'ler bir sipariş olarak kabul edilir ve istek yapıldıktan sonra bu şekilde raporlanmaya başlanır. Sipariş bazen tek alıcı ve tek mesaj metni içerebileceği gibi birden fazla alıcıya ve birden fazla mesaj metnide içerebilir. <Badge>order</Badge> etiketi tekrarlanabilir bir etiket değildir. İstek başına yalnızca bir sipariş gönderilebilir. Alt etiketleri aşağıdaki gibidir:
@@ -147,7 +128,7 @@ Eğer istek sonucu olumsuz ise sunucu tarafından size dönücek hata kodları v
     <tr>
       <td>401</td>
       <td>Üyelik bilgileri hatalı</td>
-      <td><Badge>username</Badge>, <Badge>password</Badge> veya <Badge>key</Badge>, <Badge>hash</Badge> etiketleri ile göndermiş olduğunuz bilgileri doğrulayamadığımızda bu hatayı veriyoruz, eğer hesabınızda sabit IP tanımladıysanız ve farklı bir IP üzerinden istek yapıyorsanız yine bu hatayı alırsınız.</td>
+      <td><Badge>key</Badge>, <Badge>hash</Badge> etiketleri ile göndermiş olduğunuz bilgileri doğrulayamadığımızda bu hatayı veriyoruz, eğer hesabınızda sabit IP tanımladıysanız ve farklı bir IP üzerinden istek yapıyorsanız yine bu hatayı alırsınız.</td>
     </tr>
     <tr>
       <td>402</td>
@@ -192,8 +173,8 @@ Eğer istek sonucu olumsuz ise sunucu tarafından size dönücek hata kodları v
 <?xml version="1.0" encoding="UTF-8" ?>
 <request>
   <authentication>
-    <username>demo</username>
-    <password>demo</password>
+    <key>demo</key>
+    <hash>demo</hash>
   </authentication>
   <order>
     <sender>APITEST</sender>
