@@ -22,17 +22,6 @@ import RequestURL from '@site/src/components/RequestURL';
 
 
 ## İstek İçeriği (Body)
-```xml title="Eğer kullanıcı adı ve şifre kullanılarak işlem yapıyorsanız isteğin içeriği"
-  <request>
-    <authentication>
-      <username></username>
-      <password></password>
-    </authentication>
-    <order>
-      <id></id>
-    </order>
-  </request>
-```
 
 ```xml title="Eğer API Anahtarı kullanılarak işlem yapıyorsanız isteğin içeriği:"
   <request>
@@ -53,28 +42,9 @@ Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıd
 #### authentication
 İstek yapılan işleme dair yetki alabilmek için gönderilmesi gereken kullanıcı bilgileridir. Alt etiketleri aşağıdaki gibidir:
 
-<Tabs>
-  <TabItem value="username" label="Kullanıcı Adı">
-    <ul>
-      <li>
-        <strong>username:</strong> iletimerkezi.com'a giriş yaparken kullanılan kullanıcı adıdır. Üye olurken kullanmış olduğunuz, cep telefonu numarasıdır. İstek yapılırken gönderilmesi zorunludur.
-      </li>
-      <li>
-        <strong>password</strong> iletimerkezi.com'a giriş yaparken kullanılan şifredir. İstek yapılırken gönderilmesi zorunludur.
-      </li>
-    </ul>
-  </TabItem>
-  <TabItem value="api-key" label="API Anahtarı">
-    <ul>
-      <li>
-        <strong>key:</strong> iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
-      </li>
-      <li>
-        <strong>hash:</strong> iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar ve Gizli Anahtar kullanılarak oluşturulmuş hash bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
-      </li>
-    </ul>
-  </TabItem>
-</Tabs>
++ **key:** iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
+
++ **hash:** iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar ve Gizli Anahtar kullanılarak oluşturulmuş hash bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
 
 #### order
 İptal edilecek SMS siparişi bilgisini içerir. Alt etiketi aşağıdaki gibidir
@@ -142,8 +112,8 @@ Eğer istek sonucu olumsuz ise sunucu tarafından size dönücek hata kodları v
 <?xml version="1.0" encoding="UTF-8" ?>
 <request>
   <authentication>
-    <username>demo</username>
-    <password>demo</password>
+    <key>demo</key>
+    <hash>demo</hash>
   </authentication>
   <order>
     <id>428</id>
