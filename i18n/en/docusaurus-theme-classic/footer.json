@@ -11,9 +11,9 @@
     "message": "Blog",
     "description": "The title of the footer links column with title=Blog in the footer"
   },
-  "link.item.label.İleti Merkezi": {
-    "message": "İleti Merkezi",
-    "description": "The label of footer link with label=İleti Merkezi linking to https://www.iletimerkezi.com"
+  "link.item.label.WooCommerce SMS": {
+    "message": "WooCommerce SMS",
+    "description": "The label of footer link with label=WooCommerce SMS linking to https://www.woocommercesms.com"
   },
   "link.item.label.Opencart SMS": {
     "message": "Opencart SMS",
@@ -38,6 +38,10 @@
   "link.item.label.Hakkımızda": {
     "message": "About Us",
     "description": "The label of footer link with label=Hakkımızda linking to https://www.iletimerkezi.com/hakkimizda"
+  },
+  "link.item.label.İleti Merkezi": {
+    "message": "İleti Merkezi",
+    "description": "The label of footer link with label=İleti Merkezi linking to https://www.iletimerkezi.com"
   },
   "link.item.label.SMS ile Doğrulama": {
     "message": "Verify with SMS",

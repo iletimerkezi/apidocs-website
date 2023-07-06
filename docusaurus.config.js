@@ -102,15 +102,15 @@ const config = {
             title: 'Çözümler',
             items: [
               {
-                label: 'İleti Merkezi',
-								href: 'https://www.iletimerkezi.com',
+                label: 'WooCommerce SMS',
+								href: 'https://www.woocommercesms.com',
               },
               {
-                label: 'Opencart SMS',
+                label: 'OpenCart SMS',
 								href: 'https://opencartsms.com',
               },
               {
-                label: 'Prestashop SMS',
+                label: 'PrestaShop SMS',
 								href: 'https://prestashopsms.com',
               },
               {
@@ -133,6 +133,10 @@ const config = {
               {
                 label: 'Hakkımızda',
                 href: 'https://www.iletimerkezi.com/hakkimizda',
+              },
+              {
+                label: 'İleti Merkezi',
+								href: 'https://www.iletimerkezi.com',
               },
             ],
           },
