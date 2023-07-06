@@ -107,5 +107,5 @@ a[class*="sidebarLogo"] {
   border-right: 1px solid #242526 !important;
 }
 .footer__link-item {
-  line-height: 1;
+  line-height: 20px;
 }
