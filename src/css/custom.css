@@ -100,8 +100,8 @@ a[class*="sidebarLogo"] {
   background-color: #242526 !important;
 }
 .navbar__logo img {
-  height: 25px;
-  margin-top: 5px;
+  height: 20px;
+  margin-top: 6px;
 }
 .theme-doc-sidebar-container {
   border-right: 1px solid #242526 !important;
