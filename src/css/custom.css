@@ -95,11 +95,14 @@ a[class*="sidebarLogo"] {
   width: 1.6em;
 }
 
+/* salp edit */
 .footer--dark {
   background-color: #242526 !important;
 }
-
 .navbar__logo img {
   height: 25px;
   margin-top: 5px;
+}
+.theme-doc-sidebar-container {
+  border-right: 1px solid #242526 !important;
 }
