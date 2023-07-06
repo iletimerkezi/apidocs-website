@@ -6,7 +6,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'SMS API = İletiMerkezi | PHP, Node.js, C#, .Net, GoLang, Rust, Ruby, Python & Java ile SMS Gönder',
+  title: 'SMS API = iletiMerkezi | PHP, Node.js, C#, .Net, GoLang, Rust, Ruby, Python & Java ile SMS Gönder',
   tagline: '❤️ Developers first!',
   url: 'https://toplusmsapi.com',
   baseUrl: '/',
