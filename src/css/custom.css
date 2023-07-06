@@ -106,3 +106,6 @@ a[class*="sidebarLogo"] {
 .theme-doc-sidebar-container {
   border-right: 1px solid #242526 !important;
 }
+.footer__link-item {
+  line-height: 1;
+}
