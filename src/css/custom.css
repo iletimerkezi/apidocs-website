@@ -99,7 +99,8 @@ a[class*="sidebarLogo"] {
 .footer--dark {
   background-color: #242526 !important;
 }
-.navbar__logo img {
+.navbar__logo img,
+.sidebarLogo_isFc img {
   height: 20px;
   margin-top: 6px;
 }
