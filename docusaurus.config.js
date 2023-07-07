@@ -106,12 +106,12 @@ const config = {
 								href: 'https://www.woocommercesms.com',
               },
               {
-                label: 'OpenCart SMS',
-								href: 'https://opencartsms.com',
-              },
-              {
                 label: 'PrestaShop SMS',
 								href: 'https://prestashopsms.com',
+              },
+              {
+                label: 'OpenCart SMS',
+								href: 'https://opencartsms.com',
               },
               {
                 label: 'Magento SMS',
@@ -135,7 +135,7 @@ const config = {
                 href: 'https://www.iletimerkezi.com/hakkimizda',
               },
               {
-                label: 'İleti Merkezi',
+                label: 'iletiMerkezi',
 								href: 'https://www.iletimerkezi.com',
               },
             ],
