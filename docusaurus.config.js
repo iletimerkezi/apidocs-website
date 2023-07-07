@@ -127,16 +127,16 @@ const config = {
             title: 'Biz Kimiz?',
             items: [
               {
-                label: 'İletişim',
-                href: 'https://www.iletimerkezi.com/iletisim',
+                label: 'iletiMerkezi',
+								href: 'https://www.iletimerkezi.com',
               },
               {
                 label: 'Hakkımızda',
                 href: 'https://www.iletimerkezi.com/hakkimizda',
               },
               {
-                label: 'iletiMerkezi',
-								href: 'https://www.iletimerkezi.com',
+                label: 'İletişim',
+                href: 'https://www.iletimerkezi.com/iletisim',
               },
             ],
           },
