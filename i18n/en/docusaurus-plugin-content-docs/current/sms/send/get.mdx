@@ -62,11 +62,11 @@ It is the header information, consisting of maximum 11 characters, defined from 
 + **iys:**
 Indicates whether the message will be queried over the Message Management System (İYS). If you send this value as 1 (true), your messages will be queried via IYS, if you send it as 0 (false), it will not be queried. It is required to be sent when making a request.
 
-  :::tip Hint
-  This value should legally be 1 if you are sending a commercial message. **Otherwise, penalties may apply**.
+:::tip Hint
+This value should legally be 1 if you are sending a commercial message. **Otherwise, penalties may apply**.
 
-  [Click for detailed information about İYS.](https://www.iletimerkezi.com/blog/duyurular/iys-ileti-yonetim-sistemi-nedir)
-  :::
+[Click for detailed information about İYS.](https://www.iletimerkezi.com/blog/duyurular/iys-ileti-yonetim-sistemi-nedir)
+:::
 
 + **iysList:**
 Indicates the list you want to be queried via the Message Management System (İYS). If you have sent the iys value as 1, that is, if you want your message to be queried via IYS, it is mandatory to send the iysList value as BIREYSEL or TACIR. If you are sending the iys value as 0, this field will be ignored.
