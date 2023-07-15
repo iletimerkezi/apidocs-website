@@ -18,7 +18,7 @@ If you want to send SMS with the GET method of the HTTP protocol, you can follow
 
 ## Request Parameters
 ```bash
-https://api.iletimerkezi.com/v1/send-sms/get/?username=USER_NAME&password=PASSWORD&text=Lorem%20ipsum%20dolor%20sit%20amet&receipents=5301234569,5301234570&sender=APITEST
+https://api.iletimerkezi.com/v1/send-sms/get/?key=API_KEY&hash=API_HASH&text=Lorem%20ipsum%20dolor%20sit%20amet&receipents=5301234569,5301234570&sender=APITEST&iys=1&iysList=BIREYSEL
 ```
 
 :::tip Hint
@@ -29,11 +29,11 @@ After you write your own values ​​in the request parameters, you can try the
 
 The descriptions of the parameters sent in the request are as follows:
 
-+ **username:**
-It is the user name used when logging into transmissionerkezi.com. It is usually the mobile phone number given at the registration stage. It is required to be sent when making a request.
++ **key:**
+API Key that you can create from the settings section should be written in this field after logging in to your iletimerkezi.com panel. It is required to be sent when making a request.
 
-+ **password:**
-This is the password used when logging into transmissionerkezi.com. It is required to be sent when making a request.
++ **hash:**
+After logging into your iletimerkezi.com panel, the hash generated using the API Key and Secret Key that you can create from the settings section should be written in this field. It is required to be sent when making a request.
 
 + **text:**
 Contains the text of the SMS to be sent. It is required to be sent when making a request. The URL must be encoded.
@@ -57,11 +57,23 @@ After #encode, the message text should appear as follows
 Contains the recipient's mobile phone number. The number format should be 5xxxxxxxxx. If more than one recipient is to be defined for the specified message text, the numbers must be separated by commas. It is required to be sent when making a request.
 
 + **sender:**
-It is the header information, consisting of maximum 11 characters, defined from the transmissionerkezi.com administration panel and approved by transmissionerkezi.com. The sent message is sent to the receiver with the header specified with this parameter. It is required to be sent when making a request. The URL must be encoded.
+It is the header information, consisting of maximum 11 characters, defined from the iletimerkezi.com administration panel and approved by iletimerkezi.com. The sent message is sent to the receiver with the header specified with this parameter. It is required to be sent when making a request. The URL must be encoded.
+
++ **iys:**
+Indicates whether the message will be queried over the Message Management System (İYS). If you send this value as 1 (true), your messages will be queried via IYS, if you send it as 0 (false), it will not be queried. It is required to be sent when making a request.
+
+  :::tip Hint
+  This value should legally be 1 if you are sending a commercial message. **Otherwise, penalties may apply**.
+
+  [Click for detailed information about İYS.](https://www.iletimerkezi.com/blog/duyurular/iys-ileti-yonetim-sistemi-nedir)
+  :::
+
++ **iysList:**
+Indicates the list you want to be queried via the Message Management System (İYS). If you have sent the iys value as 1, that is, if you want your message to be queried via IYS, it is mandatory to send the iysList value as BIREYSEL or TACIR. If you are sending the iys value as 0, this field will be ignored.
 
 ## Sample Request
 ```bash
-https://api.iletimerkezi.com/v1/send-sms/get/?username=505333xxxx&password=XXXX&text=Lorem%20ipsum%20dolor%20sit%20amet&receipents=5301234569,5301234570&sender=APITEST
+https://api.iletimerkezi.com/v1/send-sms/get/?key=3ea65b1e8baxxxx&hash=XXXX&text=Lorem%20ipsum%20dolor%20sit%20amet&receipents=5301234569,5301234570&sender=APITEST&iys=1&iysList=BIREYSEL
 ```
 
 ## Server Response

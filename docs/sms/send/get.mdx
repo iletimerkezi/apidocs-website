@@ -18,7 +18,7 @@ SMS Gönderme işlemini, HTTP protokolünün GET methodu ile yapmak isterseniz a
 
 ## İstek Parametreleri
 ```bash
-https://api.iletimerkezi.com/v1/send-sms/get/?username=KULLANICI_ADI&password=KULLANICI_SIFRESI&text=Lorem%20ipsum%20dolor%20sit%20amet&receipents=5301234569,5301234570&sender=APITEST
+https://api.iletimerkezi.com/v1/send-sms/get/?key=API_KEY&hash=API_HASH&text=Lorem%20ipsum%20dolor%20sit%20amet&receipents=5301234569,5301234570&sender=APITEST&iys=1&iysList=BIREYSEL
 ```
 
 :::tip İpucu
@@ -29,11 +29,11 @@ https://api.iletimerkezi.com/v1/send-sms/get/?username=KULLANICI_ADI&password=KU
 
 İstekte gönderilen parametrelerin açıklamaları aşağıdaki gibidir:
 
-+ **username:**
-iletimerkezi.com'a giriş yaparken kullanılan kullanıcı adıdır. Genellikle kayıt aşamasında verilen cep telefonu numarasıdır. İstek yapılırken gönderilmesi zorunludur.
++ **key:**
+iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
 
-+ **password:**
-iletimerkezi.com'a giriş yaparken kullanılan şifredir. İstek yapılırken gönderilmesi zorunludur.
++ **hash:**
+iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar ve Gizli Anahtar kullanılarak oluşturulmuş hash bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
 
 + **text:**
 Gönderilecek olan SMS metnini içerir. İstek yapılırken gönderilmesi zorunludur. URL encode işleminden geçirilmelidir.
@@ -59,9 +59,21 @@ Alıcının cep telefonu numarasını içerir. Numara formatı 5xxxxxxxxx şekli
 + **sender:**
 iletimerkezi.com yönetim panelinden tanımlanmış ve iletimerkezi.com tarafından onaylanmış, maksimum 11 karakterden oluşan başlık bilgisidir. Gönderilen mesaj, alıcıya bu parametre ile belirtilen başlık ile yollanır. İstek yapılırken gönderilmesi zorunludur. URL encode işleminden geçirilmelidir.
 
++ **iys:**
+Mesajın, İleti Yönetim Sistemi (İYS) üzerinden sorgulanıp sorgulanmayacağını ifade eder. Eğer bu değeri 1(true) olarak gönderirseniz mesajlarınız İYS üzerinden sorgulanır, 0(false) olarak gönderirseniz sorgulanmaz. İstek yapılırken gönderilmesi zorunludur.
+
+  :::tip İpucu
+  Ticari mesaj gönderiyorsanız bu değer yasal olarak 1 olmalıdır. **Aksi durumda cezai işlem uygulanabilir**.
+
+  [İYS hakkında detaylı bilgi için tıklayınız.](https://www.iletimerkezi.com/blog/duyurular/iys-ileti-yonetim-sistemi-nedir)
+  :::
+
++ **iysList:**
+İleti Yönetim Sistemi (İYS) üzerinden sorgulanmasını istediğiniz listeyi ifade eder. iys değerini 1 olarak gönderdiyseniz yani mesajınızın İYS üzerinden sorgulanmasını istiyorsanız, iysList değerinin BIREYSEL veya TACIR olarak gönderilmesi zorunludur. iys değerini 0 olarak gönderiyorsanız bu alan dikkate alınmayacaktır.
+
 ## Örnek İstek
 ```bash
-https://api.iletimerkezi.com/v1/send-sms/get/?username=505333xxxx&password=XXXX&text=Lorem%20ipsum%20dolor%20sit%20amet&receipents=5301234569,5301234570&sender=APITEST
+https://api.iletimerkezi.com/v1/send-sms/get/?key=3ea65b1e8baxxxx&hash=XXXX&text=Lorem%20ipsum%20dolor%20sit%20amet&receipents=5301234569,5301234570&sender=APITEST&iys=1&iysList=BIREYSEL
 ```
 
 ## Sunucu Yanıtı
@@ -106,7 +118,7 @@ Eğer istek sonucu olumsuz ise sunucu tarafından size dönücek hata kodları v
     <tr>
       <td>401</td>
       <td>Üyelik bilgileri hatalı</td>
-      <td><Badge>username</Badge>, <Badge>password</Badge> etiketi içerisinde göndermiş olduğunuz bilgileri doğrulayamadığımızda bu hatayı veriyoruz, eğer hesabınızda sabit IP tanımladıysanız ve farklı bir IP üzerinden istek yapıyorsanız yine bu hatayı alırsınız.</td>
+      <td><Badge>key</Badge>, <Badge>hash</Badge> etiketi içerisinde göndermiş olduğunuz bilgileri doğrulayamadığımızda bu hatayı veriyoruz, eğer hesabınızda sabit IP tanımladıysanız ve farklı bir IP üzerinden istek yapıyorsanız yine bu hatayı alırsınız.</td>
     </tr>
     <tr>
       <td>402</td>
