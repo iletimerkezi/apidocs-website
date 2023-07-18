@@ -24,15 +24,15 @@ function sendRequest($url, $xml) {
   return curl_exec($ch);
 }
 
-$username = '';
-$password = '';
+$api_key = '';
+$api_hash = '';
 $sender = 'APITEST';
 
 $xml = <<<EOS
 <request>
   <authentication>
-    <username>{$username}</username>
-    <password>{$password}</password>
+    <key>{$api_key}</key>
+    <hash>{$api_hash}</hash>
   </authentication>
   <order>
     <sender>{$sender}</sender>
