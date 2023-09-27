@@ -1,0 +1,63 @@
+---
+slug: /ornekler/python-sms-gonderim-raporu
+sidebar_position: 4
+---
+
+# Python ile SMS Gönderim Raporu Alma
+Python ile göndermiş olduğunuz SMS gönderim raporlarınızı alabilirsiniz.
+
+
+```python
+import requests
+import xml.etree.ElementTree as ET
+
+# API endpoint ve kimlik doğrulama bilgileri
+endpoint = "https://api.iletimerkezi.com/v1/get-report"
+# Buraya API anahtarınızı girin
+key = "API_KEY"  
+# Buraya hash değerinizi girin
+hash_value = "API_HASH"
+# Buraya sipariş ID'nizi girin, API üzerinden mesaj gönderdiğinizde siparişinizi temsil eden benzersiz değerdir.  
+order_id = "ORDER_ID"  
+
+# İstek yapılıyor
+headers = {"Content-Type": "application/xml"}
+data = f"""
+<request>
+    <authentication>
+        <key>{key}</key>
+        <hash>{hash_value}</hash>
+    </authentication>
+    <order>
+        <id>{order_id}</id>
+        <page>1</page>
+        <rowCount>1000</rowCount>
+    </order>
+</request>
+"""
+response = requests.post(endpoint, headers=headers, data=data)
+
+# Cevap parse ediliyor
+root = ET.fromstring(response.content)
+
+# Status bilgilerini yazdır
+status_code = root.find(".//status/code").text
+status_message = root.find(".//status/message").text
+
+print(f"Status Code: {status_code}")
+print(f"Message: {status_message}")
+
+# Order bilgilerini yazdır
+order_id = root.find(".//order/id").text
+order_status = root.find(".//order/status").text
+print(f"Order ID: {order_id}")
+print(f"Order Status: {order_status}")
+
+# Mesaj bilgilerini yazdır
+for message in root.findall(".//order/message"):
+    number = message.find("number").text
+    status = message.find("status").text
+    print(f"Number: {number}, Status: {status}")
+```
+
+# Python ile 

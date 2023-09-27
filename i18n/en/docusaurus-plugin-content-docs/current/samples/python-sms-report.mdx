@@ -1,0 +1,61 @@
+---
+slug: /ornekler/python-sms-gonderim-raporu
+sidebar_position: 4
+---
+
+# Report SMS with Python
+You can get your SMS sending reports that you may have sent with Python.
+
+
+```python
+import requests
+import xml.etree.ElementTree as ET
+
+# API endpoint and authentication information
+endpoint = "https://api.iletimerkezi.com/v1/get-report"
+# Enter your API key here
+key = "API_KEY"  
+# Enter your hash value here
+hash_value = "API_HASH"
+# Enter your order ID here, it is the unique value that represents your order when you send a message through the API. 
+order_id = "ORDER_ID"  
+
+# Request being made
+headers = {"Content-Type": "application/xml"}
+data = f"""
+<request>
+    <authentication>
+        <key>{key}</key>
+        <hash>{hash_value}</hash>
+    </authentication>
+    <order>
+        <id>{order_id}</id>
+        <page>1</page>
+        <rowCount>1000</rowCount>
+    </order>
+</request>
+"""
+response = requests.post(endpoint, headers=headers, data=data)
+
+# The response is being parsed
+root = ET.fromstring(response.content)
+
+# Print status information
+status_code = root.find(".//status/code").text
+status_message = root.find(".//status/message").text
+
+print(f"Status Code: {status_code}")
+print(f"Message: {status_message}")
+
+# Print order information
+order_id = root.find(".//order/id").text
+order_status = root.find(".//order/status").text
+print(f"Order ID: {order_id}")
+print(f"Order Status: {order_status}")
+
+# Print message information
+for message in root.findall(".//order/message"):
+    number = message.find("number").text
+    status = message.find("status").text
+    print(f"Number: {number}, Status: {status}")
+```
