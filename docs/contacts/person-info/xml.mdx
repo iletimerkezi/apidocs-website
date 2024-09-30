@@ -9,6 +9,9 @@ import TabItem from '@theme/TabItem';
 import Badge from '@site/src/components/Badge';
 import RequestURL from '@site/src/components/RequestURL';
 import AccessWarning from '@site/src/components/AccessWarning';
+import AccessDescription from '@site/src/components/AccessDescription';
+import ResponseStatus from '@site/src/components/ResponseStatus';
+import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
 
 # XML Post API
 <AccessWarning />
@@ -20,7 +23,7 @@ Rehberinizdeki kişinin bilgisini, HTTP protokolünün POST methodunu kullanarak
 
 ## İstek İçeriği (Body)
 
-```xml title="Eğer API Anahtarı kullanılarak işlem yapıyorsanız isteğin içeriği"
+```xml
 <request>
   <authentication>
     <key></key>
@@ -36,12 +39,7 @@ Rehberinizdeki kişinin bilgisini, HTTP protokolünün POST methodunu kullanarak
 
 Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıdır. Bu etiketin alt etiketlerinin tanımları aşağıdaki gibidir:
 
-#### authentication
-İstek yapılan işleme dair yetki alabilmek için gönderilmesi gereken kullanıcı bilgileridir. Alt etiketleri aşağıdaki gibidir:
-
-+ **key:** iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
-
-+ **hash:** iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar ve Gizli Anahtar kullanılarak oluşturulmuş hash bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
+<AccessDescription />
 
 #### contact
 Bilgilerini istediğiniz kişinin bilgisini içerir. Alt etiketi aşağıdaki gibidir.
@@ -66,15 +64,10 @@ Bilgilerini istediğiniz kişinin bilgisini içerir. Alt etiketi aşağıdaki gi
       <custom_field>
         <id></id>
         <value></value>
-        <custom_field_settings></custom_field_settings>
       </custom_field>
-      ...
     </custom_fields>
     <groups>
-      <group>
-        <id></id>
-      </group>
-      ...
+      <id></id>
     </groups>
   </contact>
 </response>
@@ -84,11 +77,7 @@ Bilgilerini istediğiniz kişinin bilgisini içerir. Alt etiketi aşağıdaki gi
 
 Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmıştır. Bu etiketin alt etiketlerinin tanımı aşağıdaki gibidir:
 
-#### status
-İşlem durumu ile ilgili bilgi içerir. Bu etiket ile döndürülen değerler aynı zamanda HTTP yanıtının başlık bilgisine bakılarak da elde edilebilir. Bu etiket, yapılan her istekte standart olarak döndürülür. Alt etiketleri aşağıdaki gibidir
-
-+ **code:** İşlem durumunu belirten numerik değerdir.
-+ **message:** İşlem durumu hakkında bilgi mesajı içerir.
+<ResponseStatus />
 
 #### contact
 Kişi bilgisini içerir. Tekrar etmez. Alt etiketleri aşağıdaki gibidir.
@@ -106,12 +95,12 @@ Kişi için tanımlanmış rehber alanlarını ifade eder. Alt etiketleri aşağ
   Kişi için tanımlanmış rehber alanını ifade eder. Tanımlanan alan kadar tekrar eder. Alt etiketleri aşağıdaki gibidir.
     + **id:** Rehber alanını temsil eden benzersiz nümerik değer.
     + **value:** Rehber alanında kişi için tutulan değeri ifade eder.
-    + **custom_field_settings:**
 
 + #### groups
 Kişinin dahil olduğu grupları içerir.
+  
+  + **id:** Grubu temsil eden benzersiz nümerik değeri içerir.
 
-  + #### group
-  Kişinin dahil olduğu grubun bilgisini içerir. Dahil olduğu grup bilgisi kadar tekrar eder.
+## Hata Kodları
 
-    + **id:** Grubu temsil eden benzersiz nümerik değeri içerir.
+<ErrorCodeTable codes={[400, 401, 404, 465]} />

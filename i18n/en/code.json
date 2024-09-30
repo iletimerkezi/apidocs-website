@@ -261,5 +261,41 @@
   "accessWarning.description": {
     "message": "This API method is under development, there may be changes to it. Please contact your customer representative to access the API method.",
     "description": "API is beta description"
+  },
+  "errorCodeTable.title": {
+    "message": "Error Codes",
+    "description": "The title of the error code table"
+  },
+  "errorCodeTable.description": {
+    "message": "The following table lists the error codes that the API can return.",
+    "description": "The description of the error code table"
+  },
+  "errorCodeTable.column.description": {
+    "message": "Description",
+    "description": "The column header for the error code table"
+  },
+  "responseStatus.description": {
+    "message": "Contains information about the transaction status. The values ​​returned with this tag can also be obtained by looking at the header information of the HTTP response. This tag is returned as standard in every request made. Its subtags are as follows",
+    "description": "The description of the response status"
+  },
+  "responseStatus.code": {
+    "message": "It is a numeric value indicating the process status.",
+    "description": "The code of the response status.code"
+  },
+  "responseStatus.message": {
+    "message": "Contains information message about the process status.",
+    "description": "The message of the response status.message"
+  },
+  "accessDescription.description": {
+    "message": "Contains information about the transaction status. The values ​​returned with this tag can also be obtained by looking at the header information of the HTTP response. This tag is returned as standard in every request made. Its subtags are as follows",
+    "description": "API is available description"
+  },
+  "accessDescription.key": {
+    "message": "After logging into your iletimerkezi.com panel, the API Key that you can create from the settings section should be written in this field. It is mandatory to send it when making a request.",
+    "description": "The key of the accessDescription.key"
+  },
+  "accessDescription.hash": {
+    "message": "After logging into your iletimerkezi.com panel, the hash created using the API Key and Secret Key, which you can create from the settings section, should be written in this field. It is mandatory to send it when making a request.",
+    "description": "The hash of the accessDescription.hash"
   }
 }

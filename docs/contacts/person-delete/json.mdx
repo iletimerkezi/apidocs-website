@@ -9,6 +9,9 @@ import TabItem from '@theme/TabItem';
 import Badge from '@site/src/components/Badge';
 import RequestURL from '@site/src/components/RequestURL';
 import AccessWarning from '@site/src/components/AccessWarning';
+import AccessDescription from '@site/src/components/AccessDescription';
+import ResponseStatus from '@site/src/components/ResponseStatus';
+import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
 
 # JSON Post API
 <AccessWarning />
@@ -16,19 +19,19 @@ Rehberinizdeki bir kişiyi, HTTP protokolünün POST methodunu kullanarak, JSON 
 
 ## İstek yapılacak adres
 
-<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/delete-contacts/json" />
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/delete-contact/json" />
 
 ## İstek İçeriği (Body)
 
-```json title="Eğer API Anahtarı kullanılarak işlem yapıyorsanız isteğin içeriği"
+```json
 {
   "request": {
     "authentication": {
       "key": "",
       "hash": ""
     },
-    "contacts": {
-      "contact": [{"id": ""}]
+    "contact": {
+      "id": 5
     }
   }
 }
@@ -38,19 +41,11 @@ Rehberinizdeki bir kişiyi, HTTP protokolünün POST methodunu kullanarak, JSON 
 
 Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıdır. Bu etiketin alt etiketlerinin tanımları aşağıdaki gibidir:
 
-#### authentication
-İstek yapılan işleme dair yetki alabilmek için gönderilmesi gereken kullanıcı bilgileridir. Alt etiketleri aşağıdaki gibidir:
+<AccessDescription />
 
-+ **key:** iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
-
-+ **hash:** iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar ve Gizli Anahtar kullanılarak oluşturulmuş hash bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
-
-#### contacts
-Silinecek kişilerin bilgisini içerir. Alt etiketlerinin tanımları aşağıdaki gibidir.
-
-  + #### contact
-  Kişi bilgisini içerir. Alt etiketi aşağıdaki gibidir.
-    + **id:** Kişiyi temsil eden benzersiz nümerik değeri ifade eder.
+#### contact
+Kişi bilgisini içerir. Alt etiketi aşağıdaki gibidir.
+  + **id:** Kişiyi temsil eden benzersiz nümerik değeri ifade eder.
 
 ## Sunucu yanıtı
 
@@ -69,8 +64,8 @@ Silinecek kişilerin bilgisini içerir. Alt etiketlerinin tanımları aşağıda
 
 Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmıştır. Bu etiketin alt etiketlerinin tanımı aşağıdaki gibidir:
 
-#### status
-İşlem durumu ile ilgili bilgi içerir. Bu etiket ile döndürülen değerler aynı zamanda HTTP yanıtının başlık bilgisine bakılarak da elde edilebilir. Bu etiket, yapılan her istekte standart olarak döndürülür. Alt etiketleri aşağıdaki gibidir
+<ResponseStatus />
 
-+ **code:** İşlem durumunu belirten numerik değerdir.
-+ **message:** İşlem durumu hakkında bilgi mesajı içerir.
+## Hata Kodları
+
+<ErrorCodeTable codes={[400, 401, 404, 465]} type="JSON" />

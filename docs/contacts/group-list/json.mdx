@@ -9,6 +9,9 @@ import TabItem from '@theme/TabItem';
 import Badge from '@site/src/components/Badge';
 import RequestURL from '@site/src/components/RequestURL';
 import AccessWarning from '@site/src/components/AccessWarning';
+import AccessDescription from '@site/src/components/AccessDescription';
+import ResponseStatus from '@site/src/components/ResponseStatus';
+import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
 
 # JSON Post API
 <AccessWarning />
@@ -20,7 +23,7 @@ Rehberinizde tanımlı olan grupların listesini, HTTP protokolünün POST metho
 
 ## İstek İçeriği (Body)
 
-```json title="Eğer API Anahtarı kullanılarak işlem yapıyorsanız isteğin içeriği"
+```json
 {
   "request": {
     "authentication": {
@@ -35,12 +38,7 @@ Rehberinizde tanımlı olan grupların listesini, HTTP protokolünün POST metho
 
 Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıdır. Bu etiketin alt etiketlerinin tanımları aşağıdaki gibidir:
 
-#### authentication
-İstek yapılan işleme dair yetki alabilmek için gönderilmesi gereken kullanıcı bilgileridir. Alt etiketleri aşağıdaki gibidir:
-
-+ **key:** iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
-
-+ **hash:** iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar ve Gizli Anahtar kullanılarak oluşturulmuş hash bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
+<AccessDescription />
 
 ## Sunucu yanıtı
 
@@ -51,14 +49,30 @@ Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıd
       "code": "",
       "message": ""
     },
-    "groups": {
-      "group": [
-        {
-          "id": "",
-          "name": "",
-          "count": "0",
-        }, ...]
+    "groups": [
+      {
+        "id": "",
+        "name": "",
+        "count": "0",
+      },
+      {
+        "id": "",
+        "name": "",
+        "count": "0",
+        "children": [
+          {
+            "id": "",
+            "name": "",
+            "count": "0",
+          },
+          {
+            "id": "",
+            "name": "",
+            "count": "0",
+          }
+        ]
       }
+    ]
   }
 }
 ```
@@ -67,11 +81,7 @@ Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıd
 
 Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmıştır. Bu etiketin alt etiketlerinin tanımı aşağıdaki gibidir:
 
-#### status
-İşlem durumu ile ilgili bilgi içerir. Bu etiket ile döndürülen değerler aynı zamanda HTTP yanıtının başlık bilgisine bakılarak da elde edilebilir. Bu etiket, yapılan her istekte standart olarak döndürülür. Alt etiketleri aşağıdaki gibidir
-
-+ **code:** İşlem durumunu belirten numerik değerdir.
-+ **message:** İşlem durumu hakkında bilgi mesajı içerir.
+<ResponseStatus />
 
 #### groups
 İşlem başarılı olarak tamamlandıysa rehberinizde oluşturulan ana grupların bilgisini içerir. İşlem başarısızsa bu etiket döndürülmez. Alt etiketleri aşağıdaki gibidir.
@@ -86,9 +96,10 @@ Grubun bilgisini içerir. Tanımlı ana grup sayısı kadar tekrar eder. Alt eti
   + #### children
   Grubun alt gruplarının bilgisini içerir alt etiketleri aşağıdaki gibidir.
 
-    + #### child
-    Grubun alt grubunun bilgilerini içerir, alt grup sayısı kadar tekrar eder. Alt etiketleri aşağıdaki gibidir.
+    + **id:** Grubu temsil eden benzersiz değer.
+    + **name:** Grubun ismini içerir.
+    + **count:** Grup içindeki kişi sayısını gösterir
 
-      + **id:** Grubu temsil eden benzersiz değer.
-      + **name:** Grubun ismini içerir.
-      + **count:** Grup içindeki kişi sayısını gösterir
+## Hata Kodları
+
+<ErrorCodeTable codes={[400, 401, 404]} type="JSON" />

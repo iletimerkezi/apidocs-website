@@ -1,0 +1,110 @@
+---
+slug: /rehber/grup/kişiler/json/
+sidebar_label: JSON
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Badge from '@site/src/components/Badge';
+import RequestURL from '@site/src/components/RequestURL';
+import AccessWarning from '@site/src/components/AccessWarning';
+import AccessDescription from '@site/src/components/AccessDescription';
+import ResponseStatus from '@site/src/components/ResponseStatus';
+import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
+
+# JSON Post API
+<AccessWarning />
+Rehberinizde tanımlı bir grubun içindeki kişileri, HTTP protokolünün POST methodunu kullanarak, JSON formatında almak için, aşağıdaki yönergeleri takip edebilirsiniz.
+
+## İstek yapılacak adres
+
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/get-group-contacts/json" />
+
+## İstek İçeriği (Body)
+
+```json
+{
+  "request": {
+    "authentication": {
+      "key": "",
+      "hash": ""
+    },
+    "group": {
+      "id": "",
+      "page": "",
+      "rowCount": ""
+    }
+  }
+}
+```
+
+### Tanımlar
+
+Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıdır. Bu etiketin alt etiketlerinin tanımları aşağıdaki gibidir:
+
+<AccessDescription />
+
+#### group
+Bilgisi verilecek kişilerin ait olduğu grup ve kaç kişinin istendiği bilgisini içerir. Alt etiketleri aşağıdaki gibidir.
+
++ **id:** Kişilerin ait olduğu grubun benzersiz nümerik id değerini içerir.
++ **page:** Rapor sayfasını ifade eder. İstek yapılırken gönderilmesi zorunlu değildir. Varsayılan değeri 1’dir.
++ **rowCount:** Bir rapor sayfasındaki kişi adedini belirtir. İstek yapılırken gönderilmesi zorunlu değildir. Varsayılan değeri 1000’dir. Maksimum değeri 1000’dir. Eğer 1000’den fazla kişi varsa ayrı bir istek ile diğer sipariş sayfaları sorgulanmalıdır.
+
+## Sunucu yanıtı
+```json
+{
+  "response": {
+    "status": {
+      "code": "",
+      "message": ""
+    },
+    "contacts": [
+      {
+        "id": "",
+        "name": "",
+        "surname": "",
+        "email": "",
+        "gsm": "",
+        "custom_fields": [
+          {
+            "id": "",
+            "value": ""
+          }
+        ],
+        "groups": [1, 5]
+      }
+    ]
+  }
+}
+```
+
+### Tanımlar
+
+Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmıştır. Bu etiketin alt etiketlerinin tanımı aşağıdaki gibidir:
+
+<ResponseStatus />
+
+#### contacts
+Grubun içindeki kişilerin bilgisini içerir. Alt etiketleri aşağıdaki gibidir.
+
+  + **id:** Kişiyi temsil eden benzersiz nümerik değeri ifade eder.
+  + **name:** Kişi ismini ifade eder.
+  + **surname:** Kişinin soyismini ifade eder.
+  + **email:** Kişinin eposta adresini ifade eder.
+  + **gsm:** Kişinin cep telefonu bilgisini ifade eder.
+
+  + #### custom_fields
+  Kişi için tanımlanmış rehber alanlarını ifade eder. Alt etiketleri aşağıdaki gibidir.
+
+    + **id:** Rehber alanını temsil eden benzersiz nümerik değer.
+    + **value:** Rehber alanında kişi için tutulan değeri ifade eder.
+    + **custom_field_settings:** Rehber alanında kişi için tutulan değeri ifade eder.
+
+  + #### groups
+  Kişinin dahil olduğu grupları temsil eden benzersiz nümerik değerleri içerir.
+
+## Hata Kodları
+
+<ErrorCodeTable codes={[400, 401, 404, 463, 465]} type="JSON" />

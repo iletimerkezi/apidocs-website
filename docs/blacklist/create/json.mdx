@@ -1,5 +1,5 @@
 ---
-slug: /sms/baslik/liste/json
+slug: /numara-engelle/ekle/json
 sidebar_label: JSON
 sidebar_position: 1
 ---
@@ -13,11 +13,11 @@ import ResponseStatus from '@site/src/components/ResponseStatus';
 import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
 
 # JSON Post API
-Hesabınızda tanımlanmış onaylı başlık listesini, HTTP protokolünün POST methodunu kullanarak, JSON formatında almak isterseniz aşağıdaki yönergeleri takip edebilirsiniz.
+SMS gönderilmesini istemediğiniz bir cep telefonu numarasını, HTTP protokolünün POST methodunu kullanarak, JSON formatında ileterek engellenmiş numara listenize eklemek isterseniz, aşağıdaki yönergeleri takip edebilirsiniz.
 
 ## İstek yapılacak adres
 
-<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/get-sender/json" />
+<RequestURL type="POST" url="http://api.iletimerkezi.com/v1/add-blacklist/json" />
 
 ## İstek İçeriği (Body)
 
@@ -27,6 +27,9 @@ Hesabınızda tanımlanmış onaylı başlık listesini, HTTP protokolünün POS
     "authentication": {
       "key": "",
       "hash": ""
+    },
+    "blacklist": {
+      "number": ""
     }
   }
 }
@@ -38,20 +41,19 @@ Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıd
 
 <AccessDescription />
 
+#### blacklist
+Listeye eklenicek numarayı içeren etiket.
+
++ **number:** Listeye eklenicek numarayı içeren etiket. <Badge>number</Badge> etiketi tekrarlanabilir bir etiket değildir. İstek başına yalnızca bir numara gönderilebilir.
+
 ## Sunucu yanıtı
 
 ```json
 {
   "response": {
     "status": {
-      "code": "",
-      "message": ""
-    },
-    "senders": {
-      "sender": [
-        "APITEST",
-        "eMarka"
-      ]
+      "code": 200,
+      "message": "İşlem başarılı"
     }
   }
 }
@@ -63,22 +65,20 @@ Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmı
 
 <ResponseStatus />
 
-#### senders
-İşlem başarılı olarak tamamlandıysa oluşturulan sipariş bilgisini içerir. İşlem başarısızsa bu etiket döndürülmez. Alt etiketleri aşağıdaki gibidir:
-
-+ **sender:** Onaylı başlık bilgisini içerir.
-
 ## Hata Kodları
 
-<ErrorCodeTable codes={[400, 401, 404]} type="JSON" />
+<ErrorCodeTable codes={[400, 401, 404, 466]} type="JSON" />
 
 ## Örnek İstek
 ```json
 {
   "request": {
     "authentication": {
-      "key": "507caf2e1fcdb5eea9786332ca2d8785",
-      "hash": "0db4e316db72c519ba08121985f6ddf479809053d555c"
+      "key": "",
+      "hash": ""
+    },
+    "blacklist": {
+      "number": "+49172574483311"
     }
   }
 }
@@ -91,11 +91,6 @@ Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmı
     "status": {
       "code": 200,
       "message": "İşlem başarılı"
-    },
-    "senders": {
-      "sender": [
-        "eMarka"
-      ]
     }
   }
 }
@@ -106,8 +101,8 @@ Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmı
 {
   "response": {
     "status": {
-      "code": 401,
-      "message": "Üyelik bilgileri hatalı"
+      "code": 466,
+      "message": "Hatalı numara."
     }
   }
 }

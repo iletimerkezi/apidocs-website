@@ -1,5 +1,5 @@
 ---
-slug: /hesap/bakiye/xml/
+slug: /numara-engelle/cikar/xml
 sidebar_label: XML
 sidebar_position: 0
 ---
@@ -13,20 +13,23 @@ import ResponseStatus from '@site/src/components/ResponseStatus';
 import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
 
 # XML Post API
-Hesabınızın bakiye bilgisini, HTTP protokolünün POST methodunu kullanarak, XML formatında almak için, aşağıdaki yönergeleri takip edebilirsiniz.
+Numara engelleme listesine eklediğiniz bir cep telefonu numarasını, HTTP protokolünün POST methodunu kullanarak, XML formatında ileterek engellenmiş numara listenizden çıkarmak isterseniz, aşağıdaki yönergeleri takip edebilirsiniz.
 
 ## İstek yapılacak adres
 
-<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/get-balance" />
+<RequestURL type="POST" url="http://api.iletimerkezi.com/v1/add-blacklist" />
 
 ## İstek İçeriği (Body)
 
-```xml title="Eğer API Anahtarı kullanılarak işlem yapıyorsanız isteğin içeriği"
+```xml
 <request>
   <authentication>
     <key></key>
     <hash></hash>
   </authentication>
+  <blacklist>
+    <number></number>
+  </blacklist>
 </request>
 ```
 
@@ -36,6 +39,11 @@ Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıd
 
 <AccessDescription />
 
+#### blacklist
+Listeye eklenicek numarayı içeren etiket.
+
++ **number:** Listeye eklenicek numarayı içeren etiket. <Badge>number</Badge> etiketi tekrarlanabilir bir etiket değildir. İstek başına yalnızca bir numara gönderilebilir.
+
 ## Sunucu yanıtı
 
 ```xml
@@ -44,10 +52,6 @@ Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıd
     <code></code>
     <message></message>
   </status>
-  <balance>
-    <amount></amount>
-    <sms></sms>
-  </balance>
 </response>
 ```
 
@@ -57,27 +61,21 @@ Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmı
 
 <ResponseStatus />
 
-#### balance
-Bakiye bilginizi ifade eder. Alt etiketleri aşağıdaki gibidir.
-
-+ **amount:** Kullanıcı hesabında bulunan "TL" bakiye miktarını içerir.
-+ **sms:** Kullanıcı hesabında bulunan SMS miktarını içerir.
-
-:::tip İpucu
-Eğer hesabınız TL kredi ile çalışıyorsa, <Badge>amount</Badge> etiketi, SMS kredisi ile çalışıyorsa <Badge>sms</Badge> etiketi güncel bakiye bilginizi ifade eder.
-:::
-
 ## Hata Kodları
 
-<ErrorCodeTable codes={[400, 401, 404]} />
+<ErrorCodeTable codes={[400, 401, 404, 466]} />
 
 ## Örnek İstek
 ```xml
+<?xml version="1.0" encoding="UTF-8" ?>
 <request>
   <authentication>
     <key></key>
     <hash></hash>
   </authentication>
+  <blacklist>
+    <number>+90505xxxxxxx</number>
+  </blacklist>
 </request>
 ```
 
@@ -89,10 +87,6 @@ Eğer hesabınız TL kredi ile çalışıyorsa, <Badge>amount</Badge> etiketi, S
     <code>200</code>
     <message>İşlem başarılı</message>
   </status>
-  <balance>
-    <amount>134.0000</amount>
-    <sms>7538</sms>
-  </balance>
 </response>
 ```
 
@@ -101,8 +95,8 @@ Eğer hesabınız TL kredi ile çalışıyorsa, <Badge>amount</Badge> etiketi, S
 <?xml version="1.0" encoding="UTF-8"?>
 <response>
   <status>
-    <code>401</code>
-    <message>Üyelik bilgileri hatalı</message>
+    <code>466</code>
+    <message>Hatalı numara.</message>
   </status>
 </response>
 ```

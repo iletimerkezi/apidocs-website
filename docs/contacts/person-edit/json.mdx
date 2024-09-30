@@ -1,5 +1,5 @@
 ---
-slug: /rehber/kisi/ekle/json/
+slug: /rehber/kisi/duzenle/json/
 sidebar_label: JSON
 sidebar_position: 1
 ---
@@ -15,11 +15,11 @@ import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
 
 # JSON Post API
 <AccessWarning />
-Rehberinize, HTTP protokolünün POST methodunu kullanarak, JSON formatında kişi eklemek için, aşağıdaki yönergeleri takip edebilirsiniz.
+Rehberinize, HTTP protokolünün POST methodunu kullanarak, JSON formatında rehberinizdeki kişiyi düzenlemek için, aşağıdaki yönergeleri takip edebilirsiniz.
 
 ## İstek yapılacak adres
 
-<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/add-contact/json" />
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/edit-contact/json" />
 
 ## İstek İçeriği (Body)
 
@@ -31,6 +31,7 @@ Rehberinize, HTTP protokolünün POST methodunu kullanarak, JSON formatında ki�
       "hash": ""
     },
     "contact": {
+      "id": "",
       "name": "",
       "surname": "",
       "email": "",
@@ -40,13 +41,11 @@ Rehberinize, HTTP protokolünün POST methodunu kullanarak, JSON formatında ki�
           {
             "id": "",
             "value": ""
-          }
+          }        
         ]
       },
       "groups": {
-        "group": {
-          "id": ""
-        }
+        "id": [10, 12]
       }
     }
   }
@@ -59,31 +58,29 @@ Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıd
 
 <AccessDescription />
 
-#### contacts
-Grubun içindeki kişilerin bilgisini içerir. Alt etiketleri aşağıdaki gibidir.
+#### contact
+Kişi bilgisini içerir. Kişi sayısı kadar tekrar eder. Alt etiketleri aşağıdaki gibidir.
 
-  + #### contact
-  Kişi bilgisini içerir. Kişi sayısı kadar tekrar eder. Alt etiketleri aşağıdaki gibidir.
+  + **id:** Kişiyi temsil eden benzersiz nümerik değeri ifade eder.
+  + **name:** Kişi ismini ifade eder.
+  + **surname:** Kişinin soyismini ifade eder.
+  + **email:** Kişinin eposta adresini ifade eder.
+  + **gsm:** Kişinin cep telefonu bilgisini ifade eder.
 
-    + **id:** Kişiyi temsil eden benzersiz nümerik değeri ifade eder.
-    + **name:** Kişi ismini ifade eder.
-    + **surname:** Kişinin soyismini ifade eder.
-    + **email:** Kişinin eposta adresini ifade eder.
-    + **gsm:** Kişinin cep telefonu bilgisini ifade eder.
+  + #### custom_fields
+  Kişi için tanımlanmış rehber alanlarını ifade eder. Alt etiketleri aşağıdaki gibidir.
 
-    + #### custom_fields
-    Kişi için tanımlanmış rehber alanlarını ifade eder. Alt etiketleri aşağıdaki gibidir.
+    + #### custom_field
+    Kişi için tanımlanmış rehber alanını ifade eder. Tanımlanan alan kadar tekrar eder. Alt etiketleri aşağıdaki gibidir.
 
-      + #### custom_field
-      Kişi için tanımlanmış rehber alanını ifade eder. Tanımlanan alan kadar tekrar eder. Alt etiketleri aşağıdaki gibidir.
+      + **id:** Rehber alanını temsil eden benzersiz nümerik değer.
+      + **value:** Rehber alanında kişi için tutulan değeri ifade eder.
+      + **custom_field_settings:** Rehber alanında kişi için tutulan değeri ifade eder.
 
-        + **id:** Rehber alanını temsil eden benzersiz nümerik değer.
-        + **value:** Rehber alanında kişi için tutulan değeri ifade eder.
-        + **custom_field_settings:** Rehber alanında kişi için tutulan değeri ifade eder.
-
-    + #### groups
-    Kişinin dahil olduğu grupları içerir. Alt etiketleri aşağıdaki gibidir.
-      + **id:** Grubu temsil eden benzersiz nümerik değer.
+  + #### groups
+  Kişinin dahil olduğu grupları içerir. Alt etiketleri aşağıdaki gibidir.
+    + **group:** Kişinin dahil olduğu grubun bilgisini içerir. Dahil olduğu grup kadar tekrar eder.
+    + **id:** Grubu temsil eden benzersiz nümerik değer.
 
 ## Sunucu yanıtı
 
@@ -95,22 +92,18 @@ Grubun içindeki kişilerin bilgisini içerir. Alt etiketleri aşağıdaki gibid
       "message": ""
     },
     "contact": {
-      "id": "",
-      "name": "",
-      "surname": "",      
-      "gsm": "",
+      "id": 1007,
+      "name": "Enes",
+      "surname": "Ozden",
       "email": "",
+      "gsm": "+905057023100",
       "custom_fields": [
         {
-          "id": 1,
-          "value": "27\/09\/2024"
-        },
-        {
           "id": 2,
-          "value": "cip"
+          "value": "cip cip"
         }
       ],
-      "groups": [7, 12, 9]
+      "groups": [12]      
     }
   }
 }

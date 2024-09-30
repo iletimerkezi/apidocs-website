@@ -9,6 +9,9 @@ import TabItem from '@theme/TabItem';
 import Badge from '@site/src/components/Badge';
 import RequestURL from '@site/src/components/RequestURL';
 import AccessWarning from '@site/src/components/AccessWarning';
+import AccessDescription from '@site/src/components/AccessDescription';
+import ResponseStatus from '@site/src/components/ResponseStatus';
+import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
 
 # JSON Post API
 <AccessWarning />
@@ -20,7 +23,7 @@ Rehberinizdeki bir grubun bilgilerini, HTTP protokolünün POST methodunu kullan
 
 ## İstek İçeriği (Body)
 
-```json title="Eğer API Anahtarı kullanılarak işlem yapıyorsanız isteğin içeriği"
+```json
 {
   "request": {
     "authentication": {
@@ -30,7 +33,7 @@ Rehberinizdeki bir grubun bilgilerini, HTTP protokolünün POST methodunu kullan
     "group": {
       "id": "",
       "name": "",
-      "parent": []
+      "parent": ""
     }
   }
 }
@@ -40,12 +43,7 @@ Rehberinizdeki bir grubun bilgilerini, HTTP protokolünün POST methodunu kullan
 
 Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıdır. Bu etiketin alt etiketlerinin tanımları aşağıdaki gibidir:
 
-#### authentication
-İstek yapılan işleme dair yetki alabilmek için gönderilmesi gereken kullanıcı bilgileridir. Alt etiketleri aşağıdaki gibidir:
-
-+ **key:** iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
-
-+ **hash:** iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar ve Gizli Anahtar kullanılarak oluşturulmuş hash bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
+<AccessDescription />
 
 #### group
 Düzenlenecek grup ile ilgili bilgileri içerir. Tekrar etmez. Alt etiketleri aşağıdaki gibidir.
@@ -75,13 +73,13 @@ Düzenlenecek grup ile ilgili bilgileri içerir. Tekrar etmez. Alt etiketleri a�
 
 Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmıştır. Bu etiketin alt etiketlerinin tanımı aşağıdaki gibidir:
 
-#### status
-İşlem durumu ile ilgili bilgi içerir. Bu etiket ile döndürülen değerler aynı zamanda HTTP yanıtının başlık bilgisine bakılarak da elde edilebilir. Bu etiket, yapılan her istekte standart olarak döndürülür. Alt etiketleri aşağıdaki gibidir
-
-+ **code:** İşlem durumunu belirten numerik değerdir.
-+ **message:** İşlem durumu hakkında bilgi mesajı içerir.
+<ResponseStatus />
 
 #### group
 
 + **id:** Düzenlenen grubun benzersiz nümerik değerini içerir.
 + **name:** Düzenlenen grubun yeni ismini içerir.
+
+## Hata Kodları
+
+<ErrorCodeTable codes={[400, 401, 404, 461, 462, 463]} type="JSON" />
