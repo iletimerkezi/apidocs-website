@@ -1,19 +1,19 @@
 ---
-slug: /sms/report/list/webhook
+slug: /sms/rapor/liste/webhook
 sidebar_label: Webhook
 sidebar_position: 1
 ---
 
 import Badge from '@site/src/components/Badge';
 
-# webhook
-You can follow the instructions below to send the status of the SMS package you have sent to your server in JSON format using the HTTP protocol POST method.
+# Webhook
+The status of the SMS package you have sent will be communicated to your server in JSON format using the POST method of the HTTP protocol. Follow the instructions below.
 
-## Address to request
-In your Message Center panel, the status of the SMS package is sent to the URL you set under Settings -> API -> Webhook tab.
+## Request URL
+The status of the SMS package will be sent to the URL you set under the Webhook tab in your İleti Merkezi panel, Settings -> API -> Webhook.
 
-## Request Content (Body)
-```json title="Content of the request to be POSTed to you in the webhook"
+## Request Body
+```json title="Content of the request that will be POSTed to you in the webhook"
 {
   "report": {
     "id": "",
@@ -27,20 +27,20 @@ In your Message Center panel, the status of the SMS package is sent to the URL y
 
 ### Definitions
 
-#### reports
-The requests made to you are wrapped with the report tag, the alt tags are as follows.
+#### report
+The requests sent to you are encapsulated with the report tag, and its sub-tags are as follows:
 
-+ **id:** Indicates the <Badge>id</Badge> value of a single message in the order you sent.
-+ **packet_id:** Indicates the <Badge>id</Badge> value of the order you have sent.
-+ **status:** Indicates the status of a single message in the order you sent. The possible values ​​are as follows.
-  + **accepted:** Means that your SMS message has been accepted and is ready to be sent.
-  + **delivered:** Means that your SMS message was successfully delivered.
-  + **undelivered:** Means that your SMS message could not be sent.
-+ **to:** Represents mobile phone information.
-+ **body:** Refers to the text of the SMS message.
++ **id:** Represents the <Badge>id</Badge> value of a single message within the order you sent.
++ **packet_id:** Represents the <Badge>id</Badge> value of the order you sent.
++ **status:** Represents the status of a single message within the order you sent. It can have the following values:
+  + **accepted:** Indicates that your SMS message has been accepted and is being prepared for delivery.
+  + **delivered:** Indicates that your SMS message has been successfully delivered.
+  + **undelivered:** Indicates that your SMS message could not be delivered.
++ **to:** Represents the mobile phone number.
++ **body:** Represents the SMS message text.
 
-## Sample Request
-``json
+## Example Request
+```json
 {
   "report": {
     "id": 1599558518,

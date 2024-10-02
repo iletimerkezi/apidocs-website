@@ -1,15 +1,14 @@
 ---
-slug: /samples/delphi-sms-send
+slug: /ornekler/delphi-sms-gönderme
 sidebar_position: 5
 ---
 
-# Send SMS with Delphi
-You can use the example below to send bulk, single or OTP sms from your software made with Delphi.
-
+# Delphi ile SMS Gönder
+To send bulk, single, or OTP SMS from your software developed with Delphi, you can use the following example.
 
 ```visual-basic
 function xmlpost(url, postdata: string): String;
-there is
+var
 IdHTTP1: TIdHTTP;
 str1:TStringList;
 begin
@@ -27,27 +26,27 @@ begin
   end;
 end;
 
-Procedure Tfrmsmsgonder.Send;
-there is
+Procedure Tfrmsmsgonder.Gonder;
+var
    xsml:String;
-   user, pass, message, numbers, title: string;
+   user, pass, mesaj, numaralar, baslik: string;
 begin
   xsml:= '<request>'+
     '<authentication>'+
-'<username>'+data.TblSmsTanimUSER.Text+'</username>'+
-'<password>'+data.TblSmsTanimSIFRE.Text+'</password>'+
+		  '<username>'+data.TblSmsTanimKULLANICI.Text+'</username>'+
+			'<password>'+data.TblSmsTanimSIFRE.Text+'</password>'+
     '</authentication>'+
     '<order>'+
-'<sender>'+data.TblSmsTanimORIGINLER.Text+'</sender>'+
-'<sendDateTime></sendDateTime>'+
-'<message><text><![CDATA['+MsgGon.Text+']]></text>'+
-'<receipents>'+
-'<number>'+rznumbers.Text+'</number>'+
-'</receipents>'+
-'</message>'+
+		  '<sender>'+data.TblSmsTanimORIGINLER.Text+'</sender>'+
+			'<sendDateTime></sendDateTime>'+
+			'<message><text><![CDATA['+MsgGon.Text+']]></text>'+
+			'<receipents>'+
+				'<number>'+rznumaralar.Text+'</number>'+
+			'</receipents>'+
+			'</message>'+
         '</order>'+
       '</request>';
 
-  variable:=xmlpost('http://api.iletimerkezi.com/v1/send-sms',xsml);
+  degisken:=xmlpost('https://api.iletimerkezi.com/v1/send-sms',xsml);
 end;
 ```

@@ -1,17 +1,17 @@
 ---
-slug: /samples/asp-sms-send
+slug: /ornekler/asp-sms-gönderme
 sidebar_position: 6
 ---
 
-# Send SMS with ASP
-You can use the code block below to send bulk, single or OTP sms from your software made with ASP.
+# ASP ile SMS Gönder
+To send bulk, single, or OTP SMS from your software developed with ASP, you can use the following code block.
 
 ```visual-basic
-Function POSTHTTPXML(address, strMessage)
+Function POSTHTTPXML(adres, strMesaj)
     Set StrHTTP = Server.CreateObject("MSXML2.XMLHTTP")
-        StrHTTP.Open "POST" , address, false
+        StrHTTP.Open "POST" , adres, false
         StrHTTP.setRequestHeader "Content-type:","text/xml"
-        StrHTTP.sEnd strMessage
+        StrHTTP.sEnd strMesaj
         GETHTTPXML = StrHTTP.Responsetext
     Set StrHTTP = Nothing
 End Function
@@ -20,21 +20,21 @@ answer=""
 
 xml="<request>" & _
 "<authentication>" & _
-" <key></key>" & _
-" <hash></hash>" & _
+"   <key></key>" & _
+"   <hash></hash>" & _
 "</authentication>" & _
 "<order>" & _
-" <sender></sender>" & _
-" <sendDateTime></sendDateTime>" & _
-" <message>" & _
-" <text><![CDATA[…]]></text>" & _
-" <receipents>" & _
-" <number></number>" & _
-" </receipents>" & _
-" </message>" & _
+"   <sender></sender>" & _
+"   <sendDateTime></sendDateTime>" & _
+"   <message>" & _
+"       <text><![CDATA[…]]></text>" & _
+"       <receipents>" & _
+"           <number></number>" & _
+"       </receipents>" & _
+"    </message>" & _
 "</order>" & _
 "</request>"
 
-answer = POSTHTTPXML("http://api.iletimerkezi.com/v1/send-sms", xml)
-response.write answer
+answer = POSTHTTPXML("https://api.iletimerkezi.com/v1/send-sms", xml)
+response.write cevap
 ```

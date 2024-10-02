@@ -1,0 +1,143 @@
+---
+slug: /numara-engelle/liste/json
+sidebar_label: JSON
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Badge from '@site/src/components/Badge';
+import RequestURL from '@site/src/components/RequestURL';
+import ResponseStatus from '@site/src/components/ResponseStatus';
+import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
+import AccessDescription from '@site/src/components/AccessDescription';
+
+# JSON Post API
+If you want to retrieve the list of phone numbers you have blocked using the POST method of the HTTP protocol in JSON format, you can follow the instructions below.
+
+## Request URL
+
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/get-blacklist/json" />
+
+## Request Body
+
+```json
+{
+  "request": {
+    "authentication": {
+      "key": "",
+      "hash": ""
+    },
+    "blacklist": {
+      "filter": {
+        "start": "",
+        "end": ""
+      },
+      "page": "",
+      "rowCount": ""
+    }
+  }
+}
+```
+
+### Definitions
+
+The request sent to the server must be wrapped in the <Badge>request</Badge> tag. The definitions of its sub-tags are as follows:
+
+<AccessDescription />
+
+#### blacklist
+Contains the filter and pagination parameters required for paging.
+
++ **filter:** Used to filter search results. It is not mandatory to send this in the request.
+  + **start:** Represents the start date of blocked numbers. It is not mandatory to send this in the request. It should be in Y-m-d H:i:s format (2024-09-27 01:10:00).
+  + **end:** Represents the end date of blocked numbers. It is not mandatory to send this in the request. It should be in Y-m-d H:i:s format (2024-09-27 23:59:59).
+
++ **page:** Represents the search result page. It is not mandatory to send this in the request. The default value is 1.
++ **rowCount:** Specifies the number of entries per search result page. It is not mandatory to send this in the request. The default value is 1000. The maximum value is 1000. If there are more than 1000 entries, additional requests should be made to query the subsequent search result pages.
+
+## Server Response
+
+```json
+{
+  "response": {
+    "status": {
+      "code": "",
+      "message": ""
+    },
+    "blacklist": {
+      "count": "",
+      "number": [
+        "505xxxxxxx",
+        "532xxxxxxx"
+      ]
+    }
+  }
+}
+```
+
+### Definitions
+
+The response from the server is always wrapped in the <Badge>response</Badge> tag. The definitions of its sub-tags are as follows:
+
+<ResponseStatus />
+
+#### blacklist
+Represents the list of blocked numbers. The sub-tags are as follows:
+
++ **count:** Represents the total number of blocked contacts.
++ **number:** Contains the information of blocked numbers.
+
+## Error Codes
+
+<ErrorCodeTable codes={[400, 401, 404]} type="JSON" />
+
+## Sample Request
+```json
+{
+  "request": {
+    "authentication": {
+      "key": "",
+      "hash": ""
+    },
+    "blacklist": {
+      "page": 1,
+      "rowCount": 5
+    }
+  }
+}
+```
+
+## Sample Successful Response
+```json
+{
+  "response": {
+    "status": {
+      "code": 200,
+      "message": "Successful operation"
+    },
+    "blacklist": {
+      "count": "7906",
+      "number": [
+        "+905050047824",
+        "+905050047824",
+        "+905050047824",
+        "+905050047824",
+        "+905050047824"
+      ]
+    }
+  }
+}
+```
+
+## Sample Error Response
+```json
+{
+  "response": {
+    "status": {
+      "code": 401,
+      "message": "Membership details incorrect"
+    }
+  }
+}
+```

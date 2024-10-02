@@ -5,16 +5,16 @@ export default function AccessDescription() {
 
   return (
     <>
-      <h4 class="anchor anchorWithHideOnScrollNavbar_node_modules-@docusaurus-theme-classic-lib-theme-Heading-styles-module" id="authentication">
+      <h4 className="anchor anchorWithHideOnScrollNavbar_node_modules-@docusaurus-theme-classic-lib-theme-Heading-styles-module" id="authentication">
         authentication
-        <a class="hash-link" href="#authentication" title="Başlığa doğrudan bağlantı">​</a>
+        <a className="hash-link" href="#authentication" title="Başlığa doğrudan bağlantı">​</a>
       </h4>
       <p>
         <Translate id="accessDescription.description">
           İstek yapılan işleme dair yetki alabilmek için gönderilmesi gereken kullanıcı bilgileridir. Alt etiketleri aşağıdaki gibidir:
         </Translate>
       </p>
-      <ul class="">
+      <ul>
         <li>
           <p><strong>key: </strong> 
           <Translate id="accessDescription.key">

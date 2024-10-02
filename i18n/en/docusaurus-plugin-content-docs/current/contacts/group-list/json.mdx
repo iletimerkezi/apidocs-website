@@ -1,5 +1,5 @@
 ---
-slug: /contacts/group/list/json/
+slug: /rehber/grup/liste/json/
 sidebar_label: JSON
 sidebar_position: 1
 ---
@@ -9,18 +9,21 @@ import TabItem from '@theme/TabItem';
 import Badge from '@site/src/components/Badge';
 import RequestURL from '@site/src/components/RequestURL';
 import AccessWarning from '@site/src/components/AccessWarning';
+import AccessDescription from '@site/src/components/AccessDescription';
+import ResponseStatus from '@site/src/components/ResponseStatus';
+import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
 
 # JSON Post API
 <AccessWarning />
-You can follow the instructions below to get the list of groups defined in your directory in XML format using the POST method of the HTTP protocol.
+To retrieve the list of groups defined in your contact list using the POST method of the HTTP protocol in JSON format, you can follow the instructions below.
 
-## Address to request
+## Request URL
 
 <RequestURL type="POST" url="https://api.iletimerkezi.com/v1/get-groups/json" />
 
-## Request Content (Body)
+## Request Body
 
-```json title="Content of the request if you are processing using API Key"
+```json
 {
   "request": {
     "authentication": {
@@ -33,16 +36,11 @@ You can follow the instructions below to get the list of groups defined in your 
 
 ### Definitions
 
-The request to the server must be wrapped with the <Badge>request</Badge> tag. The definitions of the subtags of this tag are as follows:
+The request sent to the server must be wrapped in the <Badge>request</Badge> tag. The definitions of its sub-tags are as follows:
 
-#### authentication
-It is the user information that must be sent in order to receive authorization for the requested operation. The alt tags are as follows:
+<AccessDescription />
 
-+ **key:** API Key that you can create from the settings section should be written in this field after logging in to your iletimerkezi.com panel. It is required to be sent when making a request.
-
-+ **hash:** After logging into your iletimerkezi.com panel, the hash generated using the API Key and Secret Key that you can create from the settings section should be written in this field. It is required to be sent when making a request.
-
-## Server response
+## Server Response
 
 ```json
 {
@@ -51,44 +49,57 @@ It is the user information that must be sent in order to receive authorization f
       "code": "",
       "message": ""
     },
-    "groups": {
-      "group": [
-        {
-          "id": "",
-          "name": "",
-          "count": "0",
-        }, ...]
+    "groups": [
+      {
+        "id": "",
+        "name": "",
+        "count": "0",
+      },
+      {
+        "id": "",
+        "name": "",
+        "count": "0",
+        "children": [
+          {
+            "id": "",
+            "name": "",
+            "count": "0",
+          },
+          {
+            "id": "",
+            "name": "",
+            "count": "0",
+          }
+        ]
       }
+    ]
   }
 }
 ```
 
 ### Definitions
 
-The response from the server is always wrapped in the <Badge>response</Badge> tag. The definition of subtags of this tag is as follows:
+The response from the server is always wrapped in the <Badge>response</Badge> tag. The definitions of its sub-tags are as follows:
 
-#### status
-Contains information about the transaction status. The values ​​returned by this tag can also be obtained by looking at the header information of the HTTP response. This tag is returned by default on every request made. The alt tags are as follows
-
-+ **code:** It is the numerical value that indicates the operation status.
-+ **message:** Contains an informational message about the transaction status.
+<ResponseStatus />
 
 #### groups
-If the operation was completed successfully, it contains the information of the main groups created in your directory. If the operation fails, this tag is not returned. The alt tags are as follows.
+If the operation is successfully completed, it contains the information of the main groups created in your contact list. If the operation fails, this tag is not returned. The sub-tags are as follows.
 
-+ #### groups
-Contains the group's information. It repeats as many as the defined main group number. The alt tags are as follows.
++ #### group
+Contains information about the group. Repeats as many times as the number of main groups defined. The sub-tags are as follows.
 
-  + **id:** Unique value representing the group.
+  + **id:** The unique value representing the group.
   + **name:** Contains the name of the group.
   + **count:** Shows the number of people in the group.
 
   + #### children
-  The sub-tags that contain the information of the subgroups of the group are as follows.
+  Contains information about the sub-groups of the group, the sub-tags are as follows.
 
-    + #### child
-    Contains the information of the subgroup of the group, repeats as many as the number of subgroups. The alt tags are as follows.
+    + **id:** The unique value representing the group.
+    + **name:** Contains the name of the group.
+    + **count:** Shows the number of people in the group.
 
-      + **id:** Unique value representing the group.
-      + **name:** Contains the name of the group.
-      + **count:** Shows the number of people in the group
+## Error Codes
+
+<ErrorCodeTable codes={[400, 401, 404]} type="JSON" />

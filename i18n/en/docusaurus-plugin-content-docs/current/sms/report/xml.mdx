@@ -1,5 +1,5 @@
 ---
-slug: /sms/report/list/xml
+slug: /sms/rapor/liste/xml
 sidebar_label: XML
 sidebar_position: 0
 ---
@@ -10,16 +10,16 @@ import Badge from '@site/src/components/Badge';
 import RequestURL from '@site/src/components/RequestURL';
 
 # XML Post API
-If you want to receive the status of the SMS package you have sent in XML format using the POST method of the HTTP protocol, you can follow the instructions below.
+If you want to receive the status of the SMS package you have sent in XML format using the POST method of the HTTP protocol, you can follow the guidelines below.
 
-## Address to request
+## Request URL
 
 <RequestURL type="POST" url="https://api.iletimerkezi.com/v1/get-report" />
 
 
-## Request Content (Body)
+## Request Body (Body)
 
-```xml title="If you are processing using API Key, the content of the request is:"
+```xml
 <request>
   <authentication>
     <key></key>
@@ -35,25 +35,25 @@ If you want to receive the status of the SMS package you have sent in XML format
 
 ### Definitions
 
-The request to the server must be wrapped with the <Badge>request</Badge> tag. The definitions of the subtags of this tag are as follows:
+The request to the server should be wrapped with the <Badge>request</Badge> tag. The definitions of its sub-tags are as follows:
 
 #### authentication
-It is the user information that must be sent in order to receive authorization for the requested operation. The alt tags are as follows:
+These are the user credentials that need to be sent to authorize the requested operation. Its sub-tags are:
 
-+ **key:** API Key that you can create from the settings section should be written in this field after logging in to your iletimerkezi.com panel. It is required to be sent when making a request.
++ **key:** The API Key that you can create from the settings section after logging into your iletimerkezi.com panel should be written here. It is mandatory to send this when making the request.
 
-+ **hash:** After logging into your iletimerkezi.com panel, the hash generated using the API Key and Secret Key that you can create from the settings section should be written in this field. It is required to be sent when making a request.
++ **hash:** iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar ve Gizli Anahtar kullanılarak oluşturulmuş hash bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
 
 #### order
-The report contains the information of the order to be queried. The alt tags are as follows.
+Contains information about the order whose report will be queried. Its sub-tags are:
 
-+ **id:** Unique numeric value representing the order. When you request to send SMS via API, it is the <Badge>id</Badge> value returned by the server. It is required to be sent when making a request.
++ **id:** A unique numerical value representing the order. When you make an SMS sending request via the API, it is the <Badge>id</Badge> value returned by the server. It is mandatory to send this when making the request.
 
-+ **page:** Indicates the report page. It is not required to be sent when making a request. Its default value is 1.
++ **page:** Represents the report page. It is not mandatory to send this when making the request. The default value is 1.
 
-+ **rowCount:** Indicates the number of posts on a report page. It is not required to be sent when making a request. Its default value is 1000. Its maximum value is 1000. If more than 1000 messages are sent in an order, a new request should be made by increasing the value in the <Badge>page</Badge> tag.
++ **rowCount:** Specifies the number of messages on a report page. It is not mandatory to send this when making the request. The default value is 1000. The maximum value is 1000. If more than 1000 messages were sent in an order, a new request should be made by increasing the value in the <Badge>page</Badge> tag.
 
-## Server response
+## Sunucu yanıtı
 
 ```xml
 <response>
@@ -78,19 +78,19 @@ The report contains the information of the order to be queried. The alt tags are
 
 ### Definitions
 
-The response from the server is always wrapped in the <Badge>response</Badge> tag. The definition of subtags of this tag is as follows:
+The response from the server is always wrapped with the <Badge>response</Badge> tag. The definitions of its sub-tags are as follows:
 
 #### status
-Contains information about the transaction status. The values ​​returned by this tag can also be obtained by looking at the header information of the HTTP response. This tag is returned by default on every request made. The alt tags are as follows
+Contains information about the operation status. The values returned with this tag can also be obtained by looking at the header information of the HTTP response. This tag is returned as standard in every request. Its sub-tags are:
 
-+ **code:** It is the numerical value that indicates the operation status.
-+ **message:** Contains an informational message about the transaction status.
++ **code:** A numerical value indicating the status of the operation.
++ **message:** Contains an informational message about the operation status.
 
 #### order
-Contains the order information created if the transaction was completed successfully. If the operation fails, this tag is not returned. The alt tags are as follows:
+If the operation was successfully completed, it contains the order information created. If the operation failed, this tag is not returned. Its sub-tags are:
 
-+ **id:** Unique numeric value representing the order.
-+ **status:** It is the numerical value that indicates the general shipping status of the order. The following table lists the values ​​that this label can take and the meanings they mean.
++ **id:** A unique numerical value representing the order.
++ **status:** A numerical value indicating the general sending status of the order. The possible values for this tag and their meanings are listed in the table below.
 
   <table>
     <thead>
@@ -102,24 +102,25 @@ Contains the order information created if the transaction was completed successf
     <tbody>
       <tr>
         <td>113</td>
-        <td>Order in progress</td>
+        <td>Order is being sent</td>
       </tr>
       <tr>
         <td>114</td>
-        <td>Order has been shipped</td>
+        <td>Order has been completed</td>
       </tr>
       <tr>
         <td>115</td>
-        <td>Failed to submit order</td>
+        <td>Order could not be sent</td>
       </tr>
     </tbody>
   </table>
 
-  #### messages
-  Contains reported message information. It is repeated as many times as the number of messages on the queried page. The alt tags are as follows:
 
-  + **number:** Recipient's mobile phoneContains u number.
-  + **status:** It is the numerical value that indicates the sending status of the message. The following table lists the values ​​that this label can take and the meanings they mean.
+  #### message
+  Contains the reported message information. Repeats as many times as the number of messages on the queried page. Its sub-tags are:
+
+  + **number:** Contains the recipient’s mobile phone number.
+  + **status:** A numerical value indicating the sending status of the message. The possible values for this tag and their meanings are listed in the table below.
 
     <table>
       <thead>
@@ -131,56 +132,60 @@ Contains the order information created if the transaction was completed successf
       <tbody>
         <tr>
           <td>110</td>
-          <td>Sending message</td>
+          <td>Message is being sent</td>
         </tr>
         <tr>
           <td>111</td>
-          <td>Message sent</td>
+          <td>Message has been sent</td>
         </tr>
         <tr>
           <td>112</td>
-          <td>Failed to send message</td>
+          <td>Message could not be sent</td>
         </tr>
       </tbody>
     </table>
 
+
 ## Error Codes
-If the result of the request is negative, the error codes and messages that will be returned to you by the server are as follows.
+If the request result is negative, the error codes and messages returned by the server are as follows.
 
 <table>
   <thead>
-    <th>code</th>
-    <th>message</th>
-    <th>Description</th>
+    <tr>
+      <th>code</th>
+      <th>message</th>
+      <th>Description</th>
+    </tr>
   </thead>
   <tbody>
     <tr>
       <td>400</td>
-      <td>The request could not be resolved</td>
-      <td> is caused by an error in the structure of the XML you POST. These errors are usually caused by a misspelled XML tag, an improperly closed XML tag, or the use of a character that can break the structure of XML without using CDATA.</td>
+      <td>Request could not be parsed</td>
+      <td>Occurs due to an error in the structure of the XML you POSTed. These errors usually result from incorrectly written XML tags, improperly closed XML tags, or the use of a character that can disrupt the structure of the XML without using CDATA.</td>
     </tr>
     <tr>
       <td>401</td>
-      <td>Incorrect membership information</td>
-      <td>We give this error when we can't verify the information you have submitted in the <Badge>authentication</Badge> tag of the XML you POST. If you have defined a fixed IP in your account and you are requesting from a different IP, you will get this error again.</td>
+      <td>Membership information is incorrect</td>
+      <td>We give this error when we cannot verify the information you sent within the <Badge>authentication</Badge> tag in the XML you POSTed. If you have a fixed IP defined on your account and you are making a request from a different IP, you will also receive this error.</td>
     </tr>
     <tr>
       <td>404</td>
-      <td>API does not have requested method</td>
-      <td>If you're getting this error, double-check the address you requested, you may be making a request to a wrong address.</td>
+      <td>The API does not have the requested method</td>
+      <td>If you receive this error, check the address you are requesting again; you may be making a request to an incorrect address.</td>
     </tr>
     <tr>
       <td>455</td>
       <td>Order not found</td>
-      <td>If there is no order created with the <Badge>id</Badge> that you have forwarded in the request, or if the order has changed from being pending delivery to being delivered, you will get this error.</td>
+      <td>If there is no order created with the <Badge>id</Badge> you conveyed in the request, or if the order has transitioned from waiting to being sent, you will receive this error.</td>
     </tr>
     <tr>
       <td>456</td>
-      <td>Order shipping date has not come yet</td>
-      <td>If the order created with the <Badge>id</Badge> you have submitted in the request is a post-dated delivery and the delivery date has not yet arrived, you will receive this error.</td>
+      <td>The order's sending date has not yet arrived</td>
+      <td>If the order created with the <Badge>id</Badge> you conveyed in the request is scheduled for a future date and the sending date has not yet arrived, you will receive this error.</td>
     </tr>
   </tbody>
 </table>
+
 
 ## Sample Request
 ```xml
@@ -198,13 +203,13 @@ If the result of the request is negative, the error codes and messages that will
 </request>
 ```
 
-## Example Successful Response
+## Sample Successful Response
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
 <response>
   <status>
     <code>200</code>
-    <message>Operation successful</message>
+    <message>İşlem başarılı</message>
   </status>
   <order>
     <id>428</id>
@@ -222,7 +227,7 @@ If the result of the request is negative, the error codes and messages that will
       <status>110</status>
     </message>
     <message>
-      <number>530123456</number>
+      <number>5301234560</number>
       <status>111</status>
     </message>
     <message>
@@ -233,13 +238,13 @@ If the result of the request is negative, the error codes and messages that will
 </response>
 ```
 
-## Example Incorrect Answer
+## Sample Error Response
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <response>
   <status>
     <code>455</code>
-    <message>Order not found</message>
+    <message>Sipariş bulunamadı</message>
   </status>
 </response>
 ```

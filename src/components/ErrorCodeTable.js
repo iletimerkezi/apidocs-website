@@ -54,19 +54,23 @@ export default function ErrorCodeTable({codes = [], type = "XML"}) {
       code: 471,
       message: "Arama terimi en az 3 karakter olmalıdır.",
       description: "Arama yaparken en az 3 karakterlik bir kelime girmeniz gerekmektedir."
+    },
+    {
+      code: 472,
+      message: "Ad, soyad, cep telefonu, email alanlarından en az biri dolu olmalıdır.",
+      description: "Ad, soyad, cep telefonu, email alanlarından en az biri dolu olmalıdır."
+    },
+    {
+      code: 473,
+      message: "Özel alan bulunamadı.",
+      description: "Özel alan bulunamadı."
     }
   ]
 
-  let errors = codesMap.filter((item) => codes.includes(item.code));  
+  let errors = codes.includes('*') ? codesMap : codesMap.filter((item) => codes.includes(item.code));  
 
 	return (
     <>
-      {/* <h2 class="anchor anchorWithHideOnScrollNavbar_node_modules-@docusaurus-theme-classic-lib-theme-Heading-styles-module" id="hata-kodları">
-        <Translate id="errorCodeTable.title">
-          Hata Kodları
-        </Translate>
-        <a class="hash-link" href="#hata-kodları" title="Başlığa doğrudan bağlantı">​</a>
-      </h2> */}
       <p>
         <Translate id="errorCodeTable.description">
           Eğer istek sonucu olumsuz ise sunucu tarafından size dönücek hata kodları ve mesajlar aşağıdaki gibidir.
@@ -74,18 +78,28 @@ export default function ErrorCodeTable({codes = [], type = "XML"}) {
       </p>
       <table>
         <thead>
-          <th>code</th>
-          <th>message</th>
-          <th>
-            <Translate id="errorCodeTable.column.description">
-              Açıklama
-            </Translate>
-          </th>
+          <tr>
+            <th>
+              <Translate id="errorCodeTable.column.code">
+                Hata Kodu
+              </Translate>
+            </th>
+            <th>
+              <Translate id="errorCodeTable.column.message">
+                Mesaj
+              </Translate>
+            </th>
+            <th>
+              <Translate id="errorCodeTable.column.description">
+                Açıklama
+              </Translate>
+            </th>
+          </tr>
         </thead>
         <tbody>
           {errors.map((error) => {
             return (
-              <tr>
+              <tr key={"err_" + error.code}>
                 <td>{error.code}</td>
                 <td>{error.message}</td>
                 <td>{error.description}</td>

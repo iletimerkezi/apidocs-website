@@ -1,10 +1,10 @@
 ---
-slug: /samples/java-sms-send
+slug: /ornekler/java-sms-gönderme
 sidebar_position: 1
 ---
 
-# Send SMS with Java
-You can use the example below to send bulk, single or OTP sms from your software made with Java.
+# Java ile SMS Gönder
+To send bulk, single, or OTP SMS from your software developed with Java, you can use the following example.
 
 ```java
 package api;
@@ -17,28 +17,28 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-public class API {
+public class Api {
 
 	public static void main(String[] args) {
 
 		String xml = "<request>";
-		xml += "<authentication>";
-		xml += "<username></username>";
-		xml += "<password></password>";
-		xml += "</authentication>";
-		xml += "<order>";
-		xml += "<sender>MESSAGE MRKZ</sender>";
-		xml += "<sendDateTime></sendDateTime>";
-		xml += "<message>";
-		xml += "<text><![CDATA[Java sms test message]]></text>";
-		xml += "<receipents>";
-		xml += "<number></number>";
-		xml += "</receipents>";
-		xml += "</message>";
-		xml += "</order>";
-		xml += "</request>";
+        xml += "<authentication>";
+        xml += "<username></username>";
+        xml += "<password></password>";
+        xml += "</authentication>";
+        xml += "<order>";
+        xml += "<sender>ILETI MRKZI</sender>";
+        xml += "<sendDateTime></sendDateTime>";
+        xml += "<message>";
+        xml += "<text><![CDATA[Java sms test mesaji]]></text>";
+        xml += "<receipents>";
+        xml += "<number></number>";
+        xml += "</receipents>";
+        xml += "</message>";
+        xml += "</order>";
+        xml += "</request>";
 
-		excutePost("http://api.iletimerkezi.com/v1/send-sms",xml);
+		excutePost("https://api.iletimerkezi.com/v1/send-sms",xml);
 	}
 
 	public static String excutePost(String targetURL, String xml) {
@@ -50,53 +50,54 @@ public class API {
 			e1.printStackTrace();
 		}
 
-		URL url;
+	    URL url;
 
-		HttpURLConnection connection = null;
+	    HttpURLConnection connection = null;
 
-		try {
+	    try {
 
-			//Create connection
-			url = new URL(targetURL);
+	      //Create connection
+	      url = new URL(targetURL);
 
-			connection = (HttpURLConnection)url.openConnection();
-			connection.setRequestMethod("POST");
-			connection.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
-			connection.setRequestProperty("Content-Length", "" + Integer.toString(urlParameters.getBytes().length));
-			connection.setRequestProperty("Content-Language", "UTF-8");
-			connection.setUseCaches (false);
-			connection.setDoInput(true);
-			connection.setDoOutput(true);
+	      connection = (HttpURLConnection)url.openConnection();
+	      connection.setRequestMethod("POST");
+	      connection.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+	      connection.setRequestProperty("Content-Length", "" + Integer.toString(urlParameters.getBytes().length));
+	      connection.setRequestProperty("Content-Language", "UTF-8");
+	      connection.setUseCaches (false);
+	      connection.setDoInput(true);
+	      connection.setDoOutput(true);
 
-			// Send request
-			DataOutputStream wr = new DataOutputStream (connection.getOutputStream());
-			wr.writeBytes(urlParameters);
-			wr.flush();
-			wr.close();
+	      //Send request
+	      DataOutputStream wr = new DataOutputStream (connection.getOutputStream ());
+	      wr.writeBytes (urlParameters);
+	      wr.flush ();
+	      wr.close ();
 
-			//System.out.println(connection.getResponseMessage());
-			//Get Response
-			InputStream is = connection.getInputStream();
-			BufferedReader rd = new BufferedReader(new InputStreamReader(is,"UTF-8"));
-			stringline;
-			StringBuffer response = new StringBuffer();
+	      //System.out.println(connection.getResponseMessage());
+	      //Get Response
+	      InputStream is = connection.getInputStream();
+	      BufferedReader rd = new BufferedReader(new InputStreamReader(is,"UTF-8"));
+	      String line;
+	      StringBuffer response = new StringBuffer();
 
-			while((line = rd.readLine()) != null) {
-			response.append(line);
-			response.append('\r');
-			}
+	      while((line = rd.readLine()) != null) {
+	        response.append(line);
+	        response.append('\r');
+	      }
 
-			rd.close();
-			return response.toString();
+	      rd.close();
+	      return response.toString();
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		} finally {
-			if(connection != null) {
-				connection.disconnect();
-			}
-		}
-	}
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    	return null;
+	    } finally {
+	    	if(connection != null) {
+	    		connection.disconnect();
+	    	}
+	    }
+
+	  }
 }
 ```

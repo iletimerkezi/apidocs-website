@@ -1,0 +1,102 @@
+---
+slug: /numara-engelle/ekle/xml
+sidebar_label: XML
+sidebar_position: 0
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Badge from '@site/src/components/Badge';
+import RequestURL from '@site/src/components/RequestURL';
+import AccessDescription from '@site/src/components/AccessDescription';
+import ResponseStatus from '@site/src/components/ResponseStatus';
+import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
+
+# XML Post API
+If you want to add a phone number that you do not wish to send SMS to, to your blacklist by submitting it in XML format using the POST method of the HTTP protocol, you can follow the instructions below.
+
+## Request URL
+
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/add-blacklist" />
+
+## Request Body
+
+```xml
+<request>
+  <authentication>
+    <key></key>
+    <hash></hash>
+  </authentication>
+  <blacklist>
+    <number></number>
+  </blacklist>
+</request>
+```
+
+### Definitions
+
+The request sent to the server must be wrapped in the <Badge>request</Badge> tag. The definitions of its sub-tags are as follows:
+
+<AccessDescription />
+
+#### blacklist
+Tag containing the number to be added to the list.
+
++ **number:** Tag containing the number to be added to the list. The <Badge>number</Badge> tag is not a repeatable tag. Only one number can be sent per request.
+
+## Server Response
+
+```xml
+<response>
+  <status>
+    <code></code>
+    <message></message>
+  </status>
+</response>
+```
+
+### Definitions
+
+The response from the server is always wrapped in the <Badge>response</Badge> tag. The definitions of its sub-tags are as follows:
+
+<ResponseStatus />
+
+## Error Codes
+
+<ErrorCodeTable codes={[400, 401, 404, 466]} />
+
+## Sample Request
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<request>
+  <authentication>
+    <key></key>
+    <hash></hash>
+  </authentication>
+  <blacklist>
+    <number>+90505xxxxxxx</number>
+  </blacklist>
+</request>
+```
+
+## Sample Successful Response
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+  <status>
+    <code>200</code>
+    <message>Successful operation</message>
+  </status>
+</response>
+```
+
+## Sample Error Response
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+  <status>
+    <code>466</code>
+    <message>Invalid number.</message>
+  </status>
+</response>
+```

@@ -1,5 +1,5 @@
 ---
-slug: /sms/title/list/json
+slug: /sms/baslik/liste/json
 sidebar_label: JSON
 sidebar_position: 1
 ---
@@ -8,17 +8,20 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import Badge from '@site/src/components/Badge';
 import RequestURL from '@site/src/components/RequestURL';
+import AccessDescription from '@site/src/components/AccessDescription';
+import ResponseStatus from '@site/src/components/ResponseStatus';
+import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
 
 # JSON Post API
-If you want to receive the approved header list defined in your account in JSON format using the POST method of the HTTP protocol, you can follow the instructions below.
+Hesabınızda tanımlanmış onaylı başlık listesini, HTTP protokolünün POST metodunu kullanarak, JSON formatında almak isterseniz aşağıdaki yönergeleri takip edebilirsiniz.
 
-## Address to request
+## İstek yapılacak adres
 
 <RequestURL type="POST" url="https://api.iletimerkezi.com/v1/get-sender/json" />
 
-## Request Content (Body)
+## İstek İçeriği (Body)
 
-```json title="Content of the request if you are processing using API Key"
+```json
 {
   "request": {
     "authentication": {
@@ -29,18 +32,13 @@ If you want to receive the approved header list defined in your account in JSON 
 }
 ```
 
-### Definitions
+### Tanımlar
 
-The request to the server must be wrapped with the <Badge>request</Badge> tag. The definitions of the subtags of this tag are as follows:
+Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıdır. Bu etiketin alt etiketlerinin tanımları aşağıdaki gibidir:
 
-#### authentication
-It is the user information that must be sent in order to receive authorization for the requested operation. The alt tags are as follows:
+<AccessDescription />
 
-+ **key:** API Key that you can create from the settings section should be written in this field after logging in to your iletimerkezi.com panel. It is required to be sent when making a request.
-
-+ **hash:** After logging into your iletimerkezi.com panel, the hash generated using the API Key and Secret Key that you can create from the settings section should be written in this field. It is required to be sent when making a request.
-
-## Server response
+## Sunucu yanıtı
 
 ```json
 {
@@ -50,56 +48,31 @@ It is the user information that must be sent in order to receive authorization f
       "message": ""
     },
     "senders": {
-      "sender": []
+      "sender": [
+        "APITEST",
+        "eMarka"
+      ]
     }
   }
 }
 ```
 
-### Definitions
+### Tanımlar
 
-The response from the server is always wrapped in the <Badge>response</Badge> tag. The definition of subtags of this tag is as follows:
+Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmıştır. Bu etiketin alt etiketlerinin tanımı aşağıdaki gibidir:
 
-#### status
-Contains information about the transaction status. The values ​​returned by this tag can also be obtained by looking at the header information of the HTTP response. This tag is returned by default on every request made. The alt tags are as follows
-
-+ **code:** It is the numerical value that indicates the operation status.
-+ **message:** Contains an informational message about the transaction status.
+<ResponseStatus />
 
 #### senders
-Contains the order information created if the transaction was completed successfully. If the operation fails, this tag is not returned. The alt tags are as follows:
+İşlem başarılı olarak tamamlandıysa oluşturulan sipariş bilgisini içerir. İşlem başarısızsa bu etiket döndürülmez. Alt etiketleri aşağıdaki gibidir:
 
-+ **sender:** Contains approved header information.
++ **sender:** Onaylı başlık bilgisini içerir.
 
-## Error Codes
-If the result of the request is negative, the error codes and messages that will be returned to you by the server are as follows.
+## Hata Kodları
 
-<table>
-  <thead>
-    <th>code</th>
-    <th>message</th>
-    <th>Description</th>
-  </thead>
-  <tbody>
-    <tr>
-      <td>400</td>
-      <td>The request could not be resolved</td>
-      <td> is caused by an error in the structure of the XML you POST. These errors are usually caused by a misspelled XML tag, an improperly closed XML tag, or the use of a character that can break the structure of XML without using CDATA.</td>
-    </tr>
-    <tr>
-      <td>401</td>
-      <td>Incorrect membership information</td>
-      <td>We give this error when we can't verify the information you have submitted in the <Badge>authentication</Badge> tag of the XML you POST. If you have defined a fixed IP in your account and you are requesting from a different IP, you will get this error again.</td>
-    </tr>
-    <tr>
-      <td>404</td>
-      <td>API does not have requested method</td>
-      <td>If you're getting this error, double-check the address you requested, you may be making a request to a wrong address.</td>
-    </tr>
-  </tbody>
-</table>
+<ErrorCodeTable codes={[400, 401, 404]} type="JSON" />
 
-## Sample Request
+## Örnek İstek
 ```json
 {
   "request": {
@@ -111,30 +84,30 @@ If the result of the request is negative, the error codes and messages that will
 }
 ```
 
-## Example Successful Response
+## Örnek Başarılı Yanıt
 ```json
 {
   "response": {
     "status": {
       "code": 200,
-      "message": "Operation successful"
+      "message": "İşlem başarılı"
     },
     "senders": {
       "sender": [
-        "eBrand"
+        "eMarka"
       ]
     }
   }
 }
 ```
 
-## Example Incorrect Answer
+## Örnek Hatalı Yanıt
 ```json
 {
   "response": {
     "status": {
       "code": 401,
-      "message": "Membership information is incorrect"
+      "message": "Üyelik bilgileri hatalı"
     }
   }
 }

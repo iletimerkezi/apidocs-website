@@ -1,53 +1,54 @@
 ---
-slug: /samples/ruby-sms-send
+slug: /ornekler/ruby-sms-gönderme
 sidebar_position: 3
 ---
 
-# Send SMS with Ruby
-Sending and reporting bulk sms by using transmissionerkezi.com APIs
-It is a Ruby client that is prepared to perform operations.
+# Ruby ile SMS Gönder
+To send bulk, single, or OTP SMS using the iletimerkezi.com API, you can use the Ruby client prepared for sending SMS and reporting operations.
 
 :::info
-This library was made by İrfan Subaş [https://github.com/isubas/ileti_merkezi](https://github.com/isubas/ileti_merkezi). For this contribution to the Message Center
-Thank you. Don't forget to give stars to the repo.
+This library is developed by İrfan Subaş [https://github.com/isubas/ileti_merkezi](https://github.com/isubas/ileti_merkezi). 
+We thank him for his contribution to İleti Merkezi. Don't forget to star the repo.
 :::
 
 :::info
-You can refer to [https://github.com/isubas/ileti_merkezi](https://github.com/isubas/ileti_merkezi) for explanations of all methods of the library and for more detailed documentation.
+For detailed documentation and descriptions of all methods in the library, please refer to [https://github.com/isubas/ileti_merkezi](https://github.com/isubas/ileti_merkezi).
 :::
 
-## Setup
-Add this line to the Gemfile.
+## Kurulum
+
+Add this line to your Gemfile.
 
 ```ruby
-gem 'message center'
+gem 'ileti_merkezi'
 ```
 
 Then run the following command:
-$ bundle
 
-Or you can install it yourself with the following command:
-$ gem install message center
+    $ bundle
 
-## Use
+Or you can install it with the following command:
 
-### Configuration
+    $ gem install ileti_merkezi
 
-By creating a `config/initializers/message_centre_configure.rb` file in your Rails app
-Paste the code below into it.
+## Kullanım
 
-If you want to authenticate with username and password, username and password information,
-If you want to make it token-based, you need to fill in the public_key and secret_key information.
+### Yapılandırma
 
-If these four fields are filled in, the system will perform token-based verification.
+Create a file named `config/initializers/ileti_merkezi_configure.rb` in your Rails application and paste the following code into it.
+
+If you want to authenticate using a username and password, fill in the username and password fields. 
+If you want to use token-based authentication, fill in the public_key and secret_key fields.
+
+If all four fields are filled, the system will perform token-based authentication.
 
 You can create public and secret key information from https://www.iletimerkezi.com/user/preferences.
 
 ```ruby
-MessageCenter.configure do |config|
-  # Default: http://api.iletimerkezi.com/v1'
-  config.endpoint = 'http://api.iletimerkezi.com/v1'
-  config.sender = 'FOO'
+IletiMerkezi.configure do |config|
+  # Default: https://api.iletimerkezi.com/v1'
+  config.endpoint          = 'https://api.iletimerkezi.com/v1'
+  config.sender            = 'FOO'
   # optional
   config.request_overrides = {
     use_ssl: true, # default false
@@ -58,43 +59,40 @@ MessageCenter.configure do |config|
   # Authentication: username and password
   config.username = 'username'
   config.password = 'password'
-  # Authentication: token based
+  # Authentication: token-based
   config.public_key = 'public_key'
   config.secret_key = 'secret_key'
 end
 ```
 
-Or
-
-- You can configure it with environment variables. see .env
+Or you can configure it with environment variables. See: .env
 
 ```ruby
-IM_ENDPOINT = 'http://api.iletimerkezi.com/v1' # Default: http://api.iletimerkezi.com/v1
+IM_ENDPOINT = 'https://api.iletimerkezi.com/v1' # Default: https://api.iletimerkezi.com/v1
 # Authentication: username and password
 IM_USERNAME = 'username'
 IM_PASSWORD = 'password'
-# Authentication: token based
+# Authentication: token-based
 IM_PUBLIC_KEY = 'public_key'
 IM_SECRET_KEY = 'secret_key'
 
 IM_SENDER = 'SENDER'
 ```
 
-### Sending SMS - (Single Message - Multiple Recipients)
+### SMS Gönderme - (Tek Mesaj - Çoklu Alıcı)
 
 ```ruby
-
-  args = {
-    send_datetime: '15/01/2017 12:00', # Optional
-    sender: 'TEST', # Optional
+args = {
+    send_datetime: '15/01/2017 12:00', # Opsiyonel
+    sender: 'TEST', # Opsiyonel
     phones: ['0555 555 00 01', '0555 555 00 02'],
-    text: 'Test Message'
+    text: 'Test Mesajı'
   }
 
-  # return MessageCenter::Response
-  response = MessageCenter.send(args)
-  # or
-  sms = Message Center::Sms.new(args)
+  # return IletiMerkezi::Response
+  response = IletiMerkezi.send(args)
+  # veya
+  sms      = IletiMerkezi::Sms.new(args)
   response = sms.send
 
   response.code # return 200
@@ -106,7 +104,7 @@ IM_SENDER = 'SENDER'
   {
     :status => {
       :code => "200",
-      :message => "Operation successful"
+      :message => "İşlem başarılı"
     },
     :order => {
       :id => "order_id"
@@ -114,28 +112,28 @@ IM_SENDER = 'SENDER'
   }
 ```
 
-### Sending SMS (Multi Message - Multi Recipient)
+### SMS Gönderme (Çoklu Mesaj - Çoklu Alıcı)
 
 ```ruby
-  args = {
-    send_datetime: '15/01/2017 12:00', # Optional
-    sender: 'TEST', # Optional
-    message: [
+args = {
+    send_datetime: '15/01/2017 12:00', # Opsiyonel
+    sender: 'TEST', # Opsiyonel
+    messages: [
       {
-        text: 'Test Message One',
+        text: 'Test Mesajı Bir',
         phones: ['0555 555 00 01', '0555 555 00 02'],
       },
       {
-        text: 'Test Message Two',
+        text: 'Test Mesajı İki',
         phones: ['0555 555 00 03', '0555 555 00 04'],
       }
     ]
   }
 
-  # return MessageCenter::Response
-  response = MessageCenter.send(args)
-  # or
-  sms = Message Center::Sms.new(args)
+  # return IletiMerkezi::Response
+  response = IletiMerkezi.send(args)
+  # veya
+  sms      = IletiMerkezi::Sms.new(args)
   response = sms.send
 
   response.code # return 200
@@ -147,7 +145,7 @@ IM_SENDER = 'SENDER'
   {
     :status => {
       :code => "200",
-      :message => "Operation successful"
+      :message => "İşlem başarılı"
     },
     :order => {
       :id => "order_id"

@@ -1,5 +1,5 @@
 ---
-slug: /sms/cancel/xml
+slug: /sms/iptal/xml
 sidebar_label: XML
 sidebar_position: 0
 ---
@@ -8,22 +8,24 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import Badge from '@site/src/components/Badge';
 import RequestURL from '@site/src/components/RequestURL';
+import AccessDescription from '@site/src/components/AccessDescription';
+import ResponseStatus from '@site/src/components/ResponseStatus';
+import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
 
 # XML Post API
-It is the method used to cancel the SMS package you have created with a future date. You can use it by sending data in XML format by using the POST method of the HTTP protocol.
+This method is used to cancel an SMS package that has been created for a future date. You can use it by sending data in XML format using the POST method of the HTTP protocol.
 
-:::tip Hint
-Orders that have been sent cannot be cancelled.
+:::tip Tip
+Orders that have already begun delivery cannot be canceled.
 :::
 
-## Address to request
+## Request URL
 
 <RequestURL type="POST" url="https://api.iletimerkezi.com/v1/cancel-order" />
 
+## Request Body
 
-## Request Content (Body)
-
-```xml title="If you are processing using API Key, the content of the request is:"
+```xml
 <request>
   <authentication>
     <key></key>
@@ -37,77 +39,37 @@ Orders that have been sent cannot be cancelled.
 
 ### Definitions
 
-The request to the server must be wrapped with the <Badge>request</Badge> tag. The definitions of the subtags of this tag are as follows:
+The request to the server must be wrapped in the <Badge>request</Badge> tag. The definitions of the sub-tags of this tag are as follows:
 
-#### authentication
-It is the user information that must be sent in order to receive authorization for the requested operation. The alt tags are as follows:
-
-+ **key:** API Key that you can create from the settings section should be written in this field after logging in to your iletimerkezi.com panel. It is required to be sent when making a request.
-
-+ **hash:** After logging into your iletimerkezi.com panel, the hash generated using the API Key and Secret Key that you can create from the settings section should be written in this field. It is required to be sent when making a request.
+<AccessDescription />
 
 #### order
-Contains the SMS order information to be canceled. The alt tag is as follows
+Contains information about the SMS order to be canceled. The sub-tag is as follows:
 
-+ **id:** Unique numeric value representing the order. When you request to send SMS via API, it is the <Badge>id</Badge> value returned by the server. It is required to be sent when making a request.
++ **id:** A unique numeric value representing the order. This is the <Badge>id</Badge> value returned to you by the server when you made the SMS sending request through the API. It is mandatory to send this during the request.
 
-## Server response
+## Server Response
 
 ```xml
 <response>
   <status>
     <code>200</code>
-    <message>Operation successful</message>
+    <message>Transaction successful</message>
   </status>
 </response>
 ```
 
 ### Definitions
 
-The response from the server is always wrapped in the <Badge>response</Badge> tag. The definition of subtags of this tag is as follows:
+The response from the server is always wrapped in the <Badge>response</Badge> tag. The definitions of the sub-tags of this tag are as follows:
 
-#### status
-Contains information about the transaction status. The values ​​returned by this tag can also be obtained by looking at the header information of the HTTP response. This tag is returned by default on every request made. The alt tags are as follows
-
-+ **code:** It is the numerical value that indicates the operation status.
-+ **message:** Contains an informational message about the transaction status.
+<ResponseStatus />
 
 ## Error Codes
-If the result of the request is negative, the error codes and messages that will be returned to you by the server are as follows.
 
-<table>
-  <thead>
-    <tr>
-      <th>code</th>
-      <th>message</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>400</td>
-      <td>The request could not be resolved</td>
-      <td> is caused by an error in the structure of the XML you POST. These errors are usually caused by a misspelled XML tag, an improperly closed XML tag, or the use of a character that can break the structure of XML without using CDATA.</td>
-    </tr>
-    <tr>
-      <td>401</td>
-      <td>Incorrect membership information</td>
-      <td>We give this error when we can't verify the information you have submitted in the <Badge>authentication</Badge> tag of the XML you POST. If you have defined a fixed IP in your account and you are requesting from a different IP, you will get this error again.</td>
-    </tr>
-    <tr>
-      <td>404</td>
-      <td>API does not have requested method</td>
-      <td>If you're getting this error, double-check the address you requested, you may be making a request to a wrong address.</td>
-    </tr>
-    <tr>
-      <td>455</td>
-      <td>Order not found</td>
-      <td>You will get this error if there is no order created with the id you have forwarded in the request, or if the order has changed from being pending to being delivered.</td>
-    </tr>
-  </tbody>
-</table>
+<ErrorCodeTable codes={[400, 401, 404, 455]} />
 
-## Sample Request
+## Example Request
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
 <request>
@@ -127,18 +89,18 @@ If the result of the request is negative, the error codes and messages that will
 <response>
   <status>
     <code>200</code>
-    <message>Operation successful</message>
+    <message>Transaction successful</message>
   </status>
 </response>
 ```
 
-## Example Incorrect Answer
+## Example Error Response
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <response>
   <status>
     <code>400</code>
-    <message>The request could not be resolved</message>
+    <message>Request could not be resolved</message>
   </status>
 </response>
 ```

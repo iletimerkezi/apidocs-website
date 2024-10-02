@@ -1,5 +1,5 @@
 ---
-slug: /account/balance/json/
+slug: /hesap/bakiye/json/
 sidebar_label: JSON
 sidebar_position: 1
 ---
@@ -8,17 +8,20 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import Badge from '@site/src/components/Badge';
 import RequestURL from '@site/src/components/RequestURL';
+import AccessDescription from '@site/src/components/AccessDescription';
+import ResponseStatus from '@site/src/components/ResponseStatus';
+import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
 
 # JSON Post API
-You can follow the instructions below to get the balance information of your account in JSON format using the POST method of the HTTP protocol.
+To retrieve your account balance in JSON format using the POST method of the HTTP protocol, you can follow the instructions below.
 
-## Address to request
+## Request URL
 
-<RequestURL type="POST" url="https://api.itimerkezi.com/v1/get-balance/json" />
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/get-balance/json" />
 
-## Request Content (Body)
+## Request Body
 
-```json title="Content of the request if you are processing using API Key"
+```json
 {
   "request": {
     "authentication": {
@@ -31,23 +34,18 @@ You can follow the instructions below to get the balance information of your acc
 
 ### Definitions
 
-The request to the server must be wrapped with the <Badge>request</Badge> tag. The definitions of the subtags of this tag are as follows:
+The request sent to the server must be wrapped in the <Badge>request</Badge> tag. The definitions of its sub-tags are as follows:
 
-#### authentication
-It is the user information that must be sent in order to receive authorization for the requested operation. The alt tags are as follows:
+<AccessDescription />
 
-+ **key:** API Key that you can create from the settings section should be written in this field after logging in to your iletimerkezi.com panel. It is required to be sent when making a request.
-
-+ **hash:** After logging into your iletimerkezi.com panel, the hash generated using the API Key and Secret Key that you can create from the settings section should be written in this field. It is required to be sent when making a request.
-
-## Server response
+## Server Response
 
 ```json
 {
   "response": {
     "status": {
       "code": 200,
-      "message": "Operation successful"
+      "message": "Successful operation"
     },
     "balance": {
       "amount": "0",
@@ -59,51 +57,23 @@ It is the user information that must be sent in order to receive authorization f
 
 ### Definitions
 
-The response from the server is always wrapped in the <Badge>response</Badge> tag. The definition of subtags of this tag is as follows:
+The response from the server is always wrapped in the <Badge>response</Badge> tag. The definitions of its sub-tags are as follows:
 
-#### status
-Contains information about the transaction status. The values ​​returned by this tag can also be obtained by looking at the header information of the HTTP response. This tag is returned by default on every request made. The alt tags are as follows
-
-+ **code:** It is the numerical value that indicates the operation status.
-+ **message:** Contains an informational message about the transaction status.
+<ResponseStatus />
 
 #### balance
-Represents your balance information. The alt tags are as follows.
+Represents your balance information. The sub-tags are as follows:
 
-+ **amount:** Contains the "TL" balance amount in the user account.
-+ **sms:** Contains the amount of SMS in the user account.
++ **amount:** Contains the balance in "TRY" (Turkish Lira) in the user's account.
++ **sms:** Contains the number of SMS credits in the user's account.
 
-:::Type Hint
-If your account works with TL credit, <Badge>amount</Badge> tag, if it works with SMS credit, <Badge>sms</Badge> tag represents your current balance information.
+:::tip Tip
+If your account works with TL credit, the <Badge>amount</Badge> tag represents the current balance. If it works with SMS credits, the <Badge>sms</Badge> tag shows your available balance.
 :::
 
 ## Error Codes
-If the result of the request is negative, the error codes and messages that will be returned to you by the server are as follows.
 
-<table>
-  <thead>
-    <th>code</th>
-    <th>message</th>
-    <th>Description</th>
-  </thead>
-  <tbody>
-    <tr>
-      <td>400</td>
-      <td>The request could not be resolved</td>
-      <td> is caused by an error in the structure of the XML you POST. These errors are usually caused by a misspelled XML tag, an improperly closed XML tag, or the use of a character that can break the structure of XML without using CDATA.</td>
-    </tr>
-    <tr>
-      <td>401</td>
-      <td>Incorrect membership information</td>
-      <td>We give this error when we can't verify the information you have submitted in the <Badge>authentication</Badge> tag of the XML you POST. If you have defined a fixed IP in your account and you are requesting from a different IP, you will get this error again.</td>
-    </tr>
-    <tr>
-      <td>404</td>
-      <td>API does not have requested method</td>
-      <td>If you're getting this error, double-check the address you requested, you may be making a request to a wrong address.</td>
-    </tr>
-  </tbody>
-</table>
+<ErrorCodeTable codes={[400, 401, 404]} type="JSON" />
 
 ## Sample Request
 ```json
@@ -117,13 +87,13 @@ If the result of the request is negative, the error codes and messages that will
 }
 ```
 
-## Example Successful Response
+## Sample Successful Response
 ```json
 {
   "response": {
     "status": {
       "code": 200,
-      "message": "Operation successful"
+      "message": "Successful operation"
     },
     "balance": {
       "amount": "0",
@@ -133,13 +103,13 @@ If the result of the request is negative, the error codes and messages that will
 }
 ```
 
-## Example Incorrect Answer
+## Sample Error Response
 ```json
 {
   "response": {
     "status": {
       "code": 401,
-      "message": "Membership information is incorrect"
+      "message": "Membership details incorrect"
     }
   }
 }

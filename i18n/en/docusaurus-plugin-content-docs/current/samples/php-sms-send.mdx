@@ -1,10 +1,10 @@
 ---
-slug: /samples/php-sms-send
+slug: /ornekler/php-sms-gönderme
 sidebar_position: 0
 ---
 
-# Send SMS with PHP
-You can use the example below to send bulk, single or OTP sms from your PHP software.
+# PHP ile SMS Gönder
+To send bulk, single, or OTP SMS from your software developed with PHP, you can use the following example.
 
 ```php
 function sendRequest($url, $xml) {
@@ -26,7 +26,7 @@ function sendRequest($url, $xml) {
 
 $api_key = '';
 $api_hash = '';
-$sender = 'APITEST';
+$sender   = 'APITEST';
 
 $xml = <<<EOS
 <request>
@@ -38,7 +38,7 @@ $xml = <<<EOS
     <sender>{$sender}</sender>
     <sendDateTime></sendDateTime>
     <message>
-      <text><![CDATA[Test Message]]></text>
+      <text><![CDATA[Test Mesaji]]></text>
       <receipents>
         <number>531277xxxx</number>
       </receipents>
@@ -49,7 +49,7 @@ EOS;
 
 
 $result = sendRequest(
-  'http://api.iletimerkezi.com/v1/send-sms',
+  'https://api.iletimerkezi.com/v1/send-sms',
   $xml
 );
 

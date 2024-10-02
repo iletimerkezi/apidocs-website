@@ -1,5 +1,5 @@
 ---
-slug: /contacts/person/add/xml/
+slug: /rehber/kisi/ekle/xml/
 sidebar_label: XML
 sidebar_position: 0
 ---
@@ -9,84 +9,72 @@ import TabItem from '@theme/TabItem';
 import Badge from '@site/src/components/Badge';
 import RequestURL from '@site/src/components/RequestURL';
 import AccessWarning from '@site/src/components/AccessWarning';
+import AccessDescription from '@site/src/components/AccessDescription';
+import ResponseStatus from '@site/src/components/ResponseStatus';
+import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
 
 # XML Post API
 <AccessWarning />
-You can follow the instructions below to add a contact to your directory in XML format using the POST method of the HTTP protocol.
+To add a contact to your address book using the POST method of the HTTP protocol in XML format, you can follow the instructions below.
 
-## Address to request
+## Request URL
 
-<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/add-contacts" />
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/add-contact" />
 
-## Request Content (Body)
+## Request Body
 
-```xml title="Content of the request if you are processing using API Key"
+```xml
 <request>
   <authentication>
     <key></key>
     <hash></hash>
   </authentication>
-  <contacts>
-    <contact>
-      <name><![CDATA[...]]></name>
-      <surname><![CDATA[...]]></surname>
-      <email><![CDATA[...]]></email>
-      <gsm></gsm>
-      <custom_fields>
-        <custom_field>
-          <id></id>
-          <value></value>
-        </custom_field>
-      </custom_fields>
-      <groups>
-        <group>
-          <id></id>
-        </group>
-      </groups>
-    </contact>
-  </contacts>
+  <contact>
+    <name><![CDATA[...]]></name>
+    <surname><![CDATA[...]]></surname>
+    <email><![CDATA[...]]></email>
+    <gsm></gsm>
+    <custom_fields>
+      <custom_field>
+        <id></id>
+        <value></value>
+      </custom_field>
+    </custom_fields>
+    <groups>
+      <id></id>
+      <id></id>
+    </groups>
+  </contact>
 </request>
 ```
 
 ### Definitions
 
-The request to the server must be wrapped with the <Badge>request</Badge> tag. The definitions of the subtags of this tag are as follows:
+The request sent to the server must be wrapped in the <Badge>request</Badge> tag. The definitions of its sub-tags are as follows:
 
-#### authentication
-It is the user information that must be sent in order to receive authorization for the requested operation. The alt tags are as follows:
+<AccessDescription />
 
-+ **key:** API Key that you can create from the settings section should be written in this field after logging in to your iletimerkezi.com panel. It is required to be sent when making a request.
+#### contact
+Contains the information of the added contact. The sub-tags are as follows.
 
-+ **hash:** After logging into your iletimerkezi.com panel, the hash generated using the API Key and Secret Key that you can create from the settings section should be written in this field. It is required to be sent when making a request.
+  + **name:** Represents the contact's name.
+  + **surname:** Represents the contact's surname.
+  + **email:** Represents the contact's email address.
+  + **gsm:** Represents the contact's mobile phone number.
 
-#### contacts
-Contains information about the people in the group. The alt tags are as follows.
+  + #### custom_fields
+  Represents the custom fields defined for the contact. The sub-tags are as follows.
 
-  + #### contact
-  Contains contact information. It repeats as many times as the number of people. The alt tags are as follows.
+    + #### custom_field
+    Represents the custom field defined for the contact. Repeats as many times as the number of fields defined. The sub-tags are as follows.
 
-    + **id:** Indicates the unique numeric value that represents the person.
-    + **name:** Indicates the name of the person.
-    + **surname:** Indicates the surname of the person.
-    + **email:** Represents the email address of the person.
-    + **gsm:** refers to the person's mobile phone information.
+      + **id:** The unique numeric value representing the custom field.
+      + **value:** Represents the value stored for the contact in the custom field.
 
-    + #### custom_fields
-    It refers to the directory fields defined for the person. The alt tags are as follows.
+  + #### groups
+  Contains the unique numeric values representing the groups to which the contact belongs.
 
-      + #### custom_field
-      Indicates the directory area defined for the person. It repeats as many times as the defined area. The alt tags are as follows.
-
-        + **id:** Unique numeric value representing the Contacts field.
-        + **value:** Indicates the value held for the contact in the Contacts field.
-        + **custom_field_settings:** Indicates the value held for the contact in the Contacts field.
-
-    + #### groups
-    Contains groups that the person belongs to. The alt tags are as follows.
-      + **group:** Contains the information of the group the person belongs to. It repeats as many times as the group it is included in.
-      + **id:** Unique numeric value representing the group.
-
-## Server response
+## Server Response
 
 ```xml
 <response>
@@ -94,30 +82,54 @@ Contains information about the people in the group. The alt tags are as follows.
     <code></code>
     <message></message>
   </status>
-  <contacts>
-    <contact>
-      <code></code>
-      <message></message>
-    </contact>
-  </contacts>
+  <contact>
+    <id>1007</id>
+    <name></name>
+    <surname/>
+    <email/>
+    <gsm></gsm>
+    <custom_fields>
+      <custom_field>
+        <id>1</id>
+        <value>27/09/2024</value>
+      </custom_field>
+      <custom_field>
+        <id>2</id>
+        <value>cip</value>
+      </custom_field>
+    </custom_fields>
+    <groups>
+      <id>7</id>
+      <id>12</id>
+    </groups>
+  </contact>
 </response>
 ```
 
 ### Definitions
 
-The response from the server is always wrapped in the <Badge>response</Badge> tag. The definition of subtags of this tag is as follows:
+The response from the server is always wrapped in the <Badge>response</Badge> tag. The definitions of its sub-tags are as follows:
 
-#### status
-Contains information about the transaction status. The values ​​returned by this tag can also be obtained by looking at the header information of the HTTP response. This tag is returned by default on every request made. sublabelts are as follows
+<ResponseStatus />
 
-+ **code:** It is the numerical value that indicates the operation status.
-+ **message:** Contains an informational message about the transaction status.
+#### contact
+Contains the information of the added contact. The sub-tags are as follows.
 
-#### contacts
-It includes the information of adding people added to the directory. The alt tags are as follows.
+  + **id:** Represents the unique numeric value of the contact.
+  + **name:** Represents the contact's name.
+  + **surname:** Represents the contact's surname.
+  + **email:** Represents the contact's email address.
+  + **gsm:** Represents the contact's mobile phone number.
 
-  + #### contact
-  It contains the added information of the added person. The alt tags are as follows:
+  + #### custom_fields
+  Represents the custom fields defined for the contact. The sub-tags are as follows.
 
-    + **code:** It is the numerical value that indicates the operation status.
-    + **message:** Contains an informational message about the transaction status.
+    + **id:** The unique numeric value representing the custom field.
+    + **value:** Represents the value stored for the contact in the custom field.
+
+  + #### groups
+  Contains the unique numeric values representing the groups to which the contact belongs.
+
+## Error Codes
+
+<ErrorCodeTable codes={[400, 401, 404, 463, 472, 473]} />

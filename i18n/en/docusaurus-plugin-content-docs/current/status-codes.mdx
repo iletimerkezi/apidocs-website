@@ -1,10 +1,10 @@
 ---
-slug: /status-codes-and-messages
+slug: /durum-kodlari-ve-mesajlar
 sidebar_position: 6
 ---
 
 # Status Codes and Messages
-The list of replies returned to API requests by Message Center servers is as follows.
+Below is a list of responses returned by the İleti Merkezi for API requests.
 
 <table>
   <thead>
@@ -14,7 +14,7 @@ The list of replies returned to API requests by Message Center servers is as fol
   <tbody>
     <tr>
       <td>110</td>
-      <td>Sending message</td>
+      <td>Message is being sent</td>
     </tr>
     <tr>
       <td>111</td>
@@ -22,31 +22,31 @@ The list of replies returned to API requests by Message Center servers is as fol
     </tr>
     <tr>
       <td>112</td>
-      <td>Failed to send message</td>
+      <td>Message not sent</td>
     </tr>
     <tr>
       <td>113</td>
-      <td>Order in progress</td>
+      <td>Order is still being sent</td>
     </tr>
     <tr>
       <td>114</td>
-      <td>Order has been shipped</td>
+      <td>Order completed</td>
     </tr>
     <tr>
       <td>115</td>
-      <td>Failed to submit order</td>
+      <td>Order not sent</td>
     </tr>
     <tr>
       <td>200</td>
-      <td>Operation successful</td>
+      <td>Successful operation</td>
     </tr>
     <tr>
       <td>400</td>
-      <td>The request could not be resolved</td>
+      <td>Request could not be processed</td>
     </tr>
     <tr>
       <td>401</td>
-      <td>Incorrect membership information</td>
+      <td>Membership details incorrect</td>
     </tr>
     <tr>
       <td>402</td>
@@ -54,19 +54,23 @@ The list of replies returned to API requests by Message Center servers is as fol
     </tr>
     <tr>
       <td>404</td>
-      <td>API does not have requested method</td>
+      <td>API does not support the requested method</td>
+    </tr>
+    <tr>
+      <td>422</td>
+      <td>Values in the request could not be validated</td>
     </tr>
     <tr>
       <td>450</td>
-      <td>Submitted header is not available for use</td>
+      <td>The submitted sender title is not valid</td>
     </tr>
     <tr>
       <td>451</td>
-      <td>Repeating order</td>
+      <td>Duplicate order</td>
     </tr>
     <tr>
       <td>452</td>
-      <td>Message recipients are incorrect</td>
+      <td>Invalid message recipients</td>
     </tr>
     <tr>
       <td>453</td>
@@ -82,11 +86,75 @@ The list of replies returned to API requests by Message Center servers is as fol
     </tr>
     <tr>
       <td>456</td>
-      <td>Order shipping date has not come yet</td>
+      <td>Order sending date has not yet arrived</td>
     </tr>
     <tr>
       <td>457</td>
-      <td>Incorrect format of message sending date</td>
+      <td>Invalid message sending date format</td>
+    </tr>
+    <tr>
+      <td>458</td>
+      <td>Invalid date range</td>
+    </tr>
+    <tr>
+      <td>459</td>
+      <td>Sender title cannot be empty</td>
+    </tr>
+    <tr>
+      <td>460</td>
+      <td>Title must not exceed 11 characters and should not contain Turkish characters</td>
+    </tr>
+    <tr>
+      <td>461</td>
+      <td>You cannot leave the group name blank</td>
+    </tr>
+    <tr>
+      <td>462</td>
+      <td>You cannot leave the group ID field blank</td>
+    </tr>
+    <tr>
+      <td>463</td>
+      <td>No such group found</td>
+    </tr>
+    <tr>
+      <td>464</td>
+      <td>Page value must start from 1</td>
+    </tr>
+    <tr>
+      <td>465</td>
+      <td>No person found</td>
+    </tr>
+    <tr>
+      <td>466</td>
+      <td>Invalid number</td>
+    </tr>
+    <tr>
+      <td>467</td>
+      <td>Document information is missing</td>
+    </tr>
+    <tr>
+      <td>468</td>
+      <td>You must configure whether to query via IYS</td>
+    </tr>
+    <tr>
+      <td>469</td>
+      <td>You must choose your IYS list: INDIVIDUAL or CORPORATE</td>
+    </tr>
+    <tr>
+      <td>470</td>
+      <td>You must configure your IYS code</td>
+    </tr>
+    <tr>
+      <td>471</td>
+      <td>Search term must be at least 3 characters long</td>
+    </tr>
+    <tr>
+      <td>472</td>
+      <td>At least one of the following fields must be filled: first name, last name, mobile phone, email</td>
+    </tr>
+    <tr>
+      <td>473</td>
+      <td>No custom field found</td>
     </tr>
     <tr>
       <td>503</td>

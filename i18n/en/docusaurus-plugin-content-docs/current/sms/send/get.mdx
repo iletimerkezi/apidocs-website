@@ -1,5 +1,5 @@
 ---
-slug: /sms/send/get/
+slug: /sms/gonder/get/
 sidebar_label: GET
 sidebar_position: 0
 ---
@@ -10,9 +10,9 @@ import Badge from '@site/src/components/Badge';
 import RequestURL from '@site/src/components/RequestURL';
 
 # Get API
-If you want to send SMS with the GET method of the HTTP protocol, you can follow the instructions below. In general, you can integrate the settings in the SMS integration panels of ready-made software or hardware/devices such as firewall into the Ileti Merkezi with the help of the documentation here.
+If you want to perform the SMS sending operation using the GET method of the HTTP protocol, you can follow the guidelines below. You can generally integrate the SMS integration panels of ready-made software or hardware/devices like firewalls into İleti Merkezi using this documentation.
 
-## Address to request
+## Request URL
 
 <RequestURL type="GET" url="https://api.iletimerkezi.com/v1/send-sms/get/" />
 
@@ -21,55 +21,55 @@ If you want to send SMS with the GET method of the HTTP protocol, you can follow
 https://api.iletimerkezi.com/v1/send-sms/get/?key=API_KEY&hash=API_HASH&text=Lorem%20ipsum%20dolor%20sit%20amet&receipents=5301234569,5301234570&sender=APITEST&iys=1&iysList=BIREYSEL
 ```
 
-:::tip Hint
-After you write your own values ​​in the request parameters, you can try the integration by typing the url address into the address field of your browser. If you get an error, you can see how the error can be resolved in the status and error codes section.
+:::tip Tip
+After writing your values to the request parameters, you can try the integration by entering the generated URL in your browser's address bar. If you encounter an error, you can check how to resolve it in the status and error codes section.
 :::
 
 ### Definitions
 
-The descriptions of the parameters sent in the request are as follows:
+The explanations of the parameters sent in the request are as follows:
 
 + **key:**
-API Key that you can create from the settings section should be written in this field after logging in to your iletimerkezi.com panel. It is required to be sent when making a request.
+This should be the API Key that you can create from the settings section after logging into your iletimerkezi.com panel. It is mandatory to send this when making the request.
 
 + **hash:**
-After logging into your iletimerkezi.com panel, the hash generated using the API Key and Secret Key that you can create from the settings section should be written in this field. It is required to be sent when making a request.
+This should be the hash created using the API Key and Secret Key that you can create from the settings section after logging into your iletimerkezi.com panel. It is mandatory to send this when making the request.
 
 + **text:**
-Contains the text of the SMS to be sent. It is required to be sent when making a request. The URL must be encoded.
+This contains the SMS text to be sent. It is mandatory to send this when making the request. It must be URL encoded.
 
-:::tip Hint
-If you are not integrating with a ready-made panel or if you are making a panel for sms integration into your own software, you should encode these values ​​as your message text in the "text" field may contain characters that may corrupt the url address.
+:::tip Tip
+If you are not integrating into a ready-made panel or if you are creating a panel for SMS integration in your own software, you should encode the values in the "text" field since your message text may contain characters that could break the URL structure.
 
-Every software language has built-in functions that do this encoding.
+There are built-in functions available in every programming language that perform this encoding.
 
 ```bash
-&text=Example of unencoded message text
+&text=Sample unencoded message text
 
-After #encode, the message text should appear as follows
-&text=Unencoded%20%C5%9F%20message%20text%20%C3%B6rne%C4%9Fi
+# After encoding, the message text should appear as follows
+&text=Sample%20encoded%20message%20text
 ```
 
 [For more detailed information](https://tr-tr.facebook.com/business/help/474659792899595)
 :::
 
 + **receipents:**
-Contains the recipient's mobile phone number. The number format should be 5xxxxxxxxx. If more than one recipient is to be defined for the specified message text, the numbers must be separated by commas. It is required to be sent when making a request.
+This contains the recipient's phone number. The number format should be 5xxxxxxxxx. If you want to define multiple recipients for the specified message text, the numbers should be separated by commas. It is mandatory to send this when making the request.
 
 + **sender:**
-It is the header information, consisting of maximum 11 characters, defined from the iletimerkezi.com administration panel and approved by iletimerkezi.com. The sent message is sent to the receiver with the header specified with this parameter. It is required to be sent when making a request. The URL must be encoded.
+This is the title defined and approved by iletimerkezi.com from the management panel, consisting of a maximum of 11 characters. The sent message will be sent to the recipient with the title specified by this parameter. It is mandatory to send this when making the request. It must be URL encoded.
 
 + **iys:**
-Indicates whether the message will be queried over the Message Management System (İYS). If you send this value as 1 (true), your messages will be queried via IYS, if you send it as 0 (false), it will not be queried. It is required to be sent when making a request.
+This indicates whether the message will be queried through the İleti Yönetim Sistemi (IYS). If you send this value as 1 (true), your messages will be queried through IYS; if you send it as 0 (false), they will not be queried. It is mandatory to send this when making the request.
 
-:::tip Hint
-This value should legally be 1 if you are sending a commercial message. **Otherwise, penalties may apply**.
+:::tip Tip
+If you are sending a commercial message, this value must be legally set to 1. **Otherwise, legal action may be taken**.
 
-[Click for detailed information about İYS.](https://www.iletimerkezi.com/blog/duyurular/iys-ileti-yonetim-sistemi-nedir)
+[Click for detailed information about IYS.](https://www.iletimerkezi.com/blog/duyurular/iys-ileti-yonetim-sistemi-nedir)
 :::
 
 + **iysList:**
-Indicates the list you want to be queried via the Message Management System (İYS). If you have sent the iys value as 1, that is, if you want your message to be queried via IYS, it is mandatory to send the iysList value as BIREYSEL or TACIR. If you are sending the iys value as 0, this field will be ignored.
+This indicates the list you want to query through the İleti Yönetim Sistemi (IYS). If you sent the value of iys as 1, meaning you want your message to be queried through IYS, the iysList value must be sent as either BIREYSEL or TACIR. If you send the value of iys as 0, this field will not be considered.
 
 ## Sample Request
 ```bash
@@ -90,21 +90,21 @@ https://api.iletimerkezi.com/v1/send-sms/get/?key=3ea65b1e8baxxxx&hash=XXXX&text
 ```
 
 ### Definitions
-The response from the server is always wrapped in the <Badge>response</Badge> tag. The definition of this tag, its subtags, is as follows:
+The response from the server is always encapsulated with the <Badge>response</Badge> tag. The definitions of its sub-tags are as follows:
 
 #### status
-Contains information about the transaction status. The values ​​returned by this tag can also be obtained by looking at the header information of the HTTP response. This tag is returned by default on every request made. The alt tags are as follows
+Contains information about the transaction status. The values returned with this tag can also be obtained by looking at the header information of the HTTP response. This tag is returned as a standard in every request made. Its sub-tags are as follows:
 
-+ **code:** It is the numerical value that indicates the operation status.
-+ **message:** Contains an informational message about the transaction status.
++ **code:** This is a numeric value indicating the transaction status.
++ **message:** This contains an informational message about the transaction status.
 
 #### order
-Contains the order information created if the transaction was completed successfully. If the operation fails, this tag is not returned. The <Badge>order</Badge> tag is not a repeatable tag. Only one order can be submitted per request. The alt tag is as follows:
+Contains the order information created if the transaction is successfully completed. This tag is not returned if the transaction fails. The <Badge>order</Badge> tag is not repeatable. Only one order can be sent per request. Its sub-tag is as follows:
 
-+ **id:** Unique numeric value representing the order. By storing the "id" value in your own systems, you can use it when querying the report of the order, and when canceling the order if you have made a post-dated delivery.
++ **id:** This is a unique numeric value representing the order. You can save the "id" value in your systems and use it when querying the report of the order or canceling the order if you have made a future date delivery.
 
 ## Error Codes
-If the result of the request is negative, the error codes and messages that will be returned to you by the server are as follows.
+If the result of the request is negative, the error codes and messages that the server will return to you are as follows.
 
 <table>
   <thead>
@@ -117,44 +117,44 @@ If the result of the request is negative, the error codes and messages that will
   <tbody>
     <tr>
       <td>401</td>
-      <td>Incorrect membership information</td>
-      <td><Badge>key</Badge>, <Badge>hash</Badge> tag, we give this error when we cannot verify the information you have sent, if you have defined a fixed IP in your account and you are requesting from a different IP, you will get this error again.</td>
+      <td>Membership information is incorrect</td>
+      <td>This error is returned if the information you sent within the <Badge>key</Badge>, <Badge>hash</Badge> tags could not be validated. If you have defined a static IP in your account and you make the request from a different IP, you will receive this error as well.</td>
     </tr>
     <tr>
       <td>402</td>
       <td>Insufficient balance</td>
-      <td>If the balance in your account is not enough to send this order, we give this error.</td>
+      <td>This error is returned if the balance in your account is not enough to send this order.</td>
     </tr>
     <tr>
       <td>450</td>
-      <td>sent bnot suitable for use</td>
-      <td>If the value you sent with the <Badge>sender</Badge> tag is not approved in your account, you will get this error, you need to send it as defined in your account. Usually, the changes that cause this error are lowercase and uppercase letters or sending extra space values.</td>
+      <td>The sent title is not suitable for use</td>
+      <td>This error is returned if the value you sent with the <Badge>sender</Badge> tag is not approved in your account. You must send it as defined in your account. Generally, changes that cause this error are differences in case sensitivity or sending extra space values.</td>
     </tr>
     <tr>
       <td>451</td>
-      <td>Repeating order</td>
-      <td>If you want to resend the same message text to the same recipients within 10 minutes, the system will return this error to you, so that there is no spam and the same messages are not sent to the same people by mistake. If you need such a transmission, you can differentiate the text of the message by typing the current hour and minute in the message text.</td>
+      <td>Repeated order</td>
+      <td>If you try to send the same message text to the same recipients within 10 minutes, the system will return this error to you to prevent spam and ensure that the same messages are not sent to the same people by mistake. If you have such a sending requirement, you can differentiate the message text by writing the current time and minute in the message text.</td>
     </tr>
     <tr>
       <td>452</td>
       <td>Message recipients are incorrect</td>
-      <td>If the phone numbers you sent with the <Badge>receipents</Badge> tag are missing or cannot be verified, we give this error. At the same time, if you are sure that the mobile phone number you want to message is correct, you can still get this error if you have added the mobile phone number to your number blocking list.</td>
+      <td>This error is returned if the phone numbers you sent with the <Badge>receipents</Badge> tag are incomplete or cannot be verified. Also, if you are sure that the mobile phone number you want to send a message to is correct, you may receive this error if the mobile phone number has been added to your block list.</td>
     </tr>
     <tr>
       <td>453</td>
       <td>Order size exceeded</td>
-      <td>If the text of the message you sent with the <Badge>text</Badge> tag is more than seven (7) SMS lengths according to your character encoding, this error will return.</td>
+      <td>This error returns if the message text you sent with the <Badge>text</Badge> tag is longer than seven (7) SMS lengths according to your character encoding.</td>
     </tr>
     <tr>
       <td>454</td>
       <td>Message text is empty</td>
-      <td>If the text of the message you sent in the <Badge>text</Badge> parameter does not contain any value, your message will not be sent and this error message will be returned.</td>
+      <td>This error returns if the message text you sent in the <Badge>text</Badge> parameter does not contain any values.</td>
     </tr>
   </tbody>
 </table>
 
 
-## Example Successful Response
+## Sample Successful Response
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <response>
@@ -168,7 +168,7 @@ If the result of the request is negative, the error codes and messages that will
 </response>
 ```
 
-## Example Incorrect Answer
+## Sample Error Response
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <response>
@@ -177,4 +177,3 @@ If the result of the request is negative, the error codes and messages that will
     <message>Membership information is incorrect</message>
   </status>
 </response>
-```

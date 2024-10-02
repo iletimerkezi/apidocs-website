@@ -48,8 +48,8 @@ public ve secret key bilgilerini https://www.iletimerkezi.com/user/preferences a
 
 ```ruby
 IletiMerkezi.configure do |config|
-  # Default: http://api.iletimerkezi.com/v1'
-  config.endpoint          = 'http://api.iletimerkezi.com/v1'
+  # Default: https://api.iletimerkezi.com/v1'
+  config.endpoint          = 'https://api.iletimerkezi.com/v1'
   config.sender            = 'FOO'
   # opsiyonel
   config.request_overrides = {
@@ -72,7 +72,7 @@ Veya
 - Ortam değişkeleri ile yapılandırabilirsiniz. bknz: .env
 
 ```ruby
-IM_ENDPOINT = 'http://api.iletimerkezi.com/v1' # Default: http://api.iletimerkezi.com/v1
+IM_ENDPOINT = 'https://api.iletimerkezi.com/v1' # Default: https://api.iletimerkezi.com/v1
 # Kimlik Doğrulama: username ve password
 IM_USERNAME = 'username'
 IM_PASSWORD = 'password'

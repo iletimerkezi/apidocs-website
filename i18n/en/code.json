@@ -270,6 +270,14 @@
     "message": "The following table lists the error codes that the API can return.",
     "description": "The description of the error code table"
   },
+  "errorCodeTable.column.code": {
+    "message": "Error Code",
+    "description": "The column header for the error code table"
+  },
+  "errorCodeTable.column.message": {
+    "message": "Message",
+    "description": "The column header for the error code table"
+  },
   "errorCodeTable.column.description": {
     "message": "Description",
     "description": "The column header for the error code table"

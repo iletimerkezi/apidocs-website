@@ -51,6 +51,10 @@ a[class*="sidebarLogo"] {
   padding: 8px;
 }
 
+.request-copy-button {
+  float: right;
+}
+
 .menu__link {
   display: flex;
   justify-content: space-between;

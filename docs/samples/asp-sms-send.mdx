@@ -35,6 +35,6 @@ xml="<request>" & _
 "</order>" & _
 "</request>"
 
-answer = POSTHTTPXML("http://api.iletimerkezi.com/v1/send-sms", xml)
+answer = POSTHTTPXML("https://api.iletimerkezi.com/v1/send-sms", xml)
 response.write cevap
 ```

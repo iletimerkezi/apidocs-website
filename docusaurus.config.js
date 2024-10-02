@@ -10,7 +10,7 @@ const config = {
   tagline: '❤️ Developers first!',
   url: 'https://toplusmsapi.com',
   baseUrl: '/',
-  trailingSlash: true,
+  trailingSlash: false,
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',

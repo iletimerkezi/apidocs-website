@@ -1,0 +1,115 @@
+---
+slug: /rehber/grup/kişiler/xml/
+sidebar_label: XML
+sidebar_position: 0
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Badge from '@site/src/components/Badge';
+import RequestURL from '@site/src/components/RequestURL';
+import AccessWarning from '@site/src/components/AccessWarning';
+import AccessDescription from '@site/src/components/AccessDescription';
+import ResponseStatus from '@site/src/components/ResponseStatus';
+import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
+
+# XML Post API
+<AccessWarning />
+To retrieve the contacts within a defined group in your contact list using the POST method of the HTTP protocol in XML format, you can follow the instructions below.
+
+## Request URL
+
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/get-group-contacts" />
+
+## Request Body
+
+```xml
+<request>
+  <authentication>
+    <key></key>
+    <hash></hash>
+  </authentication>
+  <group>
+    <id></id>
+    <page></page>
+    <rowCount></rowCount>
+  </group>
+</request>
+```
+
+### Definitions
+
+The request sent to the server must be wrapped in the <Badge>request</Badge> tag. The definitions of its sub-tags are as follows:
+
+<AccessDescription />
+
+#### group
+Contains the group to which the contacts belong and the number of contacts requested. The sub-tags are as follows.
+
++ **id:** Contains the unique numeric ID value of the group to which the contacts belong.
++ **page:** Represents the report page. It is not mandatory to send this in the request. The default value is 1.
++ **rowCount:** Specifies the number of contacts on a report page. It is not mandatory to send this in the request. The default value is 1000. The maximum value is 1000. If there are more than 1000 contacts, additional requests should be made to query the subsequent pages.
+
+## Server Response
+```xml
+<response>
+  <status>
+    <code></code>
+    <message></message>
+  </status>
+  <contacts>
+    <contact>
+      <id></id>
+      <name><![CDATA[...]]></name>
+      <surname><![CDATA[...]]></surname>
+      <email><![CDATA[...]]></email>
+      <gsm></gsm>
+      <custom_fields>
+        <custom_field>
+          <id></id>
+          <value></value>
+        </custom_field>
+      </custom_fields>
+      <groups>
+        <id></id>
+      </groups>
+    </contact>
+  <contacts>
+</response>
+```
+
+### Definitions
+
+The response from the server is always wrapped in the <Badge>response</Badge> tag. The definitions of its sub-tags are as follows:
+
+<ResponseStatus />
+
+#### contacts
+Contains the information of the contacts within the group. The sub-tags are as follows.
+
+  + #### contact
+  Contains the contact information. Repeats as many times as the number of contacts. The sub-tags are as follows.
+
+    + **id:** Represents the unique numeric value of the contact.
+    + **name:** Represents the contact's name.
+    + **surname:** Represents the contact's surname.
+    + **email:** Represents the contact's email address.
+    + **gsm:** Represents the contact's mobile phone number.
+
+    + #### custom_fields
+    Represents the custom fields defined for the contact. The sub-tags are as follows.
+
+      + #### custom_field
+      Represents the custom field defined for the contact. Repeats as many times as the number of fields defined. The sub-tags are as follows.
+
+        + **id:** The unique numeric value representing the custom field.
+        + **value:** Represents the value stored for the contact in the custom field.
+        + **custom_field_settings:** Represents the value stored for the contact in the custom field.
+
+    + #### groups
+    Contains the groups to which the contact belongs. The sub-tags are as follows.
+      + **id:** The unique numeric value representing the group.
+
+## Error Codes
+
+<ErrorCodeTable codes={[400, 401, 404, 463, 465]} />

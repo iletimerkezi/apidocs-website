@@ -1,5 +1,5 @@
 ---
-slug: /sms/report/list/json
+slug: /sms/rapor/liste/json
 sidebar_label: JSON
 sidebar_position: 1
 ---
@@ -10,16 +10,13 @@ import Badge from '@site/src/components/Badge';
 import RequestURL from '@site/src/components/RequestURL';
 
 # JSON Post API
-If you want to receive the status of the SMS package you have sent in JSON format using the POST method of the HTTP protocol, you can follow the instructions below.
+If you want to check the status of the SMS package you have sent using the POST method of the HTTP protocol, you can follow the instructions below.
 
-## Address to request
-
+## Request URL
 <RequestURL type="POST" url="https://api.iletimerkezi.com/v1/get-report/json" />
 
-
-## Request Content (Body)
-
-```json title="If you are processing using API Key, the content of the request is:"
+## Request Body
+```json title="If you are using an API Key to perform the action:"
 {
   "request": {
     "authentication": {
@@ -36,27 +33,25 @@ If you want to receive the status of the SMS package you have sent in JSON forma
 ```
 
 ### Definitions
-
-The request to the server must be wrapped with the <Badge>request</Badge> tag. The definitions of the subtags of this tag are as follows:
+The request to the server must be wrapped in the <Badge>request</Badge> tag. The definitions of the sub-tags of this tag are as follows:
 
 #### authentication
-It is the user information that must be sent in order to receive authorization for the requested operation. The alt tags are as follows:
+User information that must be sent to obtain authorization for the request being made. The sub-tags are as follows:
 
-+ **key:** API Key that you can create from the settings section should be written in this field after logging in to your iletimerkezi.com panel. It is required to be sent when making a request.
++ **key:** This should be the API Key you can generate in the settings section after logging into iletimerkezi.com. It is mandatory to send this during the request.
 
-+ **hash:** After logging into your iletimerkezi.com panel, the hash generated using the API Key and Secret Key that you can create from the settings section should be written in this field. It is required to be sent when making a request.
++ **hash:** This should be the hash created using the API Key and the Secret Key that you can generate in the settings section after logging into iletimerkezi.com. It is mandatory to send this during the request.
 
 #### order
-The report contains the information of the order to be queried. The alt tags are as follows.
+Contains information about the order whose report will be queried. The sub-tags are as follows:
 
-+ **id:** Unique numeric value representing the order. When you request to send SMS via API, it is the <Badge>id</Badge> value returned by the server. It is required to be sent when making a request.
++ **id:** This is the unique numeric identifier that represents the order. It is mandatory to send this during the request, and you will receive this value as <Badge>id</Badge> from the server when you make an SMS sending request via the API.
 
-+ **page:** Indicates the report page. It is not required to be sent when making a request. Its default value is 1.
++ **page:** This represents the report page. It is optional to send during the request. The default value is 1.
 
-+ **rowCount:** Indicates the number of posts on a report page. It is not required to be sent when making a request. Its default value is 1000. Its maximum value is 1000. If more than 1000 messages are sent in an order, a new request should be made by increasing the value in the <Badge>page</Badge> tag.
++ **rowCount:** This indicates the number of messages on a report page. It is optional to send during the request. The default value is 1000, and the maximum value is 1000. If more than 1000 messages have been sent in an order, a new request must be made by increasing the value in the <Badge>page</Badge> tag.
 
-## Server response
-
+## Server Response
 ```json
 {
   "response": {
@@ -87,22 +82,21 @@ The report contains the information of the order to be queried. The alt tags are
 ```
 
 ### Definitions
-
-The response from the server is always wrapped in the <Badge>response</Badge> tag. The definition of subtags of this tag is as follows:
+The response from the server is always wrapped in the <Badge>response</Badge> tag. The definitions of the sub-tags of this tag are as follows:
 
 #### status
-Contains information about the transaction status. The values ​​returned by this tag can also be obtained by looking at the header information of the HTTP response. This tag is returned by default on every request made. The alt tags are as follows
+Contains information about the status of the process. The values returned by this tag can also be obtained by looking at the header information of the HTTP response. This tag is returned as a standard in every request made. The sub-tags are as follows:
 
-+ **code:** It is the numerical value that indicates the operation status.
-+ **message:** Contains an informational message about the transaction status.
++ **code:** This is a numeric value indicating the status of the process.
++ **message:** This contains an informational message about the status of the process.
 
 #### order
-Contains the order information created if the transaction was completed successfully. If the operation fails, this tag is not returned. The alt tags are as follows:
+Contains the information about the created order if the process has been successfully completed. If the process fails, this tag is not returned. The sub-tags are as follows:
 
-+ **id:** Unique numeric value representing the order.
-+ **status:** It is the numerical value that indicates the general shipping status of the order. The following table lists the values ​​that this label can take and the meanings they mean.
++ **id:** This is the unique numeric identifier representing the order.
++ **status:** This is a numeric value indicating the general shipping status of the order. The values this tag can take and their meanings are listed in the table below:
 
-  <table>
+<table>
     <thead>
       <tr>
         <th>Status Code</th>
@@ -112,50 +106,50 @@ Contains the order information created if the transaction was completed successf
     <tbody>
       <tr>
         <td>113</td>
-        <td>Order in progress</td>
+        <td>Order delivery is in progress</td>
       </tr>
       <tr>
         <td>114</td>
-        <td>Order has been shipped</td>
+        <td>Order delivery is completed</td>
       </tr>
       <tr>
         <td>115</td>
-        <td>Failed to submit order</td>
+        <td>Order could not be delivered</td>
       </tr>
     </tbody>
-  </table>
+</table>
 
-  #### messages
-  Contains reported message information. It is repeated as many times as the number of messages on the queried page. Sub tagsi is as follows:
+#### message
+Contains the reported message information. It is repeated as many times as the number of messages on the queried page. The sub-tags are as follows:
 
-  + **number:** Contains the recipient's mobile phone number.
-  + **status:** It is the numerical value that indicates the sending status of the message. The following table lists the values ​​that this label can take and the meanings they mean.
++ **number:** Contains the recipient's phone number.
++ **status:** Indicates the delivery status of the message, represented as a numeric value. The values this tag can take and their meanings are listed in the table below:
 
-    <table>
-      <thead>
-        <tr>
-          <th>Status Code</th>
-          <th>Status Message</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>110</td>
-          <td>Sending message</td>
-        </tr>
-        <tr>
-          <td>111</td>
-          <td>Message sent</td>
-        </tr>
-        <tr>
-          <td>112</td>
-          <td>Failed to send message</td>
-        </tr>
-      </tbody>
-    </table>
+<table>
+    <thead>
+      <tr>
+        <th>Status Code</th>
+        <th>Status Message</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>110</td>
+        <td>Message is being sent</td>
+      </tr>
+      <tr>
+        <td>111</td>
+        <td>Message has been sent</td>
+      </tr>
+      <tr>
+        <td>112</td>
+        <td>Message could not be sent</td>
+      </tr>
+    </tbody>
+</table>
 
 ## Error Codes
-If the result of the request is negative, the error codes and messages that will be returned to you by the server are as follows.
+If the request result is negative, the error codes and messages that will be returned to you by the server are as follows:
 
 <table>
   <thead>
@@ -166,34 +160,33 @@ If the result of the request is negative, the error codes and messages that will
   <tbody>
     <tr>
       <td>400</td>
-      <td>The request could not be resolved</td>
-      <td>This error is returned if the JSON you POST cannot be validated (invalidate).
-      These errors are usually caused by non-escaped values.</td>
+      <td>Request could not be resolved</td>
+      <td>This error will be returned if the JSON you posted cannot be validated (if it is invalid). These errors are usually caused by unescaped values.</td>
     </tr>
     <tr>
       <td>401</td>
-      <td>Incorrect membership information</td>
-      <td>We give this error when we cannot verify the information you have sent in the <Badge>authentication</Badge> tag of the JSON you POST. If you have defined a fixed IP in your account and you are requesting from a different IP, you will get this error again.</td>
+      <td>Membership information is incorrect</td>
+      <td>This error will be given if we could not validate the information you sent in the <Badge>authentication</Badge> tag in the posted JSON. If you have defined a fixed IP for your account and are making a request from a different IP, you will receive this error again.</td>
     </tr>
     <tr>
       <td>404</td>
-      <td>API does not have requested method</td>
-      <td>If you're getting this error, double-check the address you requested, you may be making a request to a wrong address.</td>
+      <td>API method not available</td>
+      <td>If you receive this error, please check the address you are requesting; you might be making a request to an incorrect address.</td>
     </tr>
     <tr>
       <td>455</td>
       <td>Order not found</td>
-      <td>If there is no order created with the <Badge>id</Badge> that you have forwarded in the request, or if the order has changed from being pending delivery to being delivered, you will get this error.</td>
+      <td>If there is no order created with the <Badge>id</Badge> you provided in the request or if the order has changed from waiting for delivery status to delivered status, you will receive this error.</td>
     </tr>
     <tr>
       <td>456</td>
-      <td>Order shipping date has not come yet</td>
-      <td>If the order created with the <Badge>id</Badge> you have submitted in the request is a post-dated delivery and the delivery date has not yet arrived, you will receive this error.</td>
+      <td>Order delivery date has not yet arrived</td>
+      <td>If the order created with the <Badge>id</Badge> you provided in the request is a future date delivery and the delivery date has not yet arrived, you will receive this error.</td>
     </tr>
   </tbody>
 </table>
 
-## Sample Request
+## Example Request
 ```json
 {
   "request": {
@@ -216,7 +209,7 @@ If the result of the request is negative, the error codes and messages that will
   "response": {
     "status": {
       "code": 200,
-      "message": "Operation successful"
+      "message": "Process successful"
     },
     "order": {
       "id": 428,
@@ -248,7 +241,7 @@ If the result of the request is negative, the error codes and messages that will
 }
 ```
 
-## Example Incorrect Answer
+## Example Error Response
 ```json
 {
   "response": {
