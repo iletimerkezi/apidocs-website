@@ -27,6 +27,22 @@
     "message": "Block Number",
     "description": "The label for category Numara Engelle in sidebar tutorialSidebar"
   },
+  "sidebar.tutorialSidebar.category.Numara Engelleme API": {
+    "message": "Number Blocking API",
+    "description": "The label for category Numara Engelle in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Listele": {
+    "message": "List Numbers",
+    "description": "The label for category Numara Engelle in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Listeye ekle": {
+    "message": "Block Number",
+    "description": "The label for category Numara Engelle in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Listeden çıkar": {
+    "message": "Unblocked Number",
+    "description": "The label for category Numara Engelle in sidebar tutorialSidebar"
+  },
   "sidebar.tutorialSidebar.category.Numara Engelleme Listesi": {
     "message": "Blocked Number List",
     "description": "The label for category Numara Engelleme Listesi in sidebar tutorialSidebar"
@@ -75,12 +91,24 @@
     "message": "Add Person",
     "description": "The label for category Kişi Ekle in sidebar tutorialSidebar"
   },
+  "sidebar.tutorialSidebar.category.Kişi Düzenle": {
+    "message": "Edit Person",
+    "description": "The label for category Kişi Düzenle in sidebar tutorialSidebar"
+  },
   "sidebar.tutorialSidebar.category.Kişi Sil": {
     "message": "Delete Person",
     "description": "The label for category Kişi Sil in sidebar tutorialSidebar"
   },
   "sidebar.tutorialSidebar.category.Kişi Bilgisi": {
     "message": "Person Information",
+    "description": "The label for category Kişi Bilgisi in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Kişi Listesi": {
+    "message": "List People",
+    "description": "The label for category Kişi Bilgisi in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Kişi Ara": {
+    "message": "Search People",
     "description": "The label for category Kişi Bilgisi in sidebar tutorialSidebar"
   },
   "sidebar.tutorialSidebar.category.Ara": {
@@ -93,6 +121,38 @@
   },
   "sidebar.tutorialSidebar.category.Örnek Kodlar": {
     "message": "Samples",
+    "description": "The label for category Örnek Kodlar in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.PHP ile SMS Gönder": {
+    "message": "Send SMS with PHP",
+    "description": "The label for category Örnek Kodlar in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Java ile SMS Gönder": {
+    "message": "Send SMS with Java",
+    "description": "The label for category Örnek Kodlar in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.C# ile SMS Gönder": {
+    "message": "Send SMS with CSharp",
+    "description": "The label for category Örnek Kodlar in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Ruby ile SMS Gönder": {
+    "message": "Send SMS with Ruby",
+    "description": "The label for category Örnek Kodlar in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Python ile SMS Raporu Alma": {
+    "message": "Get SMS reports with Python",
+    "description": "The label for category Örnek Kodlar in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Python ile SMS Gönder": {
+    "message": "Send SMS with Python",
+    "description": "The label for category Örnek Kodlar in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Delphi ile SMS Gönder": {
+    "message": "Send SMS with Delphi",
+    "description": "The label for category Örnek Kodlar in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.ASP ile SMS Gönder": {
+    "message": "Send SMS with ASP",
     "description": "The label for category Örnek Kodlar in sidebar tutorialSidebar"
   }
 }

@@ -13,13 +13,13 @@ import ResponseStatus from '@site/src/components/ResponseStatus';
 import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
 
 # JSON Post API
-Hesabınızda tanımlanmış onaylı başlık listesini, HTTP protokolünün POST metodunu kullanarak, JSON formatında almak isterseniz aşağıdaki yönergeleri takip edebilirsiniz.
+If you want to retrieve the list of approved headers defined in your account using the POST method of the HTTP protocol in JSON format, you can follow the guidelines below.
 
 ## İstek yapılacak adres
 
 <RequestURL type="POST" url="https://api.iletimerkezi.com/v1/get-sender/json" />
 
-## İstek İçeriği (Body)
+## Request URL (Body)
 
 ```json
 {
@@ -34,11 +34,11 @@ Hesabınızda tanımlanmış onaylı başlık listesini, HTTP protokolünün POS
 
 ### Tanımlar
 
-Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıdır. Bu etiketin alt etiketlerinin tanımları aşağıdaki gibidir:
+The request to be made to the server must be wrapped in a <Badge>request</Badge> tag. The definitions of the sub-tags of this tag are as follows:
 
 <AccessDescription />
 
-## Sunucu yanıtı
+## Server Response
 
 ```json
 {
@@ -57,22 +57,22 @@ Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıd
 }
 ```
 
-### Tanımlar
+### Definitions
 
-Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmıştır. Bu etiketin alt etiketlerinin tanımı aşağıdaki gibidir:
+The response from the server is always wrapped in a <Badge>response</Badge> tag. The definitions of the sub-tags of this tag are as follows:
 
 <ResponseStatus />
 
 #### senders
-İşlem başarılı olarak tamamlandıysa oluşturulan sipariş bilgisini içerir. İşlem başarısızsa bu etiket döndürülmez. Alt etiketleri aşağıdaki gibidir:
+If the operation is completed successfully, it contains the information about the created order. If the operation fails, this tag is not returned. The sub-tags are as follows:
 
-+ **sender:** Onaylı başlık bilgisini içerir.
++ **sender:** Contains the approved header information.
 
-## Hata Kodları
+## Error Codes
 
 <ErrorCodeTable codes={[400, 401, 404]} type="JSON" />
 
-## Örnek İstek
+## Sample Request
 ```json
 {
   "request": {
@@ -84,13 +84,13 @@ Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmı
 }
 ```
 
-## Örnek Başarılı Yanıt
+## Sample Successful Response
 ```json
 {
   "response": {
     "status": {
       "code": 200,
-      "message": "İşlem başarılı"
+      "message": "Operation successful"
     },
     "senders": {
       "sender": [
@@ -101,13 +101,13 @@ Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmı
 }
 ```
 
-## Örnek Hatalı Yanıt
+## Sample Error Response
 ```json
 {
   "response": {
     "status": {
       "code": 401,
-      "message": "Üyelik bilgileri hatalı"
+      "message": "Membership information is incorrect."
     }
   }
 }

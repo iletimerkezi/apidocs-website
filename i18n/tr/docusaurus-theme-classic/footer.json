@@ -1,0 +1,62 @@
+{
+  "link.title.Çözümler": {
+    "message": "Çözümler",
+    "description": "The title of the footer links column with title=Çözümler in the footer"
+  },
+  "link.title.Biz Kimiz?": {
+    "message": "Biz Kimiz?",
+    "description": "The title of the footer links column with title=Biz Kimiz? in the footer"
+  },
+  "link.title.Blog": {
+    "message": "Blog",
+    "description": "The title of the footer links column with title=Blog in the footer"
+  },
+  "link.item.label.WooCommerce SMS": {
+    "message": "WooCommerce SMS",
+    "description": "The label of footer link with label=WooCommerce SMS linking to https://www.woocommercesms.com"
+  },
+  "link.item.label.PrestaShop SMS": {
+    "message": "PrestaShop SMS",
+    "description": "The label of footer link with label=PrestaShop SMS linking to https://prestashopsms.com"
+  },
+  "link.item.label.OpenCart SMS": {
+    "message": "OpenCart SMS",
+    "description": "The label of footer link with label=OpenCart SMS linking to https://opencartsms.com"
+  },
+  "link.item.label.Magento SMS": {
+    "message": "Magento SMS",
+    "description": "The label of footer link with label=Magento SMS linking to https://magesmsextension.com"
+  },
+  "link.item.label.WHMCS SMS": {
+    "message": "WHMCS SMS",
+    "description": "The label of footer link with label=WHMCS SMS linking to https://www.whmcssms.com"
+  },
+  "link.item.label.iletiMerkezi": {
+    "message": "iletiMerkezi",
+    "description": "The label of footer link with label=iletiMerkezi linking to https://www.iletimerkezi.com"
+  },
+  "link.item.label.Hakkımızda": {
+    "message": "Hakkımızda",
+    "description": "The label of footer link with label=Hakkımızda linking to https://www.iletimerkezi.com/hakkimizda"
+  },
+  "link.item.label.İletişim": {
+    "message": "İletişim",
+    "description": "The label of footer link with label=İletişim linking to https://www.iletimerkezi.com/iletisim"
+  },
+  "link.item.label.SMS ile Doğrulama": {
+    "message": "SMS ile Doğrulama",
+    "description": "The label of footer link with label=SMS ile Doğrulama linking to https://www.iletimerkezi.com/blog/gelistiriciler/php-sms-onay-sistemi"
+  },
+  "link.item.label.SMS API ile İletişim Formu": {
+    "message": "SMS API ile İletişim Formu",
+    "description": "The label of footer link with label=SMS API ile İletişim Formu linking to https://www.iletimerkezi.com/blog/gelistiriciler/php-sms-api-iletisim-formu"
+  },
+  "link.item.label.Yazılımınızın Güvenliğini SMS ile Arttırın": {
+    "message": "Yazılımınızın Güvenliğini SMS ile Arttırın",
+    "description": "The label of footer link with label=Yazılımınızın Güvenliğini SMS ile Arttırın linking to https://www.iletimerkezi.com/blog/gelistiriciler/yaziliminizin-guvenligini-sms-ile-arttirin"
+  },
+  "copyright": {
+    "message": "Copyright © 2013 - 2024 eMarka İletişim ve Bilgi Teknolojileri A.Ş.",
+    "description": "The footer copyright"
+  }
+}

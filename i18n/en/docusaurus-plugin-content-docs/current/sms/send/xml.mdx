@@ -10,16 +10,16 @@ import Badge from '@site/src/components/Badge';
 import RequestURL from '@site/src/components/RequestURL';
 
 # XML Post API
-SMS Gönderme işlemini, HTTP protokolünün POST metodunu kullanarak, XML formatında yapmak isterseniz aşağıdaki yönergeleri takip edebilirsiniz.
+If you want to perform SMS sending using the POST method of the HTTP protocol in XML format, you can follow the guidelines below.
 
-## İstek yapılacak adres
+## Request URL
 
 <RequestURL type="POST" url="https://api.iletimerkezi.com/v1/send-sms" />
 
 
-## İstek İçeriği (Body)
+## Request Body (Body)
 
-```xml title="Eğer API Anahtarı kullanılarak işlem yapıyorsanız isteğin içeriği:"
+```xml
 <request>
   <authentication>
     <key></key>
@@ -41,50 +41,48 @@ SMS Gönderme işlemini, HTTP protokolünün POST metodunu kullanarak, XML forma
 </request>
 ```
 
-### Tanımlar
+### Definitions
 
-Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıdır. Bu etiketin alt etiketlerinin tanımları aşağıdaki gibidir:
+The request to be made to the server must be wrapped in a <Badge>request</Badge> tag. The definitions of the sub-tags of this tag are as follows:
 
 #### authentication
-İstek yapılan işleme dair yetki alabilmek için gönderilmesi gereken kullanıcı bilgileridir. Alt etiketleri aşağıdaki gibidir:
+These are the user information that must be sent to obtain authorization for the requested operation. The sub-tags are as follows:
 
-+ **key:** iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
++ **key:** After logging into your iletimerkezi.com panel, the API Key you can create from the settings section should be written in this field. It is mandatory to send it when making the request.
 
-+ **hash:** iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar ve Gizli Anahtar kullanılarak oluşturulmuş hash bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
++ **hash:** After logging into your iletimerkezi.com panel, the hash created using the API Key and Secret Key that you can generate from the settings section should be written in this field. It is mandatory to send it when making the request.
 
 #### order
-Gönderilecek olan SMS'ler bir sipariş olarak kabul edilir ve istek yapıldıktan sonra bu şekilde raporlanmaya başlanır. Sipariş bazen tek alıcı ve tek mesaj metni içerebileceği gibi birden fazla alıcıya ve birden fazla mesaj metnide içerebilir. <Badge>order</Badge> etiketi tekrarlanabilir bir etiket değildir. İstek başına yalnızca bir sipariş gönderilebilir. Alt etiketleri aşağıdaki gibidir:
+The SMS messages to be sent are considered as an order and will start to be reported in this manner after the request is made. An order can sometimes include a single recipient and a single message text, but it can also contain multiple recipients and multiple message texts. The <Badge>order</Badge> tag is not a repeatable tag. Only one order can be sent per request. The sub-tags are as follows:
 
-+ **sender:** iletimerkezi.com yönetim panelinden tanımlanmış ve iletimerkezi.com tarafından onaylanmış, maksimum 11 karakterden oluşan başlık bilgisidir. Gönderilen mesaj, alıcıya bu parametre ile belirtilen başlık ile yollanır. İstek yapılırken gönderilmesi zorunludur.
++ **sender:** This is the header information defined and approved by iletimerkezi.com, consisting of a maximum of 11 characters. The sent message is delivered to the recipient with the header specified by this parameter. It is mandatory to send it when making the request.
 
-+ **sendDateTime:** Mesajın gönderim tarihini ifade eder. İleri tarihli mesaj gönderimleri için kullanılır. Formatı GG/AA/YYYY SS:DD şeklindedir. İstek yapılırken gönderilmesi zorunlu değildir. Varsayılan değeri, istek yapılan zamandır.
++ **sendDateTime:** This indicates the date of message sending. It is used for sending messages scheduled for a future date. The format is DD/MM/YYYY HH:MM. It is not mandatory to send it when making the request. The default value is the time at which the request is made.
 
-+ **iys:** Mesajın, İleti Yönetim Sistemi (İYS) üzerinden sorgulanıp sorgulanmayacağını ifade eder. Eğer bu değeri 1(true) olarak gönderirseniz mesajlarınız İYS üzerinden sorgulanır, 0(false) olarak gönderirseniz sorgulanmaz. İstek yapılırken gönderilmesi zorunludur.
++ **iys:** This indicates whether the message will be queried through the Message Management System (İYS). If you send this value as 1 (true), your messages will be queried through İYS; if you send it as 0 (false), they will not be queried. It is mandatory to send it when making the request.
 
   :::tip İpucu
-  Ticari mesaj gönderiyorsanız bu değer yasal olarak 1 olmalıdır. **Aksi durumda cezai işlem uygulanabilir**.
+  If you are sending commercial messages, this value must legally be 1. **Otherwise, penalties may apply.**
 
-  [İYS hakkında detaylı bilgi için tıklayınız.](https://www.iletimerkezi.com/blog/duyurular/iys-ileti-yonetim-sistemi-nedir)
+  [For detailed information about İYS, please click here.](https://www.iletimerkezi.com/blog/duyurular/iys-ileti-yonetim-sistemi-nedir)
   :::
 
-+ **iysList:** İleti Yönetim Sistemi (İYS) üzerinden sorgulanmasını istediğiniz listeyi ifade eder.
-iys değerini 1 olarak gönderdiyseniz yani mesajınızın İYS üzerinden sorgulanmasını istiyorsanız, iysList değerinin BIREYSEL veya TACIR olarak gönderilmesi zorunludur.
-iys değerini 0 olarak gönderiyorsanız bu alan dikkate alınmayacaktır.
++ **iysList:** This indicates the list you want to query through the Message Management System (İYS). If you have sent the iys value as 1, meaning you want your message to be queried through İYS, it is mandatory to send the iysList value as BIREYSEL (INDIVIDUAL) or TACIR (TRADER). If you send the iys value as 0, this field will be ignored.
 
   #### message
-Gönderilecek olan mesaj bilgisini içerir. Tek sipariş içinde farklı mesaj gönderilmek isteniyorsa <Badge>message</Badge> etiketi gönderilmek istenen farklı mesaj sayısı kadar tekrarlanmalıdır. Alt etiketleri aşağıdaki gibidir
+  This contains the information of the message to be sent. If you want to send different messages within a single order, the <Badge>message</Badge> tag must be repeated for the number of different messages you wish to send. The sub-tags are as follows:
 
-  + **text:** Gönderilecek olan SMS metnini içerir. İstek yapılırken gönderilmesi zorunludur.
+  + **text:** This contains the SMS text to be sent. It is mandatory to send it when making the request.
 
   :::tip İpucu
-  Mesaj metniniz içinde XML'in yapısını bozucak karakterler içerebileceği için mesaj metninizi `<![CDATA[...]]>` içerisine yazmanızı öneriyoruz. Mesaj metniniz içerisinde yazılımınızı kullanan kullanıcılarınız tarafından belirlenen ifadeler olabileceği için `<![CDATA[...]]>` kullanımı mesajlarınızın sağlıklı iletilmesi için önemlidir.
+  Since your message text may contain characters that could disrupt the structure of XML, we recommend writing your message text within `<![CDATA[...]]>`. The use of `<![CDATA[...]]>` is important for the proper delivery of your messages, as it may include expressions determined by users using your software.
   :::
 
-  + **receipents:** Gönderilecek olan SMSlerin alıcılarını içerir. Alıcılar aşağıdaki etiket ile belirtilir:
+  + **receipents:** This contains the recipients of the SMS messages to be sent. The recipients are specified by the following tag:
 
-    + **number:** Alıcının cep telefonu numarasını içerir. 905xxxxxxxxx, +90 5xx xxx xx xx, 5xxxxxxxxx gibi formatlar kullanılabilir. İstek yapılırken gönderilmesi zorunludur. Belirtilen mesaj metni için birden fazla alıcı tanımlanacaksa bu etiket alıcı sayısı kadar tekrarlanmalıdır.
+    + **number:** This contains the mobile phone number of the recipient. Formats such as 905xxxxxxxxx, +90 5xx xxx xx xx, and 5xxxxxxxxx can be used. It is mandatory to send it when making the request. If multiple recipients are to be defined for the specified message text, this tag must be repeated for the number of recipients.
 
-## Sunucu yanıtı
+## Server Response
 
 ```xml
 <response>
@@ -98,77 +96,77 @@ Gönderilecek olan mesaj bilgisini içerir. Tek sipariş içinde farklı mesaj g
 </response>
 ```
 
-### Tanımlar
+### Definitions
 
-Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmıştır. Bu etiketin alt etiketlerinin tanımı aşağıdaki gibidir:
+The response from the server is always wrapped in a <Badge>response</Badge> tag. The definitions of the sub-tags of this tag are as follows:
 
 #### status
-İşlem durumu ile ilgili bilgi içerir. Bu etiket ile döndürülen değerler aynı zamanda HTTP yanıtının başlık(header) bilgisine bakılarak da elde edilebilir. Bu etiket, yapılan her istekte standart olarak döndürülür. Alt etiketleri aşağıdaki gibidir
+This contains information about the status of the operation. The values returned by this tag can also be obtained by checking the headers of the HTTP response. This tag is returned by default in every request. The sub-tags are as follows:
 
-+ **code:** İşlem durumunu belirten numerik değerdir.
-+ **message:** İşlem durumu hakkında bilgi mesajı içerir.
++ **code:** This is a numeric value indicating the status of the operation.
++ **message:** This contains an informational message about the status of the operation.
 
 #### order
-İşlem başarılı olarak tamamlandıysa oluşturulan sipariş bilgisini içerir. İşlem başarısızsa bu etiket döndürülmez. <Badge>order</Badge> etiketi tekrarlanabilir bir etiket değildir. İstek başına yalnızca bir sipariş gönderilebilir. Alt etiketi aşağıdaki gibidir:
+If the operation is completed successfully, it contains the information about the created order. If the operation fails, this tag is not returned. The <Badge>order</Badge> tag is not a repeatable tag. Only one order can be sent per request. The sub-tag is as follows:
 
-+ **id:** Siparişi ifade eden eşsiz numerik değerdir. Size dönen bu <Badge>id</Badge> değeri ile, siparişinizin son durumunu kontrol edebilirsiniz. Eğer siparişiniz ileri bir tarihte gönderilecek bir sipariş ise <Badge>id</Badge> değeri ile siparişinizi iptal edebilirsiniz.
++ **id:** This is a unique numeric value that represents the order. You can check the status of your order using this id value. If your order is scheduled to be sent at a later date, you can cancel your order using the id value.
 
 ## Hata Kodları
-Eğer istek sonucu olumsuz ise sunucu tarafından size dönücek hata kodları ve mesajlar aşağıdaki gibidir.
+If the result of the request is negative, the error codes and messages that will be returned to you by the server are as follows:
 
 <table>
   <thead>
     <tr>
-      <th>code</th>
-      <th>message</th>
-      <th>Açıklama</th>
+      <th>Code</th>
+      <th>Message</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>401</td>
-      <td>Üyelik bilgileri hatalı</td>
-      <td><Badge>key</Badge>, <Badge>hash</Badge> etiketleri ile göndermiş olduğunuz bilgileri doğrulayamadığımızda bu hatayı veriyoruz, eğer hesabınızda sabit IP tanımladıysanız ve farklı bir IP üzerinden istek yapıyorsanız yine bu hatayı alırsınız.</td>
+      <td>Membership information is incorrect.</td>
+      <td>When we are unable to verify the information you sent with the <Badge>key</Badge> and <Badge>hash</Badge> tags, we return this error. Additionally, if you have defined a static IP on your account and are making the request from a different IP, you will receive this error as well.</td>
     </tr>
     <tr>
       <td>402</td>
-      <td>Bakiye yetersiz</td>
-      <td>Eğer hesabınızdaki bakiye bu siparişi göndermeye yetmiyorsa bu hatayı veriyoruz.</td>
+      <td>Insufficient balance.</td>
+      <td>If the balance in your account is not sufficient to send this order, we return this error.</td>
     </tr>
     <tr>
       <td>450</td>
-      <td>Gönderilen başlık kullanıma uygun değil</td>
-      <td><Badge>sender</Badge> etiketi ile göndermiş olduğunuz değer eğer hesabınızda onaylı değilse bu hatayı alırsınız, hesabınızda tanımlı olduğu şekilde göndermeniz gerekmektedir. Genellikle bu hatanın alınmasına sebep olan değişiklikler, küçük-büyük harf farkları veya ektra boşluk değerlerinin gönderilmesidir.</td>
+      <td>The submitted header is not suitable for use.</td>
+      <td>If the value you sent with the <Badge>sender</Badge> tag is not approved in your account, you will receive this error. It must be sent exactly as defined in your account. Typically, changes that cause this error include differences in uppercase and lowercase letters or the inclusion of extra whitespace characters.</td>
     </tr>
     <tr>
       <td>451</td>
-      <td>Tekrar eden sipariş</td>
-      <td>Eğer aynı mesaj metnini, aynı alıcılara 10dk içinde tekrar göndermek isterseniz sistem bu hatayı size döner, hem spam olmaması hemde yanlışlıkla aynı kişilere aynı mesajların iletilmemesi için. Böyle bir gönderim ihtiyacınız varsa mesaj metninin içine o anki saat ve dakikayı yazarak mesaj metnini farklılaştırabilirsiniz.</td>
+      <td>Duplicate order.</td>
+      <td>If you try to send the same message text to the same recipients within 10 minutes, the system will return this error to you to prevent spam and ensure that the same messages are not sent to the same individuals by mistake. If you need to make such a sending, you can differentiate the message text by including the current hour and minute in the message content.</td>
     </tr>
     <tr>
       <td>452</td>
-      <td>Mesaj alıcıları hatalı</td>
-      <td><Badge>receipents</Badge> etiketi altında göndermiş olduğunuz telefon numaraları eksik veya doğrulanamıyor ise bu hatayı veriyoruz. Aynı zamanda eğer mesaj atmak istediğiniz cep telefonu numarasının doğru olduğuna eminseniz, cep telefonu numarası eğer numara engelleme listenize eklediyseniz yine bu hatayı alabilirsiniz.</td>
+      <td>Message recipients are incorrect.</td>
+      <td>If the phone numbers you sent under the <Badge>recipients</Badge> tag are incomplete or cannot be verified, we return this error. Additionally, if you are certain that the mobile phone number you want to send a message to is correct, you may still receive this error if the phone number has been added to your blocked numbers list.</td>
     </tr>
     <tr>
       <td>453</td>
-      <td>Sipariş boyutu aşıldı</td>
-      <td><Badge>text</Badge> etiketi ile göndermiş olduğunuz mesaj metni karakter kodlamanıza göre yedi(7) SMS uzunluğundan daha fazla ise bu hata geri döner.</td>
+      <td>Order size exceeded.</td>
+      <td>If the message text you sent with the <Badge>text</Badge> tag exceeds seven (7) SMS lengths based on your character encoding, this error will be returned</td>
     </tr>
     <tr>
       <td>454</td>
-      <td>Mesaj metni boş</td>
-      <td><Badge>text</Badge> etiketi ile göndermiş olduğunuz mesaj metni herhangi bir değer içermiyorsa mesajınız gönderilmez ve bu hata mesajı döner.</td>
+      <td>Message text is empty</td>
+      <td>If the message text you sent with the <Badge>text</Badge> tag does not contain any value, your message will not be sent, and this error message will be returned.</td>
     </tr>
     <tr>
       <td>457</td>
-      <td>Mesaj gönderim tarihinin formatı hatalı</td>
-      <td><Badge>sendDateTime</Badge> etiketi ile göndermiş olduğunuz tarih formatı hatalı ise bu hata döner. Tarih formatı, GG/AA/YYYY SS:DD (Örnek 20/01/2022 13:45) şeklindedir.</td>
+      <td>The format of the message sending date is incorrect.</td>
+      <td>If the date format you sent with the <Badge>sendDateTime</Badge> tag is incorrect, this error will be returned. The date format is DD/MM/YYYY HH:MM (Example: 20/01/2022 13:45).</td>
     </tr>
   </tbody>
 </table>
 
-## Örnek İstek
+## Sample Request
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
 <request>
@@ -197,7 +195,7 @@ Eğer istek sonucu olumsuz ise sunucu tarafından size dönücek hata kodları v
 </request>
 ```
 
-## Örnek Başarılı Yanıt
+## Sample Successful Response
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <response>
@@ -211,13 +209,13 @@ Eğer istek sonucu olumsuz ise sunucu tarafından size dönücek hata kodları v
 </response>
 ```
 
-## Örnek Hatalı Yanıt
+## Sample Error Response
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <response>
   <status>
     <code>400</code>
-    <message>İstek çözümlenemedi</message>
+    <message>Request could not be resolved.</message>
   </status>
 </response>
 ```

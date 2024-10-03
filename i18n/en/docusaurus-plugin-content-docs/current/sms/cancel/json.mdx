@@ -15,15 +15,15 @@ import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
 # JSON Post API
 This method is used to cancel an SMS package that has been created for a future date. You can use it by sending data in JSON format using the POST method of the HTTP protocol.
 
-:::tip İpucu
+:::tip Tip
 Orders that have already begun delivery cannot be canceled.
 :::
 
-## İstek yapılacak adres
+## Request URL
 
 <RequestURL type="POST" url="https://api.iletimerkezi.com/v1/cancel-order/json" />
 
-## İstek İçeriği (Body)
+## Request Body
 
 ```json
 {
@@ -39,41 +39,41 @@ Orders that have already begun delivery cannot be canceled.
 }
 ```
 
-### Tanımlar
+### Definitions
 
-Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıdır. Bu etiketin alt etiketlerinin tanımları aşağıdaki gibidir:
+The request made to the server must be wrapped with the <Badge>request</Badge> tag. The definitions of its sub-tags are as follows:
 
 <AccessDescription />
 
 #### order
-İptal edilecek SMS siparişi bilgisini içerir. Alt etiketi aşağıdaki gibidir
+Contains information about the SMS order to be canceled. Its sub-tag is as follows:
 
-+ **id:** Siparişi ifade eden eşsiz numerik değerdir. API üzerinden SMS gönderme isteği yaptığınızda size, sunucu tarafından dönen <Badge>id</Badge> değeridir. İstek yapılırken gönderilmesi zorunludur.
++ **id:** A unique numeric value representing the order. This is the <Badge>id</Badge> value returned by the server when you make a request to send an SMS via the API. It is mandatory to send this value when making the request.
 
-## Sunucu yanıtı
+## Server Response
 
 ```json
 {
   "response": {
     "status": {
       "code": "200",
-      "message": "İşlem başarılı"
+      "message": "Operation successful"
     }
   }
 }
 ```
 
-### Tanımlar
+### Definitions
 
-Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmıştır. Bu etiketin alt etiketlerinin tanımı aşağıdaki gibidir:
+The response received from the server is always wrapped with the <Badge>response</Badge> tag. The definitions of its sub-tags are as follows:
 
 <ResponseStatus />
 
-## Hata Kodları
+## Error Codes
 
 <ErrorCodeTable codes={[400, 401, 404, 455]} type="JSON" />
 
-## Örnek İstek
+## Example Request
 ```json
 {
   "request": {
@@ -88,25 +88,25 @@ Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmı
 }
 ```
 
-## Örnek Başarılı Yanıt
+## Example Successful Response
 ```json
 {
   "response": {
     "status": {
       "code": "200",
-      "message": "İşlem başarılı"
+      "message": "Operation successful"
     }
   }
 }
 ```
 
-## Örnek Hatalı Yanıt
+## Example Error Response
 ```json
 {
   "response": {
     "status": {
       "code": "400",
-      "message": "İstek çözümlenemedi"
+      "message": "Request could not be resolved"
     }
   }
 }

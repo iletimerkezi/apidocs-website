@@ -13,13 +13,13 @@ import ResponseStatus from '@site/src/components/ResponseStatus';
 import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
 
 # XML Post API
-Hesabınızda tanımlanmış onaylı başlık listesini, HTTP protokolünün POST metodunu kullanarak, XML formatında almak isterseniz aşağıdaki yönergeleri takip edebilirsiniz.
+If you want to retrieve the list of approved headers defined in your account using the POST method of the HTTP protocol in XML format, you can follow the guidelines below.
 
-## İstek yapılacak adres
+## Request URL
 
 <RequestURL type="POST" url="https://api.iletimerkezi.com/v1/get-sender" />
 
-## İstek İçeriği (Body)
+## Request Body (Body)
 
 ```xml
 <request>
@@ -30,13 +30,13 @@ Hesabınızda tanımlanmış onaylı başlık listesini, HTTP protokolünün POS
 </request>
 ```
 
-### Tanımlar
+### Definations
 
-Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıdır. Bu etiketin alt etiketlerinin tanımları aşağıdaki gibidir:
+The request to be made to the server must be wrapped in a <Badge>request</Badge> tag. The definitions of the sub-tags of this tag are as follows:
 
 <AccessDescription />
 
-## Sunucu yanıtı
+## Server Response
 
 ```xml
 <response>
@@ -52,22 +52,22 @@ Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıd
 </response>
 ```
 
-### Tanımlar
+### Definations
 
-Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmıştır. Bu etiketin alt etiketlerinin tanımı aşağıdaki gibidir:
+The response from the server is always wrapped in a <Badge>response</Badge> tag. The definitions of the sub-tags of this tag are as follows:
 
 <ResponseStatus />
 
 #### senders
-İşlem başarılı olarak tamamlandıysa oluşturulan sipariş bilgisini içerir. İşlem başarısızsa bu etiket döndürülmez. Alt etiketleri aşağıdaki gibidir:
+If the operation is completed successfully, it contains the information about the created order. If the operation fails, this tag is not returned. The sub-tags are as follows:
 
-+ **sender:** Onaylı başlık bilgisini içerir.
++ **sender:** Contains the approved header information.
 
-## Hata Kodları
+## Error Codes
 
 <ErrorCodeTable codes={[400, 401, 404]} />
 
-## Örnek İstek
+## Sample Request
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
 <request>
@@ -78,13 +78,13 @@ Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmı
 </request>
 ```
 
-## Örnek Başarılı Yanıt
+## Sample Successful Response
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <response>
   <status>
     <code>200</code>
-    <message>İşlem başarılı</message>
+    <message>Operation successful.</message>
   </status>
   <senders>
     <sender>eMarka</sender>
@@ -92,13 +92,13 @@ Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmı
 </response>
 ```
 
-## Örnek Hatalı Yanıt
+## Sample Error Response
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <response>
   <status>
     <code>401</code>
-    <message>Üyelik bilgileri hatalı</message>
+    <message>Membership information is incorrect.</message>
   </status>
 </response>
 ```

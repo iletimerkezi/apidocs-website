@@ -1,0 +1,102 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.tutorialSidebar.category.SMS API": {
+    "message": "SMS API",
+    "description": "The label for category SMS API in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.SMS Gönder": {
+    "message": "SMS Gönder",
+    "description": "The label for category SMS Gönder in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.SMS İptal": {
+    "message": "SMS İptal",
+    "description": "The label for category SMS İptal in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.SMS Rapor": {
+    "message": "SMS Rapor",
+    "description": "The label for category SMS Rapor in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.SMS Başlık Listesi": {
+    "message": "SMS Başlık Listesi",
+    "description": "The label for category SMS Başlık Listesi in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Numara Engelleme API": {
+    "message": "Numara Engelleme API",
+    "description": "The label for category Numara Engelleme API in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Listele": {
+    "message": "Listele",
+    "description": "The label for category Listele in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Listeye ekle": {
+    "message": "Listeye ekle",
+    "description": "The label for category Listeye ekle in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Listeden çıkar": {
+    "message": "Listeden çıkar",
+    "description": "The label for category Listeden çıkar in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Hesap API": {
+    "message": "Hesap API",
+    "description": "The label for category Hesap API in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Bakiye Bilgisi": {
+    "message": "Bakiye Bilgisi",
+    "description": "The label for category Bakiye Bilgisi in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Rehber API": {
+    "message": "Rehber API",
+    "description": "The label for category Rehber API in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Grup Listesi": {
+    "message": "Grup Listesi",
+    "description": "The label for category Grup Listesi in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Grup Ekle": {
+    "message": "Grup Ekle",
+    "description": "The label for category Grup Ekle in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Grup Düzenle": {
+    "message": "Grup Düzenle",
+    "description": "The label for category Grup Düzenle in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Grup Sil": {
+    "message": "Grup Sil",
+    "description": "The label for category Grup Sil in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Kişi Listesi": {
+    "message": "Kişi Listesi",
+    "description": "The label for category Kişi Listesi in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Kişi Bilgisi": {
+    "message": "Kişi Bilgisi",
+    "description": "The label for category Kişi Bilgisi in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Kişi Ekle": {
+    "message": "Kişi Ekle",
+    "description": "The label for category Kişi Ekle in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Kişi Düzenle": {
+    "message": "Kişi Düzenle",
+    "description": "The label for category Kişi Düzenle in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Kişi Sil": {
+    "message": "Kişi Sil",
+    "description": "The label for category Kişi Sil in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Kişi Ara": {
+    "message": "Kişi Ara",
+    "description": "The label for category Kişi Ara in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Örnek Kodlar": {
+    "message": "Örnek Kodlar",
+    "description": "The label for category Örnek Kodlar in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Entegrasyonlar": {
+    "message": "Entegrasyonlar",
+    "description": "The label for category Entegrasyonlar in sidebar tutorialSidebar"
+  }
+}
