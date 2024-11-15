@@ -1,0 +1,98 @@
+---
+slug: /rehber/grup-bilgisi/json/
+sidebar_label: JSON
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Badge from '@site/src/components/Badge';
+import RequestURL from '@site/src/components/RequestURL';
+import AccessWarning from '@site/src/components/AccessWarning';
+import AccessDescription from '@site/src/components/AccessDescription';
+import ResponseStatus from '@site/src/components/ResponseStatus';
+import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
+
+# JSON Post API
+<AccessWarning />
+Rehberinizdeki grup bilgisini, HTTP protokolünün POST metodunu kullanarak, JSON formatında almak için, aşağıdaki yönergeleri takip edebilirsiniz.
+
+## İstek yapılacak adres
+
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/get-group/json" />
+
+## İstek İçeriği (Body)
+
+```json
+{
+  "request": {
+    "authentication": {
+      "key": "",
+      "hash": ""
+    },
+    "group": {
+        "id": 5
+    }
+  }
+}
+```
+
+### Tanımlar
+
+Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıdır. Bu etiketin alt etiketlerinin tanımları aşağıdaki gibidir:
+
+<AccessDescription />
+
+#### group
+Alt etiketleri aşağıdaki gibidir.
+
++ **id:** Grubun benzersiz nümerik id değerini içerir.
+
+## Sunucu yanıtı
+
+```json
+{
+  "response": {
+    "status": {
+      "code": 200,
+      "message": "İşlem başarılı"
+    },
+    "group": {
+      "id": 97101,
+      "name": "Test 1",
+      "count": 1,
+      "children": [
+        {
+          "id": 97489,
+          "name": "Test 2",
+          "count": 2
+        }
+      ]
+    }
+  }
+}
+```
+
+### Tanımlar
+
+Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmıştır. Bu etiketin alt etiketlerinin tanımı aşağıdaki gibidir:
+
+<ResponseStatus />
+
+#### group
+İşlem başarılı olarak tamamlandıysa, grubun bilgisini içerir. İşlem başarısızsa bu etiket döndürülmez. Alt etiketleri aşağıdaki gibidir.
+
++ **id:** Grubu temsil eden benzersiz değer.
++ **name:** Grubun ismini içerir.
++ **count:** Grup içindeki kişi sayısını gösterir.
+
++ #### children
+  Grubun alt gruplarının bilgisini içerir alt etiketleri aşağıdaki gibidir.
+
+    + **id:** Grubu temsil eden benzersiz değer.
+    + **name:** Grubun ismini içerir.
+    + **count:** Grup içindeki kişi sayısını gösterir
+
+## Hata Kodları
+
+<ErrorCodeTable codes={[400, 401, 404, 463]} type="JSON" />

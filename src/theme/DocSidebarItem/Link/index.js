@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import {ThemeClassNames} from '@docusaurus/theme-common';
-import {isActiveSidebarItem} from '@docusaurus/theme-common/internal';
+// import {isActiveSidebarItem} from '@docusaurus/theme-common/internal';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import IconExternalLink from '@theme/Icon/ExternalLink';
@@ -11,6 +11,15 @@ const getList = [
 	'/sms/gonder/get/',
 	'/en/sms/send/get/'
 ]
+
+function isActiveSidebarItem(item, activePath) {
+
+  if (item.type === 'link') {
+    return activePath.startsWith(item.href);
+  }
+
+  return item.children.some((child) => isActiveSidebarItem(child, activePath));
+}
 
 export default function DocSidebarItemLink({
   item,

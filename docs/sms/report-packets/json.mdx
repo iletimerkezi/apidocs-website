@@ -1,0 +1,140 @@
+---
+slug: /sms/rapor/paket-ozet/json
+sidebar_label: JSON
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Badge from '@site/src/components/Badge';
+import RequestURL from '@site/src/components/RequestURL';
+import ResponseStatus from '@site/src/components/ResponseStatus';
+import AccessDescription from '@site/src/components/AccessDescription';
+import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
+
+# JSON Post API
+Belirttiğiniz tarih aralığına göre göndermiş olduğunuz SMS paketlerinin durumunu, HTTP protokolünün POST metodunu kullanarak, JSON formatında almak isterseniz aşağıdaki yönergeleri takip edebilirsiniz.
+
+## İstek yapılacak adres
+
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/get-reports/json" />
+
+
+## İstek İçeriği (Body)
+
+```json
+{
+  "request": {
+    "authentication": {
+      "key": "",
+      "hash": ""
+    },
+    "filter": {
+      "start": "",
+      "end": "",
+      "page": 1
+    }
+  }
+}
+```
+
+### Tanımlar
+
+Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıdır. Bu etiketin alt etiketlerinin tanımları aşağıdaki gibidir:
+
+<AccessDescription />
+
+#### filter
+Arama sonuçlarını filtrelemek için kullanılır. Bu etiketin alt etiketleri aşağıdaki gibidir:
+
++ **start:** Başlangıç tarihini ifade eder. İstek yapılırken gönderilmesi zorunludur. Y-m-d (2024-09-27) formatında olmalıdır.
++ **end:** Bitiş tarihini ifade eder. İstek yapılırken gönderilmesi zorunludur. Y-m-d (2024-09-27) formatında olmalıdır.
++ **page:** Rapor sayfasını ifade eder. İstek yapılırken gönderilmesi zorunlu değildir. Varsayılan değeri 1'dir.
+
+## Sunucu yanıtı
+
+```json
+{
+  "response": {
+    "status": {
+      "code": 200,
+      "message": "İşlem başarılı"
+    },
+    "count": 2,
+    "orders": [
+      {
+        "id": 89,
+        "status": 113,
+        "total": 1,
+        "delivered": 0,
+        "undelivered": 0,
+        "waiting": 1,
+        "submitAt": "2024-11-12 02:04:08",
+        "sendAt": "2024-11-12 02:04:08",
+        "sender": "eMarka"
+      },
+      {
+        "id": 98,
+        "status": 113,
+        "total": 1,
+        "delivered": 0,
+        "undelivered": 0,
+        "waiting": 1,
+        "submitAt": "2024-11-13 19:04:08",
+        "sendAt": "2024-11-13 19:04:08",
+        "sender": "eMarka"
+      }
+    ]
+  }
+}
+```
+
+### Tanımlar
+
+Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmıştır. Bu etiketin alt etiketlerinin tanımı aşağıdaki gibidir:
+
+<ResponseStatus />
+
+#### count
+Belirttiğiniz tarih aralığına göre toplamda kaç adet SMS paketi olduğunu ifade eder.
+
+#### orders
+İşlem başarılı olarak tamamlandıysa oluşturulan SMS paketi özet bilgisini içerir. İşlem başarısızsa bu etiket döndürülmez. Alt etiketleri aşağıdaki gibidir:
+
++ **id:** Siparişi ifade eden eşsiz numerik değerdir.
++ **status:** Siparişin genel gönderim durumunu belirten numerik değerdir. Aşağıdaki tabloda bu etiketin alabileceği değerler ve ifade ettikleri anlamlar listelenmiştir.
+
+  <table>
+    <thead>
+      <tr>
+        <th>Durum Kodu</th>
+        <th>Durum Mesajı</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>113</td>
+        <td>Siparişin gönderimi devam ediyor</td>
+      </tr>
+      <tr>
+        <td>114</td>
+        <td>Siparişin gönderimi tamamlandı</td>
+      </tr>
+      <tr>
+        <td>115</td>
+        <td>Sipariş gönderilemedi</td>
+      </tr>
+    </tbody>
+  </table>
+
++ **total:**  Paketin içerdiği toplam alıcı sayısını ifade eder.
++ **delivered:** Başarılı bir şekilde ulaşan alıcı sayısını ifade eder.
++ **undelivered:** İletilemeyen alıcı sayısını ifade eder.
++ **waiting:** Gönderimi bekleyen alıcı sayısını ifade eder.
++ **submitAt:** Paketin oluşturulma tarihini ifade eder.
++ **sendAt:** Paketin gönderim tarihini ifade eder.
++ **sender:** Paketin gönderiminde kullanılan başlık bilgisini içerir.
+
+## Hata Kodları
+
+<ErrorCodeTable codes={[400, 401, 404, 458]} type="JSON" />

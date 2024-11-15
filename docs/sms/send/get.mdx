@@ -1,5 +1,5 @@
 ---
-slug: /sms/gonder/get/
+slug: /sms/gonder/get
 sidebar_label: GET
 sidebar_position: 0
 ---
@@ -8,6 +8,8 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import Badge from '@site/src/components/Badge';
 import RequestURL from '@site/src/components/RequestURL';
+import ResponseStatus from '@site/src/components/ResponseStatus';
+import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
 
 # Get API
 SMS Gönderme işlemini, HTTP protokolünün GET metodu ile yapmak isterseniz aşağıdaki yönergeleri takip edebilirsiniz. Genelde hazır yazılımların veya firewall gibi donanımların/cihazların SMS entegrasyon panellerindeki ayarları buradaki dökümantasyon yardımıyla İleti Merkezi'ne entegre edebilirsiniz.
@@ -92,11 +94,7 @@ https://api.iletimerkezi.com/v1/send-sms/get/?key=3ea65b1e8baxxxx&hash=XXXX&text
 ### Tanımlar
 Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmıştır. Bu etiketin, alt etiketlerinin tanımı aşağıdaki gibidir:
 
-#### status
-İşlem durumu ile ilgili bilgi içerir. Bu etiket ile döndürülen değerler aynı zamanda HTTP yanıtının başlık bilgisine bakılarak da elde edilebilir. Bu etiket, yapılan her istekte standart olarak döndürülür. Alt etiketleri aşağıdaki gibidir
-
-+ **code:** İşlem durumunu belirten numerik değerdir.
-+ **message:** İşlem durumu hakkında bilgi mesajı içerir.
+<ResponseStatus />
 
 #### order
 İşlem başarılı olarak tamamlandıysa oluşturulan sipariş bilgisini içerir. İşlem başarısızsa bu etiket döndürülmez. <Badge>order</Badge> etiketi tekrarlanabilir bir etiket değildir. İstek başına yalnızca bir sipariş gönderilebilir. Alt etiketi aşağıdaki gibidir:
@@ -106,53 +104,7 @@ Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmı
 ## Hata Kodları
 Eğer istek sonucu olumsuz ise sunucu tarafından size dönücek hata kodları ve mesajlar aşağıdaki gibidir.
 
-<table>
-  <thead>
-    <tr>
-      <th>code</th>
-      <th>message</th>
-      <th>Açıklama</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>401</td>
-      <td>Üyelik bilgileri hatalı</td>
-      <td><Badge>key</Badge>, <Badge>hash</Badge> etiketi içerisinde göndermiş olduğunuz bilgileri doğrulayamadığımızda bu hatayı veriyoruz, eğer hesabınızda sabit IP tanımladıysanız ve farklı bir IP üzerinden istek yapıyorsanız yine bu hatayı alırsınız.</td>
-    </tr>
-    <tr>
-      <td>402</td>
-      <td>Bakiye yetersiz</td>
-      <td>Eğer hesabınızdaki bakiye bu siparişi göndermeye yetmiyorsa bu hatayı veriyoruz.</td>
-    </tr>
-    <tr>
-      <td>450</td>
-      <td>Gönderilen başlık kullanıma uygun değil</td>
-      <td><Badge>sender</Badge> etiketi ile göndermiş olduğunuz değer eğer hesabınızda onaylı değilse bu hatayı alırsınız, hesabınızda tanımlı olduğu şekilde göndermeniz gerekmektedir. Genellikle bu hatanın alınmasına sebep olan değişiklikler, küçük-büyük harf farkları veya ektra boşluk değerlerinin gönderilmesidir.</td>
-    </tr>
-    <tr>
-      <td>451</td>
-      <td>Tekrar eden sipariş</td>
-      <td>Eğer aynı mesaj metnini, aynı alıcılara 10dk içinde tekrar göndermek isterseniz sistem bu hatayı size döner, hem spam olmaması hemde yanlışlıkla aynı kişilere aynı mesajların iletilmemesi için. Böyle bir gönderim ihtiyacınız varsa mesaj metninin içine o anki saat ve dakikayı yazarak mesaj metnini farklılaştırabilirsiniz.</td>
-    </tr>
-    <tr>
-      <td>452</td>
-      <td>Mesaj alıcıları hatalı</td>
-      <td><Badge>receipents</Badge> etiketi ile göndermiş olduğunuz telefon numaraları eksik veya doğrulanamıyor ise bu hatayı veriyoruz. Aynı zamanda eğer mesaj atmak istediğiniz cep telefonu numarasının doğru olduğuna eminseniz, cep telefonu numarası eğer numara engelleme listenize eklediyseniz yine bu hatayı alabilirsiniz.</td>
-    </tr>
-    <tr>
-      <td>453</td>
-      <td>Sipariş boyutu aşıldı</td>
-      <td><Badge>text</Badge> etiketi ile göndermiş olduğunuz mesaj metni karakter kodlamanıza göre yedi(7) SMS uzunluğundan daha fazla ise bu hata geri döner.</td>
-    </tr>
-    <tr>
-      <td>454</td>
-      <td>Mesaj metni boş</td>
-      <td><Badge>text</Badge> parametresinde göndermiş olduğunuz mesaj metni herhangi bir değer içermiyorsa mesajınız gönderilmez ve bu hata mesajı döner.</td>
-    </tr>
-  </tbody>
-</table>
-
+<ErrorCodeTable codes={[400, 401, 404, 402, 450, 451, 452, 453, 454, 468, 469, 470]} type="JSON" />
 
 ## Örnek Başarılı Yanıt
 ```xml

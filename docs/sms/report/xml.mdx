@@ -8,6 +8,9 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import Badge from '@site/src/components/Badge';
 import RequestURL from '@site/src/components/RequestURL';
+import AccessDescription from '@site/src/components/AccessDescription';
+import ResponseStatus from '@site/src/components/ResponseStatus';
+import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
 
 # XML Post API
 Göndermiş olduğunuz SMS paketinin durumunu, HTTP protokolünün POST metodunu kullanarak, XML formatında almak isterseniz aşağıdaki yönergeleri takip edebilirsiniz.
@@ -37,12 +40,7 @@ Göndermiş olduğunuz SMS paketinin durumunu, HTTP protokolünün POST metodunu
 
 Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıdır. Bu etiketin alt etiketlerinin tanımları aşağıdaki gibidir:
 
-#### authentication
-İstek yapılan işleme dair yetki alabilmek için gönderilmesi gereken kullanıcı bilgileridir. Alt etiketleri aşağıdaki gibidir:
-
-+ **key:** iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
-
-+ **hash:** iletimerkezi.com panelinize giriş yaptıktan sonra ayarlar bölümünden oluşturabileceğiniz API Anahtar ve Gizli Anahtar kullanılarak oluşturulmuş hash bu alana yazılmalıdır. İstek yapılırken gönderilmesi zorunludur.
+<AccessDescription />
 
 #### order
 Raporu sorgulanacak olan siparişin bilgisini içerir. Alt etiketleri aşağıdaki gibidir.
@@ -80,11 +78,7 @@ Raporu sorgulanacak olan siparişin bilgisini içerir. Alt etiketleri aşağıda
 
 Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmıştır. Bu etiketin alt etiketlerinin tanımı aşağıdaki gibidir:
 
-#### status
-İşlem durumu ile ilgili bilgi içerir. Bu etiket ile döndürülen değerler aynı zamanda HTTP yanıtının başlık bilgisine bakılarak da elde edilebilir. Bu etiket, yapılan her istekte standart olarak döndürülür. Alt etiketleri aşağıdaki gibidir
-
-+ **code:** İşlem durumunu belirten numerik değerdir.
-+ **message:** İşlem durumu hakkında bilgi mesajı içerir.
+<ResponseStatus />
 
 #### order
 İşlem başarılı olarak tamamlandıysa oluşturulan sipariş bilgisini içerir. İşlem başarısızsa bu etiket döndürülmez. Alt etiketleri aşağıdaki gibidir:
@@ -147,40 +141,7 @@ Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmı
 ## Hata Kodları
 Eğer istek sonucu olumsuz ise sunucu tarafından size dönücek hata kodları ve mesajlar aşağıdaki gibidir.
 
-<table>
-  <thead>
-    <th>code</th>
-    <th>message</th>
-    <th>Açıklama</th>
-  </thead>
-  <tbody>
-    <tr>
-      <td>400</td>
-      <td>İstek çözümlenemedi</td>
-      <td>POST ettiğiniz XML'in yapısındaki hatadan kaynaklanır. Bu hatalar genellikle, yanlış yazılan XML etiketi, düzgün kapatılmayan XML etiketi veya CDATA kullanılmadan XML'in yapısını bozabilecek bir karakterin kullanımından kaynaklanır.</td>
-    </tr>
-    <tr>
-      <td>401</td>
-      <td>Üyelik bilgileri hatalı</td>
-      <td>POST ettiğiniz XML'in <Badge>authentication</Badge> etiketi içerisinde göndermiş olduğunuz bilgileri doğrulayamadığımızda bu hatayı veriyoruz, eğer hesabınızda sabit IP tanımladıysanız ve farklı bir IP üzerinden istek yapıyorsanız yine bu hatayı alırsınız.</td>
-    </tr>
-    <tr>
-      <td>404</td>
-      <td>API istek yapılan yönteme sahip değil</td>
-      <td>Eğer bu hatayı alıyorsanız istek yaptığınız adresi tekrar kontrol edin yanlış bir adrese istek yapıyor olabilirsiniz.</td>
-    </tr>
-    <tr>
-      <td>455</td>
-      <td>Sipariş bulunamadı</td>
-      <td>İstek içerisinde iletmiş olduğunuz <Badge>id</Badge> ile oluşturulmuş bir sipariş yoksa veya sipariş gönderimi bekliyor durumundan iletiliyor durumuna geçti ise bu hatayı alırsınız.</td>
-    </tr>
-    <tr>
-      <td>456</td>
-      <td>Sipariş gönderim tarihi henüz gelmedi</td>
-      <td>İstek içerisinde iletmiş olduğunuz <Badge>id</Badge> ile oluşturulmuş sipariş ileri tarihli bir gönderimse ve gönderim tarihi henüz gelmemiş ise bu hatayı alırsınız.</td>
-    </tr>
-  </tbody>
-</table>
+<ErrorCodeTable codes={[400, 401, 404, 455, 456]} type="JSON" />
 
 ## Örnek İstek
 ```xml

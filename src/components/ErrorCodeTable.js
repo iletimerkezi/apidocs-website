@@ -16,14 +16,59 @@ export default function ErrorCodeTable({codes = [], type = "XML"}) {
       description: <>POST ettiğiniz {type}'in <Badge>authentication</Badge> etiketi içerisinde göndermiş olduğunuz bilgileri doğrulayamadığımızda bu hatayı veriyoruz, eğer hesabınızda sabit IP tanımladıysanız ve farklı bir IP üzerinden istek yapıyorsanız yine bu hatayı alırsınız.</>
     },
     {
+      code: 402,
+      message: "Bakiye yetersiz",
+      description: "Eğer hesabınızdaki bakiye bu siparişi göndermeye yetmiyorsa bu hatayı veriyoruz."
+    },
+    {
       code: 404, 
       message: "API istek yapılan yönteme sahip değil", 
       description: "Eğer bu hatayı alıyorsanız istek yaptığınız adresi tekrar kontrol edin yanlış bir adrese istek yapıyor olabilirsiniz."
     },
     {
+      code: 450,
+      message: "Gönderilen başlık kullanıma uygun değil",
+      description: <><Badge>sender</Badge> etiketi ile göndermiş olduğunuz değer eğer hesabınızda onaylı değilse bu hatayı alırsınız, hesabınızda tanımlı olduğu şekilde göndermeniz gerekmektedir. Genellikle bu hatanın alınmasına sebep olan değişiklikler, küçük-büyük harf farkları veya ektra boşluk değerlerinin gönderilmesidir.</>
+    },
+    {
+      code: 451,
+      message: "Tekrar eden sipariş",
+      description: "Eğer aynı mesaj metnini, aynı alıcılara 10dk içinde tekrar göndermek isterseniz sistem bu hatayı size döner, hem spam olmaması hemde yanlışlıkla aynı kişilere aynı mesajların iletilmemesi için. Böyle bir gönderim ihtiyacınız varsa mesaj metninin içine o anki saat ve dakikayı yazarak mesaj metnini farklılaştırabilirsiniz."
+    },
+    {
+      code: 452,
+      message: "Mesaj alıcıları hatalı",
+      description: <><Badge>receipents</Badge> etiketi ile göndermiş olduğunuz telefon numaraları eksik veya doğrulanamıyor ise bu hatayı veriyoruz. Aynı zamanda eğer mesaj atmak istediğiniz cep telefonu numarasının doğru olduğuna eminseniz, cep telefonu numarası eğer numara engelleme listenize eklediyseniz yine bu hatayı alabilirsiniz.</>
+    },
+    {
+      code: 453,
+      message: "Sipariş boyutu aşıldı",
+      description: <><Badge>text</Badge> etiketi ile göndermiş olduğunuz mesaj metni karakter kodlamanıza göre yedi(7) SMS uzunluğundan daha fazla ise bu hata geri döner.</>
+    },
+    {
+      code: 454,
+      message: "Mesaj metni boş",
+      description: <><Badge>text</Badge> parametresinde göndermiş olduğunuz mesaj metni herhangi bir değer içermiyorsa mesajınız gönderilmez ve bu hata mesajı döner.</>
+    },
+    {
       code: 455,
       message: "Sipariş bulunamadı",
       description: "İstek içerisinde iletmiş olduğunuz id ile oluşturulmuş bir sipariş yoksa veya sipariş gönderimi bekliyor durumundan iletiliyor durumuna geçti ise bu hatayı alırsınız."
+    },
+    {
+      code: 456,
+      message: "Sipariş gönderim tarihi henüz gelmedi",
+      description: <>İstek içerisinde iletmiş olduğunuz <Badge>id</Badge> ile oluşturulmuş sipariş ileri tarihli bir gönderimse ve gönderim tarihi henüz gelmemiş ise bu hatayı alırsınız.</>
+    },
+    {
+      code: 457,
+      message: "Mesaj gönderim tarihinin formatı hatalı",
+      description: <><Badge>sendDateTime</Badge> etiketi ile göndermiş olduğunuz tarih formatı hatalı ise bu hata döner. Tarih formatı, GG/AA/YYYY SS:DD (Örnek 20/01/2022 13:45) şeklindedir.</>
+    },
+    {
+      code: 458,
+      message: "Tarih aralığı hatalı.",
+      description: "Gönderdiğiniz tarih formatı veya tarih aralığınız 10 günden daha fazla."
     },
     {
       code: 461,
@@ -50,6 +95,21 @@ export default function ErrorCodeTable({codes = [], type = "XML"}) {
       message: "Hatalı numara", 
       description: "İstek içeriğindeki numara hatalı ise bu hatayı alırsınız."
     },
+    {
+      code: 468,
+      message: "IYS üzerinden sorgulama yapılıp, yapılmayacağını ayarlamalısınız.",
+      description: "IYS üzerinden sorgulama yapılıp, yapılmayacağını ayarlamalısınız."
+    },
+    {
+      code: 469,
+      message: "IYS listenizi seçmelisiniz, BIREYSEL veya TACIR.",
+      description: "IYS listenizi seçmelisiniz, BIREYSEL veya TACIR."
+    },
+    {
+      code: 470,
+      message: "IYS kodunuzu ayarlamalısınız.",
+      description: "IYS kodunuzu ayarlamalısınız."
+    },    
     {
       code: 471,
       message: "Arama terimi en az 3 karakter olmalıdır.",
