@@ -21,9 +21,24 @@ export default function ErrorCodeTable({codes = [], type = "XML"}) {
       description: "Eğer hesabınızdaki bakiye bu siparişi göndermeye yetmiyorsa bu hatayı veriyoruz."
     },
     {
+      code: 403,
+      message: "Aktif abonelik bulunamadı.",
+      description: "Eğer hesabınızda aktif bir abonelik yoksa bu hatayı alırsınız."
+    },
+    {
       code: 404, 
       message: "API istek yapılan yönteme sahip değil", 
       description: "Eğer bu hatayı alıyorsanız istek yaptığınız adresi tekrar kontrol edin yanlış bir adrese istek yapıyor olabilirsiniz."
+    },
+    {
+      code: 405, 
+      message: "Bu işlemi yapmak için, abonelik paketinizde yeterli kota bulunmamaktadır.", 
+      description: "Abonelik paketinizin limitini aştığınızda bu hata döner."
+    },
+    {
+      code: 422, 
+      message: "İstekte gönderilen bazı değerler doğrulanamadı.", 
+      description: "Yapmış olduğunuz isteğin içeriğinde doğrulamadan geçemeyen değerler içerdiğini belirtir. İsteğin içeriğini (body) ve gönderilen değerleri tekrar kontrol etmenizi öneririz."
     },
     {
       code: 450,
@@ -124,6 +139,11 @@ export default function ErrorCodeTable({codes = [], type = "XML"}) {
       code: 473,
       message: "Özel alan bulunamadı.",
       description: "Özel alan bulunamadı."
+    },
+    {
+      code: 475,
+      message: "Alıcı sayısı 5000 kişiyi geçemez.",
+      description: "Tek bir istekte en fazla 5000 alıcıya işlem yapabilirsiniz."
     }
   ]
 
