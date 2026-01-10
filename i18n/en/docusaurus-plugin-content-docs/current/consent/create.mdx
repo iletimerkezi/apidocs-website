@@ -1,0 +1,149 @@
+---
+slug: /izin/ekle/json
+sidebar_label: Create Consent
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Badge from '@site/src/components/Badge';
+import RequestURL from '@site/src/components/RequestURL';
+import AccessDescription from '@site/src/components/AccessDescription';
+import ResponseStatus from '@site/src/components/ResponseStatus';
+import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
+
+# JSON Post API
+To add a mobile phone number that you do not want to receive SMS to your blocked number list, send it to the server in JSON format using the HTTP POST method. Follow the instructions below.
+
+## İstek yapılacak adres
+
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/consent/create/json" />
+
+## Request Body
+
+```json
+{
+  "request": {
+    "authentication": {
+      "key": "",
+      "hash": ""
+    },
+    "consent": {
+      "brandCode": 696422,
+      "list": [
+        {
+          "recipient": "+90505xxxxxxx veya test@emarka.com.tr",
+          "recipientType": "BIREYSEL",
+          "source": "HS_EORTAM",
+          "status": "ONAY",
+          "type": "MESAJ",
+          "consentDate": "2026-01-07 23:50:00"
+        }
+      ]
+    }
+  }
+}
+```
+
+
+### Definitions
+
+The request sent to the server must be wrapped in the <Badge>request</Badge> tag. Definitions for its child tags are as follows:
+
+<AccessDescription />
+
+#### consent
+Tag that contains the consent information to be sent to IYS (the Consent Management System).
+
++ **brandCode:** The code of the brand to which the consent information will be transmitted.
++ **list:** Tag containing consent entries. Multiple consent entries can be sent inside the <Badge>list</Badge> tag.
+
+	#### list
+		+ **recipient:** The phone number or email address for which the consent will be transmitted.
+		+ **recipientType:** The type of recipient. Can be <Badge>BIREYSEL</Badge> or <Badge>TACIR</Badge>.
+		+ **source:** The source where the consent information was obtained (e.g., HS_EORTAM, HS_FIZIKSEL_ORTAM, etc.).
+			<table>
+				<thead>
+					<tr>
+						<th>Source</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>HS_KARAR</td>
+						<td>The consent status has been set to RET at the service provider's discretion. The service provider cannot use HS_KARAR as the source value when adding the initial consent.</td>
+					</tr>
+					<tr>
+						<td>HS_FIZIKSEL_ORTAM</td>
+						<td>The consent was obtained in a physical environment by the service provider.</td>
+					</tr>
+					<tr>
+						<td>HS_ISLAK_IMZA</td>
+						<td>The consent was obtained when the recipient signed a form or survey.</td>
+					</tr>
+					<tr>
+						<td>HS_ETKINLIK</td>
+						<td>The consent was obtained at an event organized by the service provider.</td>
+					</tr>
+					<tr>
+						<td>HS_ATM</td>
+						<td>The consent was obtained via an on-site ATM device belonging to the service provider.</td>
+					</tr>
+					<tr>
+						<td>HS_EORTAM</td>
+						<td>The consent was obtained in an electronic environment belonging to the service provider.</td>
+					</tr>
+					<tr>
+						<td>HS_WEB</td>
+						<td>The consent was obtained through an action on the service provider's website.</td>
+					</tr>
+					<tr>
+						<td>HS_MOBIL</td>
+						<td>The consent was obtained via the service provider's mobile application.</td>
+					</tr>
+					<tr>
+						<td>HS_MESAJ</td>
+						<td>The consent was obtained via the service provider's short message number.</td>
+					</tr>
+					<tr>
+						<td>HS_EPOSTA</td>
+						<td>The consent was obtained via the service provider's email.</td>
+					</tr>
+					<tr>
+						<td>HS_CAGRI_MERKEZI</td>
+						<td>The consent was obtained at a call center associated with the service provider, either by voice or keypad input.</td>
+					</tr>
+					<tr>
+						<td>HS_SOSYAL_MEDYA</td>
+						<td>The consent was obtained through the service provider's social media channel.</td>
+					</tr>
+				</tbody>
+			</table>
+		+ **status:** Consent status. Can be <Badge>ONAY</Badge> or <Badge>RET</Badge>.
+		+ **type:** Consent type. Can be <Badge>MESAJ</Badge>, <Badge>EPOSTA</Badge>, or <Badge>ARAMA</Badge>.
+		+ **consentDate:** The date and time when the consent or rejection occurred. Format: YYYY-MM-DD HH:MM:SS, and it cannot be older than 3 days.
+
+## Server Response
+
+```json
+{
+  "response": {
+    "status": {
+      "code": 200,
+      "message": "İşlem başarılı"
+    }
+  }
+}
+```
+
+
+### Definitions
+
+The server response is always wrapped in the <Badge>response</Badge> tag. Definitions for its child tags are as follows:
+
+<ResponseStatus />
+
+## Error Codes
+
+<ErrorCodeTable codes={[400, 401, 403, 404, 405, 422, 475]} type="JSON" />

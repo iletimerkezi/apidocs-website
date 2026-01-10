@@ -1,0 +1,98 @@
+---
+slug: /izin/sorgula/json
+sidebar_label: Check Consent
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Badge from '@site/src/components/Badge';
+import RequestURL from '@site/src/components/RequestURL';
+import AccessDescription from '@site/src/components/AccessDescription';
+import ResponseStatus from '@site/src/components/ResponseStatus';
+import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
+
+# JSON Post API
+To add a mobile phone number that you do not want to receive SMS to your blocked number list, send it to the server in JSON format using the HTTP POST method. Follow the instructions below.
+
+## Request URL
+
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/consent/show/json" />
+
+## Request Body
+
+```json
+{
+  "request": {
+    "authentication": {
+      "key": "",
+      "hash": ""
+    },
+    "consent": {
+      "brandCode": "696422",
+      "type": "MESAJ",
+      "recipient": "+90505xxxxxxx veya test@emarka.com.tr",
+      "recipientType": "BIREYSEL"
+    }
+  }
+}
+```
+
+
+### Definitions
+
+The request sent to the server must be wrapped with the <Badge>request</Badge> tag. Definitions for its child tags are as follows:
+
+<AccessDescription />
+
+#### consent
+Tag that contains the consent information to be checked.
+
++ **brandCode:** The code of the brand whose consent information will be queried.
++ **type:** Consent type. Can be <Badge>MESAJ</Badge>, <Badge>EPOSTA</Badge>, or <Badge>ARAMA</Badge>.
++ **recipient:** The phone number or email address whose consent will be queried.
++ **recipientType:** The list type for the consent query. Can be <Badge>BIREYSEL</Badge> or <Badge>TACIR</Badge>.
+
+## Server Response
+
+```json
+{
+  "response": {
+    "status": {
+      "code": 200,
+      "message": "İşlem başarılı"
+    },
+    "consent": {
+      "brandCode": 696422,
+      "recipient": "+90505xxxxxxx veya test@emarka.com.tr",
+      "recipientType": "BIREYSEL",
+      "type": "MESAJ",
+      "status": "ONAY",
+      "source": "HS_WEB",
+      "consentDate": "2025-12-10 00:00:00"
+    }
+  }
+}
+```
+
+
+### Definitions
+
+The server response is always wrapped in the <Badge>response</Badge> tag. Definitions for its child tags are as follows:
+
+<ResponseStatus />
+
+#### consent
+Tag that contains the consent information returned by the server.
+
++ **brandCode:** The code of the brand shown in the response.
++ **type:** Consent type. One of <Badge>MESAJ</Badge>, <Badge>EPOSTA</Badge>, or <Badge>ARAMA</Badge>.
++ **recipient:** The phone number or email address for which the consent was queried.
++ **recipientType:** The list type for the queried consent. <Badge>BIREYSEL</Badge> or <Badge>TACIR</Badge>.
++ **status:** Consent status. Can be <Badge>ONAY</Badge> (approved) or <Badge>RET</Badge> (rejected).
++ **source:** The source where the consent information was obtained (e.g., HS_EORTAM, HS_FIZIKSEL_ORTAM, etc.).
++ **consentDate:** The date and time when the consent or rejection occurred. Format: YYYY-MM-DD HH:MM:SS
+
+## Error Codes
+
+<ErrorCodeTable codes={[400, 401, 403, 404, 422]} type="JSON" />
