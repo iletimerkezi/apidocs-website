@@ -1,0 +1,147 @@
+---
+slug: /izin/ekle/json
+sidebar_label: İzin Ekle
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Badge from '@site/src/components/Badge';
+import RequestURL from '@site/src/components/RequestURL';
+import AccessDescription from '@site/src/components/AccessDescription';
+import ResponseStatus from '@site/src/components/ResponseStatus';
+import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
+
+# JSON Post API
+SMS gönderilmesini istemediğiniz bir cep telefonu numarasını, HTTP protokolünün POST metodunu kullanarak, JSON formatında ileterek engellenmiş numara listenize eklemek isterseniz, aşağıdaki yönergeleri takip edebilirsiniz.
+
+## İstek yapılacak adres
+
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/consent/create/json" />
+
+## İstek İçeriği (Body)
+
+```json
+{
+  "request": {
+    "authentication": {
+      "key": "",
+      "hash": ""
+    },
+    "consent": {
+      "brandCode": 696422,
+      "list": [
+        {
+          "recipient": "+90505xxxxxxx veya test@emarka.com.tr",
+          "recipientType": "BIREYSEL",
+          "source": "HS_EORTAM",
+          "status": "ONAY",
+          "type": "MESAJ",
+          "consentDate": "2026-01-07 23:50:00"
+        }
+      ]
+    }
+  }
+}
+```
+
+### Tanımlar
+
+Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıdır. Bu etiketin alt etiketlerinin tanımları aşağıdaki gibidir:
+
+<AccessDescription />
+
+#### consent
+İYS'ye aktarılacak izin bilgilerini içeren etiket.
+
++ **brandCode:** İzin bilgileri iletilecek markanın kodu.
++ **list:** İzin bilgilerini içeren etiket. <Badge>list</Badge> etiketi içerisinde birden fazla izin bilgisi gönderilebilir.
+
+	#### list
+		+ **recipient:** İzin bilgisi iletilecek cep telefonu numarası veya e-posta adresi.
+		+ **recipientType:** İzin bilgisi iletilecek kişinin türü. <Badge>BIREYSEL</Badge> veya <Badge>TACIR</Badge> değerlerini alabilir.
+		+ **source:** İzin bilgisinin alındığı kaynak. (Örneğin: HS_EORTAM, HS_FIZIKSEL_ORTAM, vs.)
+			<table>
+				<thead>
+					<tr>
+						<th>Kaynak</th>
+						<th>Açıklama</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>HS_KARAR</td>
+						<td>İzin durumu, hizmet sağlayıcının kendi isteğiyle RET olarak belirlenmiştir. Hizmet sağlayıcı, ilk izin ekleme işleminde HS_KARAR kaynak(source) değerini kullanamamaktadır.</td>
+					</tr>
+					<tr>
+						<td>HS_FIZIKSEL_ORTAM</td>
+						<td>İzin, hizmet sağlayıcı tarafından fiziksel ortamda alınmıştır.</td>
+					</tr>
+					<tr>
+						<td>HS_ISLAK_IMZA</td>
+						<td>İzin, alıcının bir formu veya anketi imzalaması üzerine alınmıştır.</td>
+					</tr>
+					<tr>
+						<td>HS_ETKINLIK</td>
+						<td>İzin, hizmet sağlayıcının düzenlediği bir etkinlikte alınmıştır.</td>
+					</tr>
+					<tr>
+						<td>HS_ATM</td>
+						<td>İzin, hizmet sağlayıcıya ait yerleşik ATM cihazıyla alınmıştır.</td>
+					</tr>
+					<tr>
+						<td>HS_EORTAM</td>
+						<td>İzin, hizmet sağlayıcıya ait bir elektronik ortamda alınmıştır.</td>
+					</tr>
+					<tr>
+						<td>HS_WEB</td>
+						<td>İzin, hizmet sağlayıcının web sitesi üzerinde yapılan bir işlemle alınmıştır.</td>
+					</tr>
+					<tr>
+						<td>HS_MOBIL</td>
+						<td>İzin, hizmet sağlayıcıya ait mobil uygulama üzerinden alınmıştır.</td>
+					</tr>
+					<tr>
+						<td>HS_MESAJ</td>
+						<td>İzin, hizmet sağlayıcıya ait kısa mesaj numarası üzerinden alınmıştır.</td>
+					</tr>
+					<tr>
+						<td>HS_EPOSTA</td>
+						<td>İzin, hizmet sağlayıcıya ait e-posta vasıtasıyla alınmıştır.</td>
+					</tr>
+					<tr>
+						<td>HS_CAGRI_MERKEZI</td>
+						<td>İzin, hizmet sağlayıcıya bağlı bir çağrı merkezinde sesle veya numara tuşlamayla alınmıştır.</td>
+					</tr>
+					<tr>
+						<td>HS_SOSYAL_MEDYA</td>
+						<td>İzin, hizmet sağlayıcıya ait sosyal medya aracı üzerinden alınmıştır.</td>
+					</tr>
+				</tbody>
+			</table>
+		+ **status:** İzin durumu. <Badge>ONAY</Badge> veya <Badge>RET</Badge> değerlerini alabilir.
+		+ **type:** İzin türü. <Badge>MESAJ</Badge>, <Badge>EPOSTA</Badge> veya <Badge>ARAMA</Badge> değerlerini alabilir.
+		+ **consentDate:** İzin veya ret işleminin gerçekleştiği tarih ve saat bilgisi. Format: YYYY-AA-GG SS:DD:DD, 3 günden eski olamaz.
+
+## Sunucu yanıtı
+
+```json
+{
+  "response": {
+    "status": {
+      "code": 200,
+      "message": "İşlem başarılı"
+    }
+  }
+}
+```
+
+### Tanımlar
+
+Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmıştır. Bu etiketin alt etiketlerinin tanımı aşağıdaki gibidir:
+
+<ResponseStatus />
+
+## Hata Kodları
+
+<ErrorCodeTable codes={[400, 401, 403, 404, 405, 422, 475]} type="JSON" />
