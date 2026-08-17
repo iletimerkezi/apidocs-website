@@ -155,10 +155,6 @@ The <Badge>command</Badge> and <Badge>action</Badge> tags are returned empty for
 
 <ErrorCodeTable codes={[400, 401, 458, 466]} type="XML" />
 
-:::caution Warning
-For this endpoint the HTTP status code equals the <Badge>code</Badge> value in the response body. For example, a date range error is returned as HTTP 458. This is a non-standard behaviour; make sure the client library you use can still read the response body for unknown HTTP status codes.
-:::
-
 ## Sample Request
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -207,7 +203,7 @@ For this endpoint the HTTP status code equals the <Badge>code</Badge> value in t
     <messages>
       <id>25</id>
       <shortCode>7889</shortCode>
-      <from>+905057023100</from>
+      <from>+90505702xxxx</from>
       <keyword>TESTPRX</keyword>
       <command></command>
       <action>UNSUBSCRIBE</action>
@@ -218,7 +214,7 @@ For this endpoint the HTTP status code equals the <Badge>code</Badge> value in t
     <messages>
       <id>26</id>
       <shortCode>7889</shortCode>
-      <from>+905057023100</from>
+      <from>+90505702xxxx</from>
       <keyword>TESTPRX</keyword>
       <command></command>
       <action>RECORD_ONLY</action>

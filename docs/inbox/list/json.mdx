@@ -149,10 +149,6 @@ Kısa numaranıza gelen mesajların listesini ifade eder. Alt etiketleri aşağ�
 
 <ErrorCodeTable codes={[400, 401, 458, 466]} type="JSON" />
 
-:::caution Dikkat
-Bu uçta HTTP durum kodu, yanıt gövdesindeki <Badge>code</Badge> değerine eşittir. Örneğin tarih aralığı hatasında yanıt HTTP 458 olarak döner. Bu standart dışı bir davranıştır; kullandığınız istemci kütüphanesinin bilinmeyen HTTP durum kodlarında da yanıt gövdesini okuyabildiğinden emin olun.
-:::
-
 ## Örnek İstek
 ```json
 {
@@ -204,7 +200,7 @@ Bu uçta HTTP durum kodu, yanıt gövdesindeki <Badge>code</Badge> değerine eş
         {
           "id": 25,
           "shortCode": "7889",
-          "from": "+905057023100",
+          "from": "+90505702xxxx",
           "keyword": "TESTPRX",
           "command": null,
           "action": "UNSUBSCRIBE",
@@ -215,7 +211,7 @@ Bu uçta HTTP durum kodu, yanıt gövdesindeki <Badge>code</Badge> değerine eş
         {
           "id": 26,
           "shortCode": "7889",
-          "from": "+905057023100",
+          "from": "+90505702xxxx",
           "keyword": "TESTPRX",
           "command": null,
           "action": "RECORD_ONLY",

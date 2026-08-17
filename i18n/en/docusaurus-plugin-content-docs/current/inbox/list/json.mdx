@@ -149,10 +149,6 @@ The <Badge>command</Badge> and <Badge>action</Badge> fields are returned empty f
 
 <ErrorCodeTable codes={[400, 401, 458, 466]} type="JSON" />
 
-:::caution Warning
-For this endpoint the HTTP status code equals the <Badge>code</Badge> value in the response body. For example, a date range error is returned as HTTP 458. This is a non-standard behaviour; make sure the client library you use can still read the response body for unknown HTTP status codes.
-:::
-
 ## Sample Request
 ```json
 {
@@ -204,7 +200,7 @@ For this endpoint the HTTP status code equals the <Badge>code</Badge> value in t
         {
           "id": 25,
           "shortCode": "7889",
-          "from": "+905057023100",
+          "from": "+90505702xxxx",
           "keyword": "TESTPRX",
           "command": null,
           "action": "UNSUBSCRIBE",
@@ -215,7 +211,7 @@ For this endpoint the HTTP status code equals the <Badge>code</Badge> value in t
         {
           "id": 26,
           "shortCode": "7889",
-          "from": "+905057023100",
+          "from": "+90505702xxxx",
           "keyword": "TESTPRX",
           "command": null,
           "action": "RECORD_ONLY",
