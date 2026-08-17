@@ -1,0 +1,252 @@
+---
+slug: /gelen-sms/liste/json
+sidebar_label: JSON
+sidebar_position: 1
+---
+
+import Badge from '@site/src/components/Badge';
+import RequestURL from '@site/src/components/RequestURL';
+import AccessDescription from '@site/src/components/AccessDescription';
+import ResponseStatus from '@site/src/components/ResponseStatus';
+import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
+
+# JSON Post API
+To retrieve the list of messages sent to your short code in JSON format using the HTTP POST method, follow the instructions below.
+
+A shared short code (**7889**) is used so that you can offer your recipients an opt-out channel. The recipient sends a message such as `EMARKA RET` to this number. In that message, <Badge>EMARKA</Badge> is your **keyword** and identifies which customer the message belongs to; <Badge>RET</Badge> is the **command** and determines what will be done. You define your commands in your iletiMerkezi panel.
+
+If no command is defined, or if the word written by the recipient is not one of your defined commands, the **opt-out scenario runs by default**: the number is added to your blocked number list and a confirmation SMS is sent to the recipient. If you define a word as "record only" (<Badge>RECORD_ONLY</Badge>) in the panel, no opt-out is performed for that word and the message is only recorded.
+
+The keyword does not have to be at the beginning of the message; it is enough for it to appear anywhere in the message. Every message received by the short code is billed to your account as **0.80 TRY**, regardless of the command. This endpoint lets you pull the messages received by the short code into your own system.
+
+## Request URL
+
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/get-inbox/json" />
+
+:::caution Warning
+The format suffix in the URL must match the format of the body you send. If you send a JSON body, you **must** use the <Badge>/json</Badge> suffix at the end of the URL. Without this suffix the server tries to parse the body as XML, fails, and rejects the request with <Badge>401</Badge>.
+:::
+
+## Request Body
+
+```json
+{
+  "request": {
+    "authentication": {
+      "key": "",
+      "hash": ""
+    },
+    "inbox": {
+      "page": "",
+      "rowCount": "",
+      "filter": {
+        "start": "",
+        "end": "",
+        "gsm": ""
+      }
+    }
+  }
+}
+```
+
+### Definitions
+
+The request sent to the server must be wrapped with the <Badge>request</Badge> tag. The definitions of its child tags are as follows:
+
+<AccessDescription />
+
+#### inbox
+Contains the pagination and filter parameters required for the inbox message list.
+
++ **page:** Indicates the result page. It is not required. Its default value is 1. It must be at least 1.
++ **rowCount:** Indicates the number of messages per result page. It is not required. Its default value is 30. It must be between 1 and 1000; if you send a greater value it is capped at 1000. If there are more records, a new request must be made by increasing the value of the <Badge>page</Badge> tag.
++ **filter:** Used to filter the results. It is not required.
+  + **start:** Indicates the start date of the messages to be listed. It must be in Y-m-d H:i:s format (2026-08-01 00:00:00). It must be sent **together with** the <Badge>end</Badge> tag.
+  + **end:** Indicates the end date of the messages to be listed. It must be in Y-m-d H:i:s format (2026-08-17 23:59:59). It must be sent **together with** the <Badge>start</Badge> tag and cannot be earlier than <Badge>start</Badge>.
+  + **gsm:** Filters the results by a single sender number. It is not required. It can be sent in a free format (05354101234, +905354101234).
+
+:::note Note
+The <Badge>start</Badge> and <Badge>end</Badge> tags must be sent together. If only one of them is sent, the request is rejected with the <Badge>458</Badge> error. If neither is sent, no date filter is applied.
+:::
+
+## Server Response
+
+```json
+{
+  "response": {
+    "status": {
+      "code": "",
+      "message": ""
+    },
+    "inbox": {
+      "count": "",
+      "messages": [
+        {
+          "id": "",
+          "shortCode": "",
+          "from": "",
+          "keyword": "",
+          "command": "",
+          "action": "",
+          "message": "",
+          "price": "",
+          "receivedAt": ""
+        }
+      ]
+    }
+  }
+}
+```
+
+### Definitions
+
+The response returned from the server is always wrapped with the <Badge>response</Badge> tag. The definitions of its child tags are as follows:
+
+<ResponseStatus />
+
+#### inbox
+Represents the list of messages received by your short code. Its child tags are as follows.
+
++ **count:** Indicates the **total** number of records matching your filter. It is not the number of records on the page you queried.
++ **messages:** The list containing the received message records. It contains as many items as there are messages on the queried page.
+
+  #### messages
+  + **id:** The unique value that identifies the message record.
+  + **shortCode:** The short code the message was sent to (7889).
+  + **from:** The mobile phone number of the **recipient** who sent the message. It is returned in E.164 format (+905354101234).
+  + **keyword:** The keyword matched in the message (for example EMARKA).
+  + **command:** The command matched in the message (for example BILGI). If no command matched, it is returned as <Badge>null</Badge>. Since it is `null` and not an empty string (`""`), your client must perform a null check when reading this field.
+  + **action:** Indicates the scenario that was executed for the message. Its possible values are as follows:
+
+    <table>
+      <thead>
+        <tr>
+          <th>Value</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>UNSUBSCRIBE</td>
+          <td>The opt-out scenario was executed. The number was added to your blocked number list and a confirmation SMS was sent to the recipient.</td>
+        </tr>
+        <tr>
+          <td>RECORD_ONLY</td>
+          <td>Only the record scenario was executed. The message was recorded and no opt-out was performed.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  + **message:** The full text of the message sent by the recipient.
+  + **price:** The charge deducted from your account for this message. It is returned as a decimal number (0.8). If your balance is insufficient, it is returned as 0.
+  + **receivedAt:** The date and time the message was received. It is returned in Y-m-d H:i:s format (2026-08-16 20:20:20).
+
+:::note Note
+The <Badge>command</Badge> and <Badge>action</Badge> fields are returned empty for old messages recorded **before** this feature went live.
+:::
+
+## Error Codes
+
+<ErrorCodeTable codes={[400, 401, 458, 466]} type="JSON" />
+
+:::caution Warning
+For this endpoint the HTTP status code equals the <Badge>code</Badge> value in the response body. For example, a date range error is returned as HTTP 458. This is a non-standard behaviour; make sure the client library you use can still read the response body for unknown HTTP status codes.
+:::
+
+## Sample Request
+```json
+{
+  "request": {
+    "authentication": {
+      "key": "507caf2e1fcdb5eea9786332ca2d8785",
+      "hash": "0db4e316db72c519ba08121985f6ddf479809053d555c"
+    },
+    "inbox": {
+      "page": 1,
+      "rowCount": 30,
+      "filter": {
+        "start": "2026-08-01 00:00:00",
+        "end": "2026-08-17 23:59:59",
+        "gsm": "05354101234"
+      }
+    }
+  }
+}
+```
+
+## Sample Request (Without Filter)
+```json
+{
+  "request": {
+    "authentication": {
+      "key": "507caf2e1fcdb5eea9786332ca2d8785",
+      "hash": "0db4e316db72c519ba08121985f6ddf479809053d555c"
+    },
+    "inbox": {
+      "page": 1,
+      "rowCount": 30
+    }
+  }
+}
+```
+
+## Sample Successful Response
+```json
+{
+  "response": {
+    "status": {
+      "code": 200,
+      "message": "İşlem başarılı"
+    },
+    "inbox": {
+      "count": 2,
+      "messages": [
+        {
+          "id": 25,
+          "shortCode": "7889",
+          "from": "+905057023100",
+          "keyword": "TESTPRX",
+          "command": null,
+          "action": "UNSUBSCRIBE",
+          "message": "TESTPRX RET",
+          "price": 0.8,
+          "receivedAt": "2026-08-16 20:20:20"
+        },
+        {
+          "id": 26,
+          "shortCode": "7889",
+          "from": "+905057023100",
+          "keyword": "TESTPRX",
+          "command": null,
+          "action": "RECORD_ONLY",
+          "message": "TESTPRX BILGI",
+          "price": 0.8,
+          "receivedAt": "2026-08-16 20:20:20"
+        }
+      ]
+    }
+  }
+}
+```
+
+## Sample Error Response
+```json
+{
+  "response": {
+    "status": {
+      "code": 458,
+      "message": "Tarih aralığı hatalı."
+    }
+  }
+}
+```
+
+## Common Mistakes
+
++ **Forgetting the format suffix:** When sending a JSON body, the <Badge>/json</Badge> suffix must be appended to the URL. Without it the server tries to parse the body as XML and rejects the request with <Badge>401</Badge>.
++ **Sending an incomplete date filter:** <Badge>start</Badge> and <Badge>end</Badge> must be sent together; if only one is sent, or if <Badge>end</Badge> is earlier than <Badge>start</Badge>, the <Badge>458</Badge> error is returned.
++ **Mistaking the `from` field for the short code:** <Badge>from</Badge> is the number of the **recipient** who sent the message. The short code is returned in the <Badge>shortCode</Badge> field.
++ **Assuming a `price` of 0 means free:** A <Badge>price</Badge> of 0 does not mean the message was free; it indicates that your account balance was insufficient at the time the message was received.
++ **Treating `command` as an empty string:** When no command matches, this field is returned as <Badge>null</Badge>, not as an empty string (`""`). Clients that process the field directly as text must perform a null check.
++ **Not expecting empty fields in old records:** The <Badge>command</Badge> and <Badge>action</Badge> fields are returned empty for messages recorded before the feature went live.
++ **Mistaking `count` for the number of records on the page:** <Badge>count</Badge> is the total number of records matching your filter; evaluate it together with <Badge>rowCount</Badge> for pagination.

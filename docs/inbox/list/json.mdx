@@ -1,0 +1,252 @@
+---
+slug: /gelen-sms/liste/json
+sidebar_label: JSON
+sidebar_position: 1
+---
+
+import Badge from '@site/src/components/Badge';
+import RequestURL from '@site/src/components/RequestURL';
+import AccessDescription from '@site/src/components/AccessDescription';
+import ResponseStatus from '@site/src/components/ResponseStatus';
+import ErrorCodeTable from '@site/src/components/ErrorCodeTable';
+
+# JSON Post API
+Kısa numaranıza gelen mesajların listesini, HTTP protokolünün POST metodunu kullanarak, JSON formatında almak için, aşağıdaki yönergeleri takip edebilirsiniz.
+
+Alıcılarınıza çıkış (opt-out) kanalı sunabilmeniz için ortak bir kısa numara (**7889**) kullanılır. Alıcı, bu numaraya `EMARKA RET` biçiminde bir mesaj gönderir. Mesajdaki <Badge>EMARKA</Badge> ifadesi **anahtar kelimenizdir** ve mesajın hangi müşteriye ait olduğunu belirler; <Badge>RET</Badge> ifadesi ise **komuttur** ve ne yapılacağını belirler. Komutlarınızı iletiMerkezi panelinizden tanımlayabilirsiniz.
+
+Herhangi bir komut tanımlanmamışsa veya alıcının yazdığı kelime tanımlı komutlarınızdan biri değilse **varsayılan olarak çıkış senaryosu** çalışır: numara engelli numara listenize eklenir ve alıcıya onay SMS'i gönderilir. Bir kelimeyi panelden "sadece kaydet" (<Badge>RECORD_ONLY</Badge>) olarak tanımlarsanız, o kelimede çıkış işlemi yapılmaz, mesaj yalnızca kaydedilir.
+
+Anahtar kelimenin mesajın başında yer alması gerekmez; mesajın herhangi bir yerinde geçmesi yeterlidir. Kısa numaraya gelen her mesaj, komuttan bağımsız olarak hesabınıza **0,80 TL** olarak faturalanır. Bu uç, kısa numaraya gelen mesajları kendi sisteminize aktarmanızı sağlar.
+
+## İstek yapılacak adres
+
+<RequestURL type="POST" url="https://api.iletimerkezi.com/v1/get-inbox/json" />
+
+:::caution Dikkat
+Adresteki format eki, gönderdiğiniz isteğin gövde biçimiyle eşleşmelidir. JSON gövde gönderiyorsanız adresin sonundaki <Badge>/json</Badge> ekini **mutlaka** kullanın. Bu ek olmadan JSON gönderirseniz sunucu gövdeyi XML olarak çözümlemeye çalışır, ayrıştıramaz ve isteğinizi <Badge>401</Badge> ile reddeder.
+:::
+
+## İstek İçeriği (Body)
+
+```json
+{
+  "request": {
+    "authentication": {
+      "key": "",
+      "hash": ""
+    },
+    "inbox": {
+      "page": "",
+      "rowCount": "",
+      "filter": {
+        "start": "",
+        "end": "",
+        "gsm": ""
+      }
+    }
+  }
+}
+```
+
+### Tanımlar
+
+Sunucuya yapılacak olan istek <Badge>request</Badge> etiketi ile sarmalanmalıdır. Bu etiketin alt etiketlerinin tanımları aşağıdaki gibidir:
+
+<AccessDescription />
+
+#### inbox
+Gelen mesaj listesi için gerekli olan sayfalandırma ve filtre parametrelerini içerir.
+
++ **page:** Sonuç sayfasını ifade eder. İstek yapılırken gönderilmesi zorunlu değildir. Varsayılan değeri 1'dir. En az 1 olmalıdır.
++ **rowCount:** Bir sonuç sayfasındaki mesaj adedini belirtir. İstek yapılırken gönderilmesi zorunlu değildir. Varsayılan değeri 30'dur. 1 ile 1000 arasında bir değer olmalıdır; 1000'den büyük bir değer gönderirseniz 1000'e sabitlenir. Daha fazla kayıt varsa <Badge>page</Badge> etiketindeki değer arttırılarak yeni bir istek yapılmalıdır.
++ **filter:** Sonuçları filtrelemek için kullanılır. İstek yapılırken gönderilmesi zorunlu değildir.
+  + **start:** Listelenecek mesajların başlangıç tarihini ifade eder. Y-m-d H:i:s (2026-08-01 00:00:00) formatında olmalıdır. <Badge>end</Badge> etiketi ile **birlikte** gönderilmelidir.
+  + **end:** Listelenecek mesajların bitiş tarihini ifade eder. Y-m-d H:i:s (2026-08-17 23:59:59) formatında olmalıdır. <Badge>start</Badge> etiketi ile **birlikte** gönderilmelidir ve <Badge>start</Badge> değerinden küçük olamaz.
+  + **gsm:** Sonuçları tek bir gönderici numarasına göre filtreler. İstek yapılırken gönderilmesi zorunlu değildir. Serbest biçimde gönderilebilir (05354101234, +905354101234).
+
+:::note Not
+<Badge>start</Badge> ve <Badge>end</Badge> etiketleri birlikte gönderilmelidir. Yalnızca biri gönderilirse istek <Badge>458</Badge> hatası ile reddedilir. İkisi de gönderilmezse tarih filtresi uygulanmaz.
+:::
+
+## Sunucu yanıtı
+
+```json
+{
+  "response": {
+    "status": {
+      "code": "",
+      "message": ""
+    },
+    "inbox": {
+      "count": "",
+      "messages": [
+        {
+          "id": "",
+          "shortCode": "",
+          "from": "",
+          "keyword": "",
+          "command": "",
+          "action": "",
+          "message": "",
+          "price": "",
+          "receivedAt": ""
+        }
+      ]
+    }
+  }
+}
+```
+
+### Tanımlar
+
+Sunucudan gelen yanıt her zaman <Badge>response</Badge> etiketi ile sarmalanmıştır. Bu etiketin alt etiketlerinin tanımı aşağıdaki gibidir:
+
+<ResponseStatus />
+
+#### inbox
+Kısa numaranıza gelen mesajların listesini ifade eder. Alt etiketleri aşağıdaki gibidir.
+
++ **count:** Filtrenize uyan **toplam** kayıt sayısını ifade eder. Sorguladığınız sayfadaki kayıt sayısı değildir.
++ **messages:** Gelen mesaj kayıtlarını içeren listedir. Sorgulanan sayfadaki mesaj sayısı kadar eleman içerir.
+
+  #### messages
+  + **id:** Mesaj kaydını ifade eden eşsiz değerdir.
+  + **shortCode:** Mesajın gönderildiği kısa numaradır (7889).
+  + **from:** Mesajı gönderen **alıcının** cep telefonu numarasıdır. E.164 biçiminde (+905354101234) döner.
+  + **keyword:** Mesajda eşleşen anahtar kelimedir (örneğin EMARKA).
+  + **command:** Mesajda eşleşen komuttur (örneğin BILGI). Herhangi bir komut eşleşmediyse <Badge>null</Badge> döner. Boş metin (`""`) değil, `null` döndüğü için istemci tarafında bu alanı kontrol ederken null denetimi yapmalısınız.
+  + **action:** Mesaj için çalışan senaryoyu belirtir. Alabileceği değerler aşağıdaki gibidir:
+
+    <table>
+      <thead>
+        <tr>
+          <th>Değer</th>
+          <th>Açıklama</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>UNSUBSCRIBE</td>
+          <td>Çıkış senaryosu çalışmıştır. Numara engelli numara listenize eklenmiş ve alıcıya onay SMS'i gönderilmiştir.</td>
+        </tr>
+        <tr>
+          <td>RECORD_ONLY</td>
+          <td>Yalnızca kayıt senaryosu çalışmıştır. Mesaj kaydedilmiş, çıkış işlemi yapılmamıştır.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  + **message:** Alıcının gönderdiği mesajın tam metnidir.
+  + **price:** Bu mesaj için hesabınızdan kesilen ücrettir. Ondalık sayı olarak döner (0.8). Bakiyeniz yetersizse 0 döner.
+  + **receivedAt:** Mesajın alındığı tarih ve saat bilgisidir. Y-m-d H:i:s (2026-08-16 20:20:20) formatında döner.
+
+:::note Not
+<Badge>command</Badge> ve <Badge>action</Badge> alanları, bu özellik devreye alınmadan **önce** kaydedilmiş eski mesajlarda boş döner.
+:::
+
+## Hata Kodları
+
+<ErrorCodeTable codes={[400, 401, 458, 466]} type="JSON" />
+
+:::caution Dikkat
+Bu uçta HTTP durum kodu, yanıt gövdesindeki <Badge>code</Badge> değerine eşittir. Örneğin tarih aralığı hatasında yanıt HTTP 458 olarak döner. Bu standart dışı bir davranıştır; kullandığınız istemci kütüphanesinin bilinmeyen HTTP durum kodlarında da yanıt gövdesini okuyabildiğinden emin olun.
+:::
+
+## Örnek İstek
+```json
+{
+  "request": {
+    "authentication": {
+      "key": "507caf2e1fcdb5eea9786332ca2d8785",
+      "hash": "0db4e316db72c519ba08121985f6ddf479809053d555c"
+    },
+    "inbox": {
+      "page": 1,
+      "rowCount": 30,
+      "filter": {
+        "start": "2026-08-01 00:00:00",
+        "end": "2026-08-17 23:59:59",
+        "gsm": "05354101234"
+      }
+    }
+  }
+}
+```
+
+## Örnek İstek (Filtresiz)
+```json
+{
+  "request": {
+    "authentication": {
+      "key": "507caf2e1fcdb5eea9786332ca2d8785",
+      "hash": "0db4e316db72c519ba08121985f6ddf479809053d555c"
+    },
+    "inbox": {
+      "page": 1,
+      "rowCount": 30
+    }
+  }
+}
+```
+
+## Örnek Başarılı Yanıt
+```json
+{
+  "response": {
+    "status": {
+      "code": 200,
+      "message": "İşlem başarılı"
+    },
+    "inbox": {
+      "count": 2,
+      "messages": [
+        {
+          "id": 25,
+          "shortCode": "7889",
+          "from": "+905057023100",
+          "keyword": "TESTPRX",
+          "command": null,
+          "action": "UNSUBSCRIBE",
+          "message": "TESTPRX RET",
+          "price": 0.8,
+          "receivedAt": "2026-08-16 20:20:20"
+        },
+        {
+          "id": 26,
+          "shortCode": "7889",
+          "from": "+905057023100",
+          "keyword": "TESTPRX",
+          "command": null,
+          "action": "RECORD_ONLY",
+          "message": "TESTPRX BILGI",
+          "price": 0.8,
+          "receivedAt": "2026-08-16 20:20:20"
+        }
+      ]
+    }
+  }
+}
+```
+
+## Örnek Hatalı Yanıt
+```json
+{
+  "response": {
+    "status": {
+      "code": 458,
+      "message": "Tarih aralığı hatalı."
+    }
+  }
+}
+```
+
+## Sık Yapılan Hatalar
+
++ **Format ekini unutmak:** JSON gövde gönderirken adresin sonuna <Badge>/json</Badge> eklenmelidir. Eklenmezse sunucu gövdeyi XML olarak çözümlemeye çalışır ve isteğiniz <Badge>401</Badge> ile reddedilir.
++ **Tarih filtresini eksik göndermek:** <Badge>start</Badge> ve <Badge>end</Badge> birlikte gönderilmelidir; yalnız biri gönderilirse veya <Badge>end</Badge> değeri <Badge>start</Badge> değerinden küçükse <Badge>458</Badge> hatası döner.
++ **`from` alanını kısa numara sanmak:** <Badge>from</Badge> mesajı gönderen **alıcının** numarasıdır. Kısa numara <Badge>shortCode</Badge> alanında döner.
++ **`price` değerinin 0 olmasını ücretsiz sanmak:** <Badge>price</Badge> değerinin 0 olması mesajın ücretsiz olduğu anlamına gelmez; mesaj alındığı sırada hesap bakiyenizin yetersiz olduğunu gösterir.
++ **`command` alanını boş metin sanmak:** Komut eşleşmediğinde bu alan boş metin (`""`) değil <Badge>null</Badge> döner. Alanı doğrudan metin olarak işleyen istemcilerde null denetimi yapılmalıdır.
++ **Eski kayıtlarda boş alan beklememek:** <Badge>command</Badge> ve <Badge>action</Badge> alanları, özellik devreye alınmadan önce kaydedilmiş mesajlarda boş döner.
++ **`count` değerini sayfadaki kayıt sayısı sanmak:** <Badge>count</Badge> filtrenize uyan toplam kayıt sayısıdır; sayfalama için bu değeri <Badge>rowCount</Badge> ile birlikte değerlendirin.
