@@ -142,6 +142,44 @@ Eğer istek sonucu olumsuz ise sunucu tarafından size dönücek hata kodları v
 }
 ```
 
+## Örnek İstek (Farklı Numaralara Farklı Mesajlar)
+Tek bir istek içinde, her biri kendi alıcılarına sahip birden fazla mesaj gönderebilirsiniz. Bunun için <Badge>message</Badge> etiketini bir dizi (array) olarak gönderip, göndermek istediğiniz her farklı mesaj metni için bu dizide ayrı bir kayıt oluşturmanız ve o metnin gideceği numaraları <Badge>receipents</Badge> etiketi altında belirtmeniz yeterlidir. Böylece farklı numaralara farklı mesajlar tek siparişte iletilir.
+
+```json
+{
+  "request": {
+    "authentication": {
+      "key": "demo",
+      "hash": "demo"
+    },
+    "order": {
+      "sender": "APITEST",
+      "sendDateTime": [],
+      "iys": "0",
+      "iysList": "BIREYSEL",
+      "message": [
+        {
+          "text": "Test message 1",
+          "receipents": {
+            "number": [
+              "505xxxxxxx"
+            ]
+          }
+        },
+        {
+          "text": "Test message 2",
+          "receipents": {
+            "number": [
+              "505xxxxxxx"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
 ## Örnek Başarılı Yanıt
 ```json
 {

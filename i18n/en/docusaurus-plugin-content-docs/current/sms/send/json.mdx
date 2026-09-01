@@ -198,6 +198,44 @@ If the result of the request is negative, the error codes and messages that will
 }
 ```
 
+## Sample Request (Different Messages to Different Numbers)
+You can send more than one message within a single request, each with its own recipients. To do this, send the <Badge>message</Badge> tag as an array and add a separate entry to that array for every distinct message text, listing the numbers that text should go to under its own <Badge>receipents</Badge> tag. This way, different messages are delivered to different numbers within a single order.
+
+```json
+{
+  "request": {
+    "authentication": {
+      "key": "demo",
+      "hash": "demo"
+    },
+    "order": {
+      "sender": "APITEST",
+      "sendDateTime": [],
+      "iys": "0",
+      "iysList": "BIREYSEL",
+      "message": [
+        {
+          "text": "Test message 1",
+          "receipents": {
+            "number": [
+              "505xxxxxxx"
+            ]
+          }
+        },
+        {
+          "text": "Test message 2",
+          "receipents": {
+            "number": [
+              "505xxxxxxx"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
 ## Sample Successful Response
 ```json
 {
